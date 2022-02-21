@@ -1,0 +1,14 @@
+.content-wrapper{
+    display: flex;
+}
+.form-main{
+    margin-top: 40px;
+   border: 5px solid rgb(255, 170, 248);
+   border-radius: 20px;
+   padding: 25px;
+   justify-content: center;
+   align-items: center;
+}
+.name{
+    margin-top: 10px;
+}
