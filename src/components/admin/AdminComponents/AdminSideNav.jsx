@@ -1,12 +1,19 @@
 import Axios from "axios";
 import React, { useEffect, useState,useRef } from "react";
+import companyLogo from '../../../img/AdminLTELogo.png'
 import { useNavigate, Link } from "react-router-dom";
+import man from '../../../img/avatar5.png';
+//import '../../css/AdminSideNav.css';
 
-function AdminSideNav({ setlim,page}) {
+
+function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4}) {
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const {username:userName,user_type:userType} = loggedUser;
   const url = "http://work.phpwebsites.in/fishing/api/userslist";
-  const isMounted = useRef(false);
+  const isMounted1 = useRef(false);
+  const isMounted2 = useRef(false);
+  const isMounted3 = useRef(false);
+
 
   const navigate = useNavigate();
   function submit(e) {
@@ -17,7 +24,7 @@ function AdminSideNav({ setlim,page}) {
   }
 
  
-  function listUser(){
+function listUser(){
     Axios.post(
       url,
       { user_id: loggedUser.id, limit:page},
@@ -30,39 +37,78 @@ function AdminSideNav({ setlim,page}) {
       if(res.data.limit==0)
       {
         setlim(1);
-        
       }
-      console.log(page);
+
     });
+
+   
   }
 
   useEffect(()=>{
-    if (isMounted.current){
+    if (isMounted1.current){
       listUser();
     }
     else {
-      isMounted.current = true;
+      isMounted1.current = true;
     }
   },[page]);
 
+  useEffect(()=>{
+    if (isMounted2.current){
+      
+      listUser();
+      
+    }
+    else {
+      isMounted2.current = true;
+    }
+  },[activetog]);
+
+
+  
+  useEffect(()=>{
+    if (isMounted3.current){
+      listUser();
+    }
+    else {
+      isMounted3.current = true;
+    }
+},[del]);
+
+
+useEffect(()=>{
+  if (isMounted4.current){
+    listUser();
+  }
+  else {
+    isMounted4.current = true;
+  }
+ 
+},[edit]);
  
 
   console.log(userType);
   return (
     <div>
       {/* Main Sidebar Container */}
-      <aside className="main-sidebar sidebar-dark-primary elevation-4">
+      <aside className="main-sidebar sidebar-light-primary elevation-4">
         {/* Brand Logo */}
-        <a href="" className="brand-link">
-          <span className="brand-text font-weight-light">Fishing App</span>
+        <a href="" className="brand-link navbar-primary">
+        <img src={companyLogo} className="brand-image img-circle elevation-3" />
+          <span className="brand-text font-weight-dark">Fishing App</span>
         </a>
         {/* Sidebar */}
         <div className="sidebar">
           {/* Sidebar user panel (optional) */}
           <div className="user-panel mt-3 pb-3 mb-3 d-flex">
+          
+          <div className="image">
+          <img src={man} className="img-circle elevation-2" alt="User Image"/>
+          </div>
+
             <div className="info">
               <Link to="home" className="d-block">
-                Username is {userName}
+                {userName}
               </Link>
             </div>
           </div>
@@ -74,19 +120,25 @@ function AdminSideNav({ setlim,page}) {
               data-widget="treeview"
               role="menu"
               data-accordion="false"
+             
             >
               {/* Add icons to the links using the .nav-icon class
          with font-awesome or any other icon font library  ="listuserdataform" */}
-
               <li className="nav-item">
-                <a onClick={listUser} className="nav-link">
+              <Link to="home" className="nav-link active" data-toggle="pill">
                   <i className="nav-icon fas fa-th" />
-                  <p>List User Details</p>
+                  <p>Dashboard</p>
+                  </Link>
+              </li>
+              <li className="nav-item">
+                <a href="" className="nav-link" data-toggle="pill" onClick={listUser}>
+                  <i className="nav-icon fas fa-list" />
+                  <p>List Users</p>
                 </a>
               </li>
 
-              <li className="nav-item menu-open">
-                <a className="nav-link">
+              <li className="nav-item has-treeview">
+                <a href="" className="nav-link"  >
                   <i className="nav-icon fas fa-chart-pie" />
                   <p>
                     Settings
@@ -94,40 +146,32 @@ function AdminSideNav({ setlim,page}) {
                   </p>
                 </a>
                 <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <Link to="settings/resetpassword" className="nav-link">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Change Password</p>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="settings/edituserstatus" className="nav-link">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Change Status</p>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
+                <li className="nav-item">
                     <Link to="settings/edituserdata" className="nav-link">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Edit User Data</p>
+                      <i className="ion ion-person nav-icon" />
+                      <p>My Profile</p>
                     </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link to="settings/resetpassword"  className="nav-link">
+                      <i className="nav-icon fa fa-key" />
+                      <p>Reset Password</p>
+                    </Link>
+                  </li>
+                  
+                  <li className="nav-item">
+                    <a href="" onClick={(e) => submit(e)} className="nav-link">
+                      <i className="nav-icon fas fa-power-off" />
+                      <p>Logout</p>
+                    </a>
                   </li>
                 </ul>
               </li>
+             
 
 
-
-     
-
-
-
-              <li className="nav-header">IN/OUT</li>
-              <li className="nav-item">
-                <a onClick={(e) => submit(e)} className="nav-link">
-                  <i className="nav-icon fas fa-th" />
-                  <p>Logout</p>
-                </a>
-              </li>
+              
             </ul>
           </nav>
           {/* /.sidebar-menu */}

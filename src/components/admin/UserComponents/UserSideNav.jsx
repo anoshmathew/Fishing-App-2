@@ -2,6 +2,8 @@ import Axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+
+
 function UserSideNav() {
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const {username:userName,user_type:userType} = loggedUser;
@@ -78,11 +80,6 @@ function UserSideNav() {
                   </li>
                 </ul>
               </li>
-
-
-
-     
-
 
 
               <li className="nav-header">IN/OUT</li>

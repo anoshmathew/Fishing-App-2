@@ -1,21 +1,26 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import man from '../img/avatar5.png'
+//import './css/EditUserData.css'
 
-import './css/EditUserData.css'
-
-function EditUserData() {
+function EditUserData(edit,setedit) {
   const url = "http://work.phpwebsites.in/fishing/api/edituser";
+  var loggedUser = JSON.parse(localStorage.getItem("data"));
+  const navigate = useNavigate();
+  console.log("loggedUser id: ", loggedUser.id);
   const [data, setData] = useState({
-    User_ID: "",
-    Email: "",
-    Mobile: "",
-    UserName: "",
-    Name: "",
+    User_ID: loggedUser.id,
+    Email: loggedUser.email,
+    Mobile: loggedUser.mobile,
+    UserName: loggedUser.username,
+    Name: loggedUser.name,
   });
-
+ 
+ 
   function submit(e) {
     e.preventDefault();
-    var loggedUser = JSON.parse(localStorage.getItem("data"));
+    
     if (loggedUser != null) {
       const token = loggedUser.api_token;
       console.log("From Local Storage");
@@ -23,7 +28,7 @@ function EditUserData() {
       Axios.post(
         url,
         {
-          user_id: data.User_ID,
+          user_id: loggedUser.id,
           email: data.Email,
           mobile: data.Mobile,
           username: data.UserName,
@@ -31,11 +36,20 @@ function EditUserData() {
         },
         { headers: { Token: token } }
       ).then((res) => {
-        console.log(res.data);
+        console.log(loggedUser.id);
+        edit.setedit(edit.edit+1);
+       navigate("../listuserdata");
+       //window.location.reload();
+        
+        
       });
+      
     } else {
       console.log("Local Storage is Empty");
     }
+   
+    
+
   }
   function handle(e) {
     const newdata = { ...data };
@@ -44,76 +58,184 @@ function EditUserData() {
   }
 
   return (
-    <div className="content-wrapper">
-      <h3>Edit User Details</h3>
-     
-      <form onSubmit={(e) => submit(e)}>
-        <br />
-        <div className="form-main">
-        <div className="user_id">
-        <label>
-          User ID:
-          <input
-            type="text"
-            id="User_ID"
-            onChange={(e) => handle(e)}
-            value={data.User_ID}
-          />
-        </label>
-        </div>
+    <div className="content-wrapper justify-content-left mt-5">
 
-        <br />
-        <br />
-        <label>
-          Email:
-          <input
-            type="text"
-            id="Email"
-            onChange={(e) => handle(e)}
-            value={data.Email}
-          />
-        </label>
-        <br />
-        <br />
-        <label>
-          Mobile:
-          <input
-            type="text"
-            id="Mobile"
-            onChange={(e) => handle(e)}
-            value={data.Mobile}
-          />
-        </label>
-        <br />
-        <br />
-        <label>
-          Username:
-          <input
-            type="text"
-            id="UserName"
-            onChange={(e) => handle(e)}
-            value={data.UserName}
-          />
-        </label>
-        <br />
-        <br />
-        <div className="name">
 
-        
-        <label>
-          Name:
-          <input
-            type="text"
-            id="Name"
-            onChange={(e) => handle(e)}
-            value={data.Name}
-          />
-        </label>
-        </div>
-        <br />
-        <button id="submit_edit_button">Submit Edit</button>
-        </div>
-      </form>
+  <div className="content-header">
+  <div className="container-fluid">
+    <div className="row mb-2">
+      <div className="col-sm-6">
+        <h1 className="m-0 text-dark">My Profile</h1>
+      </div>{/* /.col */}
+      <div className="col-sm-6">
+        <ol className="breadcrumb float-sm-right">
+          <li className="breadcrumb-item"><a href="">Admin</a></li>
+          <li className="breadcrumb-item active">My Profile</li>
+
+        </ol>
+      </div>{/* /.col */}
+    </div>{/* /.row */}
+  </div>{/* /.container-fluid */}
+  </div>
+
+
+<section className="content">
+   <div className="container-fluid">
+     <div className="row">
+       <div className="col-md-8 mx-auto">
+         {/* general form elements */}
+         <div className="card card-warning">
+           <div className="card-header">
+             <h3 className="card-title">My Profile</h3>
+           </div>
+          
+          
+         
+          
+          <div className="card-body text-center">
+            
+          <div className="row">
+          <div className="col-md-6">
+          <img src={man} className="brand-image img-circle elevation-3" />
+          </div>
+            <div className="col-md-6">
+            <div className="row mt-4 text-left" style={{fontWeight:"bold"}}>
+            <table>
+            <tbody>
+  <tr>
+    <td>Username</td>
+    <td>:</td>
+    <td>{loggedUser.username}</td>
+  </tr>
+  <tr>
+    <td>Name</td>
+    <td>:</td>
+    <td>{loggedUser.name}</td>
+  </tr>
+  <tr>
+    <td>Id</td>
+    <td>:</td>
+    <td>{loggedUser.id}</td>
+  </tr>
+  <tr>
+    <td>Email</td>
+    <td>:</td>
+    <td>{loggedUser.email}</td>
+  </tr>
+  <tr>
+    <td>Mobile</td>
+    <td>:</td>
+    <td>{loggedUser.mobile}</td>
+  </tr>
+  <tr>
+    <td>Status</td>
+    <td>:</td>
+    <td>{loggedUser.status}</td>
+  </tr>
+  </tbody>
+</table>
+            </div>
+              
+             
+            </div>
+          </div>
+          
+         
+
+          
+          
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+         
+ </section>
+
+
+ <div className="card-body text-center">
+ <div className="row">
+ <div className="col-12">
+    <button className="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Edit Profile</button>
+  </div>
+  </div>
+  </div>
+
+ <section className="content collapse multi-collapse" id="multiCollapseExample2">
+   <div className="container-fluid">
+     <div className="row">
+       <div className="col-md-8 mx-auto">
+         {/* general form elements */}
+         <div className="card card-primary">
+           <div className="card-header">
+             <h3 className="card-title">Edit Details</h3>
+           </div>
+           {/* /.card-header */}
+           {/* form start */}
+           <form onSubmit={(e)=>submit(e)}>
+             <div className="card-body">
+               
+               
+             <div className="row">
+             <div className="form-group col-md-6">
+                 <label >Name</label>
+                 <input  className="form-control" 
+                  type="text"
+                  id="Name"
+                  onChange={(e) => handle(e)}
+                  value={data.Name}
+                  placeholder="Name" />
+               </div>
+               <div className="form-group col-md-6">
+                 <label >Username</label>
+                 <input  className="form-control" 
+                 type="text"
+                 id="UserName"
+                 onChange={(e) => handle(e)}
+                 value={data.UserName}
+                  placeholder="User Name"/>
+               </div>
+               </div>
+               <div className="row">
+               <div className="form-group col-md-6">
+                 <label >Mobile</label>
+                 <input  className="form-control" 
+                  type="text"
+                  id="Mobile"
+                  onChange={(e) => handle(e)}
+                  value={data.Mobile}
+                  placeholder="Mobile" />
+               </div>
+               <div className="form-group col-md-6">
+                 <label >Email</label>
+                 <input  className="form-control" 
+                 type="text"
+                 id="Email"
+                 onChange={(e) => handle(e)}
+                 value={data.Email}
+                  placeholder="Email" />
+               </div>
+               </div>
+
+
+
+               
+             </div>
+
+             <div className="card-footer">
+               <button type="submit" className="btn btn-primary">Submit</button>
+             </div>
+
+           </form>
+           
+         </div>
+         {/* /.card */}</div>
+     </div>
+     </div>
+     </section>
+
+
+      
      
     </div>
   );

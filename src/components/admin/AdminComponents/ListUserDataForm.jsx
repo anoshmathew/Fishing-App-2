@@ -32,7 +32,6 @@ function ListUserDataForm() {
         let list = res.data.data;
         localStorage.setItem("userlist", JSON.stringify(list));
         console.log(list);
-
         navigate("../listuserdata");
       });
     } else {

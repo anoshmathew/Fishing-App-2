@@ -1,38 +1,87 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import "./css/LoginPage.css";
+//import "./css/LoginPage.css";
 function LoginForm() {
   const navigate = useNavigate();
+  let msg ;
   const url = "http://work.phpwebsites.in/fishing/api/login";
   const [data, setData] = useState({
     username: "",
     password: "",
   });
 
+  const [formErrors, setformErrors] = useState({});
+  const [isSubmit,setIsSubmit] = useState(false);
+
   function submit(e) {
     e.preventDefault();
+
+    setformErrors(validate(data));
+    setIsSubmit(true);
+    console.log(formErrors);
+
+    
+  }
+
+  if((Object.entries(formErrors).length !== 0)&&(formErrors.flag1=="checked")&&(formErrors.flag2=="checked")){
     Axios.post(url, {
       username: data.username,
       password: data.password,
     }).then((res) => {
       let info = res.data.data;
-
+      msg = res.data.message
       //  let token =info.api_token ;
-
       localStorage.setItem("data", JSON.stringify(info));
-      console.log(info);
+      localStorage.setItem("relo", false);
+      if (msg == "Inavlid Username/Password"){
+        alert("Inavlid Username/Password");
+      }
 
       //var loggedUser = JSON.parse(localStorage.getItem('data'));
       // console.log('loggedUser Token: ',loggedUser.api_token);
       var loggedUser = JSON.parse(localStorage.getItem("data"));
       if (loggedUser.user_type == "admin") {
+      
         navigate("admin/home");
       } else if (loggedUser.user_type == "user") {
         navigate("user/home");
       }
     });
   }
+
+  useEffect(() => {
+    if(Object.keys(formErrors).length === 0 && isSubmit)
+  {
+
+  }
+    
+  }, [formErrors])
+
+  const validate = (values) => {
+    const errors = {};
+    //const regex ;
+    if(!data.username){
+      errors.username = "Username is required!"
+     
+    }
+    else
+    {
+      errors.flag1="checked";
+    }
+    if(!data.password){
+      errors.password = "Password is required!"
+    }
+    else
+    {
+      errors.flag2="checked";
+    }
+    
+    return errors;
+
+  };
+
+  const handleClick = () => navigate("register");
   function handle(e) {
     const newdata = { ...data };
     newdata[e.target.id] = e.target.value;
@@ -40,49 +89,75 @@ function LoginForm() {
   }
 
   return (
-    <div className="login_main">
-      <div className="login_header">
-        <h2>Login</h2>
-      </div>
-      <div className="form_main">
+    
+<div className="hold-transition login-page">
+  <div className="login-box">
+    <div className="login-logo">
+      <a href=""><b>FISHING </b>APP</a>
+    </div>
+    {/* /.login-logo */}
+    <div className="card">
+      <div className="card-body login-card-body">
+        <p className="login-box-msg">Sign in to start your session</p>
         <form onSubmit={(e) => submit(e)}>
-          <div className="form_fields">
-            <div className="username">
-              <div className="username_lable">
-                <label>Username:</label>
+          <div className="input-group mb-3">
+            <input type="text" className="form-control"
+            id="username"
+            onChange={(e) => handle(e)}
+            value={data.username}
+            placeholder="Username" />
+            <div className="input-group-append">
+              <div className="input-group-text">
+              <span className="fas fa-user" />
               </div>
-              <div className="username_input">
-                <input
-                  type="text"
-                  id="username"
-                  onChange={(e) => handle(e)}
-                  value={data.username}
-                />
-              </div>
-            </div>
-            <div className="password">
-              <div className="password_lable">
-                <label>Password:</label>
-              </div>
-              <div className="password_input">
-                <input
-                  type="password"
-                  id="password"
-                  onChange={(e) => handle(e)}
-                  value={data.password}
-                />
-              </div>
-            </div>
-            <div className="button">
-              <button>Login</button>
             </div>
           </div>
+          <p style={{color:"red"}}>{formErrors.username}</p>
+          <div className="input-group mb-3">
+            <input type="password" 
+            className="form-control" 
+            id="password"
+            onChange={(e) => handle(e)}
+            value={data.password}
+            placeholder="Password" />
+            <div className="input-group-append">
+              <div className="input-group-text">
+                <span className="fas fa-lock" />
+              </div>
+            </div>
+          </div>
+          <p style={{color:"red"}}>{formErrors.password}</p>
+          <div className="row">
+            <div className="col-8">
+              <div className="icheck-primary">
+                <input type="checkbox" id="remember" />
+                <label htmlFor="remember">
+                  Remember Me
+                </label>
+              </div>
+            </div>
+            {/* /.col */}
+            <div className="col-4">
+              <button type="submit" className="btn btn-primary"><b>Sign In</b></button>
+            </div>
+            {/* /.col */}
+          </div>
         </form>
-        <div className="register_link">
-          <span>New user? </span>
-          <Link to="register">Create an account</Link>
+
+        {/* /.social-auth-links */}
+     
+        <div className="row">
+          <div className="col-md-12 mt-4 text-center">
+          <button className="btn btn-primary rounded-pill" onClick={handleClick}>Register a new membership</button>
+          </div>
         </div>
       </div>
+      {/* /.login-card-body */}
+    </div>
+  </div>
+
+
+
     </div>
   );
 }
