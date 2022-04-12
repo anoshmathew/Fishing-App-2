@@ -12,12 +12,14 @@ import ResetPassword from "../ResetPassword";
 import AdminHome from "./AdminComponents/AdminHome";
 import AdminSideNav from "./AdminComponents/AdminSideNav";
 import CreateUser from "./AdminComponents/CreateUser";
+import ListPrice from "./AdminComponents/ListPrice";
 import ListUserData from "./AdminComponents/ListUserData";
 import ListUserDataForm from "./AdminComponents/ListUserDataForm";
 
 function AdminMain() {
   const [lim, setlim] = useState(0);
   const [page, setPage] = useState(1);
+  const [pricepage, setpricePage] = useState(1);
   const [activetog, setactivetog] = useState(true);
   const [del, setdel] = useState(0);
   const [edit, setedit] = useState(0);
@@ -39,6 +41,8 @@ function AdminMain() {
         <Route path="settings/addmembers" element={<AddMembers/>} />
         <Route path="listuserdataform" element={<ListUserDataForm />} />
         <Route path="listuserdata" element={<ListUserData lim={lim} page={page} setPage={setPage} activetog={activetog} setactivetog={setactivetog} del={del} setdel={setdel} search={search} setSearch={setSearch} list2={list2} setList2={setlist2}/>} />
+        <Route path="listprice" element={<ListPrice pricepage={pricepage} setpricePage={setpricePage}/>} />
+        
 
       </Routes>
       {/*

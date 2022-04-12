@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react/cjs/react.development";
+import TableComponent from "./TableComponent";
 
-function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSearch,search,setlist2,list2}) {
+function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSearch,search}) {
   var list = JSON.parse(localStorage.getItem("userlist"));
  
   var obj = JSON.parse(localStorage.getItem("listform"));
@@ -17,6 +18,7 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
   const token = loggedUser.api_token;
   const navigate = useNavigate();
 
+  const [detailsShown, setDetailShown] = useState([]);
   const [data, setData] = useState({
     User_ID: "",
     Email: "",
@@ -24,6 +26,7 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
     UserName: "",
     Name: "",
   });
+  const [list2, setlist2] = useState(list)
   
   function delFun(item) {
     console.log(token);
@@ -39,6 +42,17 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
 
       });
   }
+  const toggleShown = username => {
+    const shownState = detailsShown.slice();
+    const index = shownState.indexOf(username);
+    if (index >= 0) {
+      shownState.splice(index, 1);
+      setDetailShown(shownState);
+    } else {
+      shownState.push(username);
+      setDetailShown(shownState);
+    }
+  };
 
   function toggleStatus(item){
     if(item.status == "active"){
@@ -75,20 +89,40 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
   }
   function submit(e) {
     e.preventDefault();
-    
-    list.map((item) => 
-    {
-      if(item.name == data.Name){
-        setSearch(true);
-        setlist2(item);
-        console.log(list2);
-      }
+    Axios.post(
+      url2,
+      { user_id: loggedUser.id, 
+        limit:1,
+        //^ To do--------------------------------------------------------------------------
+        
+        //-----------------------
+        username:data.UserName
+      },
+      { headers: { Token: loggedUser.api_token } }
+    ).then((res) => {
+      let li = res.data.data;
       
-    })
-
+      console.log(res);
+      setlist2(li)
+    });
   }
 
-
+  function cancelSearch(e){
+    e.preventDefault();
+    Axios.post(
+      url2,
+      { user_id: loggedUser.id, 
+        limit:1,
+       
+      },
+      { headers: { Token: loggedUser.api_token } }
+    ).then((res) => {
+      let li = res.data.data;
+      
+      console.log(res);
+      setlist2(li)
+    });
+  }
 
 
   function nextPage(e){  
@@ -112,7 +146,7 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
   <div className="container-fluid">
     <div className="row mb-2">
       <div className="col-sm-6">
-        <h1 className="m-0 text-dark">Users</h1>
+        <h1 className="m-0 text-dark">List Users</h1>
       </div>{/* /.col */}
       <div className="col-sm-6">
         <ol className="breadcrumb float-sm-right">
@@ -127,7 +161,10 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
 <div className="row" style={{clear: 'both', marginBottom: 10,marginRight: 10}}>
   <div className="col-md-12 " align="right" style={{clear: 'both'}}>
     <Link type="button" className="btn btn-inline btn-danger mr-1" to="../createuser"><i className="fa fa-edit" /> New User</Link>
-    <button className="btn btn-warning" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2"><i className="fa fa-search" />  Search</button>    
+    <button className="btn btn-warning" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
+      <i className="fa fa-search" />  
+      Search
+      </button>    
   </div>
 </div>
 
@@ -138,7 +175,7 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
          {/* general form elements */}
          <div className="card card-warning">
            <div className="card-header">
-             <h3 className="card-title">Edit Details</h3>
+             <h3 className="card-title">Search</h3>
            </div>
            {/* /.card-header */}
            {/* form start */}
@@ -193,7 +230,8 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
              </div>
 
              <div className="card-footer">
-               <button type="submit" className="btn btn-primary">Submit</button>
+               <button type="submit" className="btn btn-warning mr-2"><i className="fa fa-search" />Search</button>
+               <button className="btn btn-danger" onClick={cancelSearch}><i className="fa fa-back" />Cancel</button>
              </div>
 
            </form>
@@ -214,54 +252,9 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
             </div>
             <div className="card-body table-responsive p-0">
               <table className="table table-bordered table-hover table-sm">
-                {(search) ? (
-                  <div>
-                          {list2}
-                          
-                  </div>
-
-                ) :
-                (
-                  <div>
-                     <thead>
-                  <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Username</th>
-                            <th>Mobile</th>
-                            <th>User Type</th>
-                            <th>Action</th>
-                            <th>Password</th>
-                            
-                  </tr>
-                </thead>
-                <tbody>
-                          {list.filter(item => !item.name.includes(loggedUser.name)).filter(item => !item.username.includes(loggedUser.username)).map((item) => (
-                            
-                            <tr key={item.id}>
-                              <td className="center">{item.id}</td>
-                              <td>{item.name}</td>
-                              <td>{item.username}</td>
-                              <td>{item.mobile}</td>
-                              <td>{item.user_type}</td>                              
-                              <td>
-                                <Link type="button" className="btn btn-inline btn-warning mr-1"  to="../edituserform" state={item}><i className="fa fa-edit" /></Link>
-                                <a role="button" className="btn btn-primary mr-1" onClick={() => toggleStatus(item)}>{item.status=='active'?<i className="fas fa-lock-open"></i>:<i className="fas fa-lock"></i> }</a>
-                                <a role="button" className="btn btn-danger mr-1" onClick={() => delFun(item)} ><i className="fas fa-trash-alt"></i></a>
-                              </td>
-                              <td>
-                                <button className="btn btn-warning" type="button" data-toggle="collapse" data-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1"><i className="fa fa-angle-double-down" /></button>
-                              </td>
-                            </tr>
-                                                    
-                          ))}
-                          
-                          
-                  </tbody>
-                  </div>
-                )
-                }
                
+                {<TableComponent list={list} list2={list2} toggleStatus={toggleStatus} delFun={delFun} detailsShown={detailsShown} setDetailShown={setDetailShown} toggleShown={toggleShown}/>}
+                                                  
               </table>
             </div>
             <div className="card-footer clearfix">

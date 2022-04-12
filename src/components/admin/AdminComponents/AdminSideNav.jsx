@@ -9,7 +9,8 @@ import man from '../../../img/avatar5.png';
 function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4}) {
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const {username:userName,user_type:userType} = loggedUser;
-  const url = "http://work.phpwebsites.in/fishing/api/userslist";
+  const url1 = "http://work.phpwebsites.in/fishing/api/userslist";
+  const url2 = "http://work.phpwebsites.in/fishing/api/userslist";
   const isMounted1 = useRef(false);
   const isMounted2 = useRef(false);
   const isMounted3 = useRef(false);
@@ -26,7 +27,7 @@ function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4}) {
  
 function listUser(){
     Axios.post(
-      url,
+      url1,
       { user_id: loggedUser.id, limit:page},
       { headers: { Token: loggedUser.api_token } }
     ).then((res) => {
@@ -40,8 +41,23 @@ function listUser(){
       }
 
     });
+  }
+  function listprice(){
+    Axios.post(
+      url2,
+      { user_id: loggedUser.id, limit:page},
+      { headers: { Token: loggedUser.api_token } }
+    ).then((res) => {
+      let list = res.data.data;
+      localStorage.setItem("userlist", JSON.stringify(list));
+      console.log(res);
+      navigate("./listuserdata");
+      if(res.data.limit==0)
+      {
+        setlim(1);
+      }
 
-   
+    });
   }
 
   useEffect(()=>{
@@ -136,7 +152,23 @@ useEffect(()=>{
                   <p>List Users</p>
                 </a>
               </li>
-
+              <li className="nav-item has-treeview">
+                <a href="" className="nav-link"  >
+                  <i className="nav-icon fas fa-chart-pie" />
+                  <p>
+                    Manage
+                    <i className="right fas fa-angle-left" />
+                  </p>
+                </a>
+                <ul className="nav nav-treeview">
+                <li className="nav-item">
+                    <Link to="listprice" className="nav-link" >
+                      <i className="ion ion-person nav-icon" />
+                      <p>Manage Price</p>
+                    </Link>
+                  </li>
+                </ul>
+              </li>
               <li className="nav-item has-treeview">
                 <a href="" className="nav-link"  >
                   <i className="nav-icon fas fa-chart-pie" />
@@ -159,16 +191,16 @@ useEffect(()=>{
                       <p>Reset Password</p>
                     </Link>
                   </li>
-                  
-                  <li className="nav-item">
-                    <a href="" onClick={(e) => submit(e)} className="nav-link">
-                      <i className="nav-icon fas fa-power-off" />
-                      <p>Logout</p>
-                    </a>
-                  </li>
+
                 </ul>
               </li>
-             
+              
+              <li className="nav-item">
+                <a href="" onClick={(e) => submit(e)} className="nav-link">
+                  <i className="nav-icon fas fa-power-off" />
+                  <p>Logout</p>
+                </a>
+              </li>
 
 
               

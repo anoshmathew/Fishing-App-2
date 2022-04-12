@@ -3,7 +3,7 @@ import Axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState,useRef } from "react";
 
-function AdminHome(page,setlim) {
+function AdminHome(page) {
   const isMounted5 = useRef(false);
   const navigate = useNavigate();
   var loggedUser = JSON.parse(localStorage.getItem("data"));
@@ -26,10 +26,7 @@ if(isMounted5==false){
       localStorage.setItem("userlist", JSON.stringify(list));
       console.log(res);
       navigate("../listuserdata");
-      if(res.data.limit==0)
-      {
-        page.setlim(1);
-      }
+      
 
     });
   }
