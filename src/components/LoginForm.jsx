@@ -11,6 +11,31 @@ function LoginForm() {
     password: "",
   });
 
+  const errors = {};
+
+  const validate = (values) => {
+    //const regex ;
+    if(!data.username){
+      errors.username = "Username is required!"
+      errors.flag1=null;
+    }
+    else
+    {
+      errors.flag1="checked";
+    }
+    if(!data.password){
+      errors.password = "Password is required!"
+      errors.flag2=null;
+    }
+    else
+    {
+      errors.flag2="checked";
+    }
+    
+    return errors;
+
+  };
+
   const [formErrors, setformErrors] = useState({});
   const [isSubmit,setIsSubmit] = useState(false);
 
@@ -21,10 +46,8 @@ function LoginForm() {
     setIsSubmit(true);
     console.log(formErrors);
 
-    
   }
-
-  if((Object.entries(formErrors).length !== 0)&&(formErrors.flag1=="checked")&&(formErrors.flag2=="checked")){
+  if((formErrors.flag1=="checked")&&(formErrors.flag2=="checked")){
     Axios.post(url, {
       username: data.username,
       password: data.password,
@@ -50,36 +73,13 @@ function LoginForm() {
     });
   }
 
-  useEffect(() => {
-    if(Object.keys(formErrors).length === 0 && isSubmit)
-  {
 
-  }
+
+  useEffect(() => {
+    
     
   }, [formErrors])
-
-  const validate = (values) => {
-    const errors = {};
-    //const regex ;
-    if(!data.username){
-      errors.username = "Username is required!"
-     
-    }
-    else
-    {
-      errors.flag1="checked";
-    }
-    if(!data.password){
-      errors.password = "Password is required!"
-    }
-    else
-    {
-      errors.flag2="checked";
-    }
-    
-    return errors;
-
-  };
+ 
 
   const handleClick = () => navigate("register");
   function handle(e) {

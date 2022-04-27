@@ -4,17 +4,17 @@ import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState,useRef } from "react";
 
 function AdminHome(page) {
-  const isMounted5 = useRef(false);
+  const isMounted1 = useRef(false);
   const navigate = useNavigate();
   var loggedUser = JSON.parse(localStorage.getItem("data"));
 
   const url = "http://work.phpwebsites.in/fishing/api/userslist";
   
-if(isMounted5==false){
-  isMounted5=true;
-  window.location.reload();
-}
-
+//if(isMounted5==false){
+//  isMounted5=true;
+// window.location.reload();
+//}
+page.setSideNavSel("dashboard")
   function listUser(){
     console.log(page.page);
     Axios.post(
@@ -29,7 +29,9 @@ if(isMounted5==false){
       
 
     });
-  }
+    }
+  
+
   return (
     <div className="content-wrapper">
 <div className="content-header">
@@ -84,7 +86,7 @@ if(isMounted5==false){
             <a href="#" onClick={listUser} className="small-box-footer">More info <i className="fas fa-arrow-circle-right" /></a>
           </div>
         </div>
-        <div className="col-xl-4 ">
+        <div className="col-xl-4">
           {/* small box */}
           <div className="small-box bg-info">
             <div className="inner" style={{height:"120px"}}>

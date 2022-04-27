@@ -3,7 +3,8 @@ import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
 
-function ResetPassword(setdel,del) {
+function ResetPassword(param) {
+  param.setSideNavSel("resetpass");
   var errPass;
   const navigate = useNavigate();
   const url = "http://work.phpwebsites.in/fishing/api/resetpassword";

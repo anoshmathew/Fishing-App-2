@@ -2,43 +2,77 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-function CreateUser() {
+function CreatePrice() {
   const navigate = useNavigate();
+  var loggedUser = JSON.parse(localStorage.getItem("data"));
+  const [formErrors, setformErrors] = useState({});
   var msg;
-  const url = "http://work.phpwebsites.in/fishing/api/register";
-  const [data, setData] = useState({
-    mail: "",
-    mobile: "",
-    password: "",
-    newpassword: "",
-    name: "",
-    
-    username: "",
+  const url = "http://work.phpwebsites.in/fishing/api/pricecreate";
+  const token = loggedUser.api_token;
+  const [data, setData] = useState({  
+    days: "",
+    name: "",    
+    price: "",
     type: "",
   });
   function submit(e) {
     e.preventDefault();
-    if(data.password ==data.newpassword){
+    console.log(loggedUser.id)
+    setformErrors(validate(data));
+  }
 
-   
+  if((data.days!="")&&(data.name!="")&&(data.price!="")&&(data.type!="")){
+
     console.log(data);
     Axios.post(url, {
-      email: data.mail,
-      mobile: data.mobile,
-      password: data.password,
-      username: data.username,
-      name: data.name,
-      user_type: data.type,
-    }).then((res) => {
+      user_id: loggedUser.id ,
+      days: data.days,
+      price: data.price,
+      card_name: data.name,
+      card_type: data.type,
+    },{ headers: { Token: loggedUser.api_token } }
+    ).then((res) => {
       console.log(res.data);
-      navigate("/");
+      navigate("../listprice");
     });
-    //Noooooo Token PAssed
   }
-  else{
-    msg ="Password dosen't Match";
-  }
-  }
+  const validate = (values) => {
+    const errors = {};
+    //const regex ;
+    if(!data.name){
+      errors.name = "Card name is required!"
+      errors.flag1="";
+    }
+    else
+    {
+      errors.flag1="checked";
+    }
+    if(!data.days){
+      errors.days = "Enter number of days!"
+      errors.flag2="";
+    }
+    else
+    {
+      errors.flag2="checked";
+    }
+    if(!data.price){
+      errors.price = "Price is required!"
+      errors.flag3="";
+    }
+    {
+      errors.flag3="checked";
+    }
+    if(!data.type){
+      errors.type = "Type is required!"
+      errors.flag4="";
+    }
+    {
+      errors.flag4="checked";
+    }
+    
+    return errors;
+
+  };
   function handle(e) {
     const newdata = { ...data };
     newdata[e.target.id] = e.target.value;
@@ -47,19 +81,18 @@ function CreateUser() {
 
   return (
 
-
     <div className="content-wrapper justify-content-left mt-5">
 
 <div className="content-header">
   <div className="container-fluid">
     <div className="row mb-2">
       <div className="col-sm-6">
-        <h1 className="m-0 text-dark">Add New User</h1>
+        <h1 className="m-0 text-dark">Add New Card</h1>
       </div>{/* /.col */}
       <div className="col-sm-6">
         <ol className="breadcrumb float-sm-right">
           <li className="breadcrumb-item"><a href="">Admin</a></li>
-          <li className="breadcrumb-item active">Add User</li>
+          <li className="breadcrumb-item active">Add Card</li>
         </ol>
       </div>{/* /.col */}
     </div>{/* /.row */}
@@ -74,7 +107,7 @@ function CreateUser() {
          {/* general form elements */}
          <div className="card card-primary">
            <div className="card-header">
-             <h3 className="card-title">Create New User</h3>
+             <h3 className="card-title">Create New Price Card</h3>
            </div>
            {/* /.card-header */}
            {/* form start */}
@@ -84,76 +117,57 @@ function CreateUser() {
                <div className="row">
            
              <div className="form-group col-md-6">
-                 <label >Name</label>
+                 <label >Card Name</label>
                  <input  className="form-control" 
                   type="text"
                   id="name"
                   onChange={(e) => handle(e)}
                   value={data.name}
                   placeholder="Name" />
+                  <p style={{color:"red"}}>{formErrors.name}</p>
                </div>
+               
+
                <div className="form-group col-md-6">
-                 <label >Username</label>
+                 <label>Price</label>
                  <input  className="form-control" 
                  type="text"
-                 id="username"
+                 id="price"
                  onChange={(e) => handle(e)}
-                 value={data.username}
-                  placeholder="User Name" />
+                 value={data.price}
+                  placeholder="Price" />
+                  <p style={{color:"red"}}>{formErrors.price}</p>
                </div>
+               
                </div>
                <div className="row">
                <div className="form-group col-md-6">
-                 <label >Mobile</label>
+                 <label >Days</label>
                  <input  className="form-control" 
                   type="text"
-                  id="mobile"
+                  id="days"
                   onChange={(e) => handle(e)}
-                  value={data.mobile}
-                  placeholder="Mobile" />
+                  value={data.days}
+                  placeholder="Days" />
+                  <p style={{color:"red"}}>{formErrors.days}</p>
                </div>
                
+               
                <div className="form-group col-md-6">
-                 <label >Email</label>
-                 <input  className="form-control" 
-                 type="text"
-                 id="mail"
-                 onChange={(e) => handle(e)}
-                 value={data.mail}
-                  placeholder="Email" />
+                 <label >Type</label>
+                 <select className="form-control" 
+                   onChange={(e) => handle(e)} 
+                   id="type" 
+                   name="usertype" >
+      <option value="">-- Select the User Type --</option>
+      <option value="normal">Normal</option>
+      <option value="yearly">Yearly</option>
+    </select>
+    <p style={{color:"red"}}>{data.type != "" ?"" : "Type is required"}</p>
                </div>
       
               </div>
-                
-               
-               <div className="row">
-               <div className="form-group col-md-6">
-               <label>Password</label>
-            <input  onChange={(e) => handle(e)}
-                value={data.password}
-                id="password"
-                type="password"
-               
-                className="form-control" 
-                placeholder="Password" />
-            <div className="input-group-append">
-            </div>
-            </div>
-            
-              
-            
-          <div className="form-group col-md-6">
-               <label >User Type</label>
-          <select className="form-control" style={{color:"rgb(143, 143, 143)"}} onChange={(e) => handle(e)} id="type" name="usertype" >
-            <option value="">-- Select the User Type --</option>
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
-            <option value="employee">Employee</option>
-          </select>
-                </div>
-          </div>
 
-         
               
             
           
@@ -163,7 +177,7 @@ function CreateUser() {
               
               
               <div className="card-footer">
-              <button type="submit" className="btn btn-primary btn-block"  style={{width:"130px"}}>Register</button>
+              <button type="submit" className="btn btn-primary btn-block"  style={{width:"130px"}}>Add</button>
             </div>
             {/* /.col */}
             
@@ -184,4 +198,4 @@ function CreateUser() {
     </div>
   );
 }
-export default CreateUser;
+export default CreatePrice;

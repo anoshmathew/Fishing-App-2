@@ -6,7 +6,7 @@ import man from '../../../img/avatar5.png';
 //import '../../css/AdminSideNav.css';
 
 
-function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4}) {
+function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4,SideNavSel,sideNavSel}) {
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const {username:userName,user_type:userType} = loggedUser;
   const url1 = "http://work.phpwebsites.in/fishing/api/userslist";
@@ -14,7 +14,7 @@ function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4}) {
   const isMounted1 = useRef(false);
   const isMounted2 = useRef(false);
   const isMounted3 = useRef(false);
-
+  
 
   const navigate = useNavigate();
   function submit(e) {
@@ -42,23 +42,7 @@ function listUser(){
 
     });
   }
-  function listprice(){
-    Axios.post(
-      url2,
-      { user_id: loggedUser.id, limit:page},
-      { headers: { Token: loggedUser.api_token } }
-    ).then((res) => {
-      let list = res.data.data;
-      localStorage.setItem("userlist", JSON.stringify(list));
-      console.log(res);
-      navigate("./listuserdata");
-      if(res.data.limit==0)
-      {
-        setlim(1);
-      }
 
-    });
-  }
 
   useEffect(()=>{
     if (isMounted1.current){
@@ -141,30 +125,48 @@ useEffect(()=>{
               {/* Add icons to the links using the .nav-icon class
          with font-awesome or any other icon font library  ="listuserdataform" */}
               <li className="nav-item">
-              <Link to="home" className="nav-link active" data-toggle="pill">
+              <Link to="home" className={"nav-link " + (sideNavSel == "dashboard" ? "active":"") } data-toggle="pill">
                   <i className="nav-icon fas fa-th" />
                   <p>Dashboard</p>
                   </Link>
               </li>
               <li className="nav-item">
-                <a href="" className="nav-link" data-toggle="pill" onClick={listUser}>
+                <a href="" className={"nav-link " + (sideNavSel == "manageusers" ? "active":"") }  data-toggle="pill" onClick={listUser}>
                   <i className="nav-icon fas fa-list" />
-                  <p>List Users</p>
+                  <p>Manage Users</p>
                 </a>
               </li>
               <li className="nav-item has-treeview">
                 <a href="" className="nav-link"  >
                   <i className="nav-icon fas fa-chart-pie" />
                   <p>
-                    Manage
+                    Manage Master
                     <i className="right fas fa-angle-left" />
                   </p>
                 </a>
                 <ul className="nav nav-treeview">
                 <li className="nav-item">
-                    <Link to="listprice" className="nav-link" >
+                    <Link to="listprice" className={"nav-link " + (sideNavSel == "listprice" ? "active":"") } >
                       <i className="ion ion-person nav-icon" />
                       <p>Manage Price</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="listfish" className={"nav-link " + (sideNavSel == "listfish" ? "active":"") } >
+                      <i className="ion ion-person nav-icon" />
+                      <p>Manage Fish</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="listfishingrequest" className={"nav-link " + (sideNavSel == "listfishreq" ? "active":"") } >
+                      <i className="ion ion-person nav-icon" />
+                      <p>Manage Fishing Request</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="listfishcatch" className={"nav-link " + (sideNavSel == "listfishcatch" ? "active":"") } >
+                      <i className="ion ion-person nav-icon" />
+                      <p>Manage Fishing Catch</p>
                     </Link>
                   </li>
                 </ul>
@@ -179,14 +181,14 @@ useEffect(()=>{
                 </a>
                 <ul className="nav nav-treeview">
                 <li className="nav-item">
-                    <Link to="settings/edituserdata" className="nav-link">
+                    <Link to="settings/edituserdata" className={"nav-link " + (sideNavSel == "myprofile" ? "active":"") }>
                       <i className="ion ion-person nav-icon" />
                       <p>My Profile</p>
                     </Link>
                   </li>
 
                   <li className="nav-item">
-                    <Link to="settings/resetpassword"  className="nav-link">
+                    <Link to="settings/resetpassword"  className={"nav-link " + (sideNavSel == "resetpass" ? "active":"") }>
                       <i className="nav-icon fa fa-key" />
                       <p>Reset Password</p>
                     </Link>

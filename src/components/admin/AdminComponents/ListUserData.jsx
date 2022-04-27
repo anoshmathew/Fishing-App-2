@@ -4,11 +4,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react/cjs/react.development";
 import TableComponent from "./TableComponent";
 
-function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSearch,search}) {
+function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSearch,search,setSideNavSel}) {
+  setSideNavSel("manageusers");
   var list = JSON.parse(localStorage.getItem("userlist"));
- 
   var obj = JSON.parse(localStorage.getItem("listform"));
-
+  const isMounted1 = useRef(false);
+  useEffect(()=>{
+    if (isMounted1.current){
+      listUser();
+    }
+    else {
+      isMounted1.current = true;
+    }
+  },[page]);
   
   const url1 = "http://work.phpwebsites.in/fishing/api/userdelete";
   const url2 = "http://work.phpwebsites.in/fishing/api/userslist";
@@ -28,6 +36,24 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
   });
   const [list2, setlist2] = useState(list)
   
+  function listUser(){
+    Axios.post(
+      url2,
+      { user_id: loggedUser.id, 
+        limit:page,
+        //^ To do--------------------------------------------------------------------------
+        
+        //-----------------------
+        username:data.UserName
+      },
+      { headers: { Token: loggedUser.api_token } }
+    ).then((res) => {
+      let li = res.data.data;
+      console.log(res);
+      setlist2(li)
+    });
+  }
+
   function delFun(item) {
     console.log(token);
     console.log(" User id: ", loggedUser.id, "deleting user id: ", item.id);
@@ -112,8 +138,7 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
     Axios.post(
       url2,
       { user_id: loggedUser.id, 
-        limit:1,
-       
+        limit:1,  
       },
       { headers: { Token: loggedUser.api_token } }
     ).then((res) => {
@@ -200,7 +225,7 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
                  id="UserName"
                  onChange={(e) => handle(e)}
                  value={data.UserName}
-                  placeholder="User Name"/>
+                 placeholder="User Name"/>
                </div>
                </div>
                <div className="row">
@@ -259,16 +284,16 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
             </div>
             <div className="card-footer clearfix">
               <ul className="pagination pagination-sm float-right"> 
-              <li className="page-item mr-2" >
-          <a href="#" onClick={prevPage}className="page-link">
-            &laquo;
-          </a>
-          </li>
-          <li className="page-item mr-2" >
-          <a href="#" onClick={nextPage}className="page-link">
-            &laquo;
-          </a>          
-          </li>       
+                <li className="page-item mr-2" >
+                  <a href="#" onClick={prevPage}className="page-link">
+                  &laquo;
+                  </a>
+                </li>
+                <li className="page-item mr-2" >
+                  <a href="#" onClick={nextPage}className="page-link">
+                  &laquo;
+                  </a>          
+                </li>       
               </ul>
             </div>
           </div>

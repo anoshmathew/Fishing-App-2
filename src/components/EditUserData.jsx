@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import man from '../img/avatar5.png'
+import FileUpload from "./admin/AdminComponents/FileUpload";
 //import './css/EditUserData.css'
 
-function EditUserData(edit,setedit) {
+function EditUserData(param) {
   const url = "http://work.phpwebsites.in/fishing/api/edituser";
+  const url2 = "http://work.phpwebsites.in/fishing/api/uploadph";
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const navigate = useNavigate();
   console.log("loggedUser id: ", loggedUser.id);
@@ -15,8 +17,10 @@ function EditUserData(edit,setedit) {
     Mobile: loggedUser.mobile,
     UserName: loggedUser.username,
     Name: loggedUser.name,
+    file:"",
   });
- 
+  const [file, setfile] = useState();
+ param.setSideNavSel("myprofile")
  
   function submit(e) {
     e.preventDefault();
@@ -37,20 +41,68 @@ function EditUserData(edit,setedit) {
         { headers: { Token: token } }
       ).then((res) => {
         console.log(loggedUser.id);
-        edit.setedit(edit.edit+1);
+        param.setedit(param.edit+1);
        navigate("../listuserdata");
+       //window.location.reload();  
+      });
+      
+    } else {
+      console.log("Local Storage is Empty");
+    }
+  }
+  function handlefile(e) {
+    const filedata = { ...file };
+    filedata[e.target.id] = e.target.value;
+    setfile(filedata);
+    console.log(filedata);
+  }
+  var bodyFormData = new FormData();
+  const [picture, setPicture] = useState(null);
+  const uploadPicture = (e) => {
+   
+        /* contains the preview, if you want to show the picture to the user
+           you can access it with this.state.currentPicture
+       */
+       
+           setPicture(e.target.files[0])
+        console.log(e.target.files[0]);
+    
+};
+
+  function handleUpload(e) {
+    e.preventDefault();
+    
+    if (loggedUser != null) {
+      const token = loggedUser.api_token;
+      bodyFormData.append('user_id', loggedUser.id);
+      bodyFormData.append('photo', picture);
+     
+      console.log(picture);
+      
+      Axios.post(
+        url2,
+        bodyFormData,
+        { headers: {  
+          Token: token,
+         // 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+          //'Content-Type': 'multipart/form-data'
+        } 
+          
+
+      }
+      ).then((res) => {
+        console.log(res);
+       // edit.setedit(edit.edit+1); content-type : multipart/form-data ,
+       // navigate("../listuserdata");
        //window.location.reload();
-        
         
       });
       
     } else {
       console.log("Local Storage is Empty");
     }
-   
-    
-
   }
+
   function handle(e) {
     const newdata = { ...data };
     newdata[e.target.id] = e.target.value;
@@ -95,13 +147,23 @@ function EditUserData(edit,setedit) {
           <div className="card-body text-center">
             
           <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-6" >
           <img src={man} className="brand-image img-circle elevation-3" />
+          <div style={{width:"100%",backgroundColor:"rgb(255, 193, 7)" , borderRadius:"4px"}}>
+            <input type="file" name="file" id="file" onChange={(e)=>uploadPicture(e)} />
           </div>
+          <div>
+            <button className="btn btn-primary" onClick={e => handleUpload(e)}>Upload</button>
+          </div>
+        
+          </div>
+          
             <div className="col-md-6">
             <div className="row mt-4 text-left" style={{fontWeight:"bold"}}>
+        
             <table>
             <tbody>
+            
   <tr>
     <td>Username</td>
     <td>:</td>
@@ -236,7 +298,7 @@ function EditUserData(edit,setedit) {
 
 
       
-     
+    
     </div>
   );
 }
