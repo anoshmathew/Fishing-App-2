@@ -58,8 +58,8 @@ function EditFishingRequest(param) {
             { headers: { Token: token } }
           ).then((res) => {  
               console.log(res)       
-              param.seteditfishingrequest(param.editfishingrequest+1);
-              //navigate("../listfish");            
+              //param.setEditFishingReq(!param.EditFishingReq);
+              navigate("../listfishingrequest");            
           });
          
       

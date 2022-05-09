@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-
+import { Url} from '../constants/global'
 
 function ResetPassword(param) {
   param.setSideNavSel("resetpass");
   var errPass;
   const navigate = useNavigate();
-  const url = "http://work.phpwebsites.in/fishing/api/resetpassword";
   const [data, setData] = useState({
     OldPassword:"",
     NewPassword: "",
@@ -26,7 +25,7 @@ function ResetPassword(param) {
       if(data.NewPassword == data.ConPassword)
       {
       Axios.post(
-        url,
+        Url.passreseturl,
         { user_id: loggedUser.id,
           password: data.NewPassword },
         { headers: { Token: token } }

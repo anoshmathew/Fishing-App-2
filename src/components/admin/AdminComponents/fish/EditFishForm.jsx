@@ -1,10 +1,10 @@
 import React, { useState,useEffect } from 'react'
 import Axios from "axios";
 import { Link, useNavigate,useLocation  } from "react-router-dom";
+import { Url} from '../../../../constants/global'
 
 function EditFishForm(param) {
 
-  const url = "http://work.phpwebsites.in/fishing/api/editfish";
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const location = useLocation()
   const itm = location.state;
@@ -16,7 +16,7 @@ function EditFishForm(param) {
   });
   const [formErrors, setformErrors] = useState({});
   const [isSubmit,setIsSubmit] = useState(false);
-  
+  console.log(itm.id);
  
   function submit(e) {
     e.preventDefault();
@@ -28,9 +28,10 @@ function EditFishForm(param) {
         console.log("From Local Storage");
         console.log("loggedUser Token: ", token);      
         Axios.post(
-          url,
+          Url.editfishurl,
           {
             user_id: loggedUser.id,
+            fish_id:itm.id,
             fish_name: data.Fish_Name
           },
           { headers: { Token: token } }
@@ -46,8 +47,6 @@ function EditFishForm(param) {
     }
     
   }
-
-  
 
 
   const validate = (values) => {
@@ -94,7 +93,7 @@ function EditFishForm(param) {
      
        <div className="container-fluid">
          <div className="row">
-           <div className="col-md-8">
+           <div className="col-md-12">
              {/* general form elements */}
              <div className="card card-primary">
                <div className="card-header">
@@ -103,7 +102,7 @@ function EditFishForm(param) {
                {/* /.card-header */}
                {/* form start */}
                <form onSubmit={(e)=>submit(e)}>
-                 <div className="card-body" style={{ width: '28rem' }}>
+                 <div className="card-body" >
                    
                    
     

@@ -19,23 +19,24 @@ function CreatePrice() {
     e.preventDefault();
     console.log(loggedUser.id)
     setformErrors(validate(data));
+    if((data.days!="")&&(data.name!="")&&(data.price!="")&&(data.type!="")){
+
+      console.log(data);
+      Axios.post(url, {
+        user_id: loggedUser.id ,
+        days: data.days,
+        price: data.price,
+        card_name: data.name,
+        card_type: data.type,
+      },{ headers: { Token: loggedUser.api_token } }
+      ).then((res) => {
+        console.log(res.data);
+        navigate("../listprice");
+      });
+    }
   }
 
-  if((data.days!="")&&(data.name!="")&&(data.price!="")&&(data.type!="")){
-
-    console.log(data);
-    Axios.post(url, {
-      user_id: loggedUser.id ,
-      days: data.days,
-      price: data.price,
-      card_name: data.name,
-      card_type: data.type,
-    },{ headers: { Token: loggedUser.api_token } }
-    ).then((res) => {
-      console.log(res.data);
-      navigate("../listprice");
-    });
-  }
+  
   const validate = (values) => {
     const errors = {};
     //const regex ;
@@ -163,7 +164,7 @@ function CreatePrice() {
       <option value="normal">Normal</option>
       <option value="yearly">Yearly</option>
     </select>
-    <p style={{color:"red"}}>{data.type != "" ?"" : "Type is required"}</p>
+    <p style={{color:"red"}}>{formErrors.type}</p>
                </div>
       
               </div>

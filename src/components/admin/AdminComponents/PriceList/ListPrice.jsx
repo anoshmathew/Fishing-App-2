@@ -2,10 +2,9 @@ import React,{useState,useEffect,useRef} from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import PriceTable from './PriceTable';
+import { Url} from '../../../../constants/global'
+
 function ListPrice(param) {
-    const url1 = "http://work.phpwebsites.in/fishing/api/pricelist";      
-    const url2 = "http://work.phpwebsites.in/fishing/api/pricestatus";
-    const url3 = "http://work.phpwebsites.in/fishing/api/pricedelete";
     const [pricelist, setpricelist] = useState([]);
     const [activetogprice, setactivetogprice] = useState(false)
     const [togdelprice, settogdelprice] = useState(false)
@@ -31,22 +30,16 @@ function ListPrice(param) {
           isMounted1.current = true;
         }
       },[activetogprice]);
+
       useEffect(()=>{
-        if (isMounted4.current){
-            getData();
-        }
-        else {
-          isMounted4.current = true;
-        }
-      },[page]);
-      useEffect(()=>{
-        if (isMounted1.current){
+        if (isMounted2.current){
             getData();
         }
         else {
           isMounted2.current = true;
         }
       },[togdelprice]);
+
       useEffect(()=>{
         if (isMounted3.current){
             getData();
@@ -56,6 +49,15 @@ function ListPrice(param) {
         }
       },[search]);
 
+      useEffect(()=>{
+        if (isMounted4.current){
+            getData();
+        }
+        else {
+          isMounted4.current = true;
+        }
+      },[page]);
+
     useEffect(() => {
         getData();
         // loadData();
@@ -63,7 +65,7 @@ function ListPrice(param) {
     async function getData() {
         param.setSideNavSel("listprice")
         Axios.post(
-            url1,
+            Url.pricelisturl,
             { user_id: loggedUser.id, limit:page},
             { headers: { Token: loggedUser.api_token } }
           ).then((res) => {
@@ -76,7 +78,7 @@ function ListPrice(param) {
       function toggleStatusPrice(item){
         if(item.status == "active"){
           Axios.post(
-            url2,
+            Url.pricestatusurl,
             { user_id: loggedUser.id,price_id: item.id, status: "inactive" },
             { headers: { Token: token } }
           ).then((res) => {
@@ -88,7 +90,7 @@ function ListPrice(param) {
        
         else{
           Axios.post(
-            url2,
+            Url.pricestatusurl,
             { user_id: loggedUser.id, price_id: item.id, status: "active" },
             { headers: { Token: token } }
           ).then((res) => {
@@ -102,7 +104,7 @@ function ListPrice(param) {
         console.log(" User id: ", loggedUser.id, "deleting user id: ", item.id);
         
         Axios.post(
-          url3,
+          Url.pricedeleteurl,
           { user_id: loggedUser.id, price_id: item.id },
           { headers: { Token: token } }
         ).then((res) => {
@@ -124,7 +126,7 @@ function ListPrice(param) {
         function submit(e) {
             e.preventDefault();
             Axios.post(
-              url1,
+              Url.pricelisturl,
               { user_id: loggedUser.id, 
                 limit:1,
                 //^ To do--------------------------------------------------------------------------
@@ -238,23 +240,26 @@ function ListPrice(param) {
             <div className="card-body table-responsive p-0">
               <table className="table table-bordered table-hover table-sm">
                
-                {<PriceTable pricelist={pricelist} toggleStatusPrice={toggleStatusPrice} activetogprice={activetogprice} setactivetogprice={setactivetogprice} delFun={delFun} />}
+                {<PriceTable pricelist={pricelist} toggleStatusPrice={toggleStatusPrice}  delFun={delFun} />}
                                                   
               </table>
             </div>
             <div className="card-footer clearfix">
-              <ul className="pagination pagination-sm float-right"> 
-              <li className="page-item mr-2" >
-          <a href="#" className="page-link" onClick={prevPage} >
-            &laquo;
-          </a>
-          </li>
-          <li className="page-item mr-2" >
-          <a href="#" className="page-link" onClick={nextPage}>
-            &laquo;
-          </a>          
-          </li>       
-              </ul>
+              <ul className="pagination pagination-sm float-left"> 
+                <li className="page-item mr-2" >
+                  <a href="" onClick={prevPage}className="page-link">
+                 &lArr; Prev 
+                  </a>
+                </li>
+                </ul>
+                <ul className="pagination pagination-sm float-right">
+                <li className="page-item mr-2" >
+                  <a href="" onClick={nextPage}className="page-link">
+                  Next &rArr;
+                  </a>          
+                </li> 
+                </ul>      
+              
             </div>
           </div>
         </div>

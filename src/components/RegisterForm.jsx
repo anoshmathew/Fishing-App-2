@@ -21,35 +21,42 @@ const [isSubmit,setIsSubmit] = useState(false);
   function submit(e) {
     e.preventDefault();
     setformErrors(validate(data));
-    setIsSubmit(true);
+    //setIsSubmit(true);
     console.log(data);
     console.log(formErrors);
     
     
   }
 
-  if((Object.entries(formErrors).length !== 0)&&(formErrors.flag1=="checked")&&(formErrors.flag2=="checked")&&(formErrors.flag3=="checked")&&(formErrors.flag4=="checked")&&(formErrors.flag5=="checked")&&(formErrors.flag6=="checked")){
-    Axios.post(url, {
-      email: data.mail,
-      mobile: data.mobile,
-      password: data.password,
-      username: data.username,
-      name: data.name,
-      user_type: data.type,
-    }).then((res) => {
-      console.log(res.data);
-       navigate("/");
-    });
-  }
+ 
 
   useEffect(() => {
-    if(Object.keys(formErrors).length === 0 && isSubmit)
-  {
-
-  }
+    registerfun();
     
   }, [formErrors])
   
+  function registerfun(){
+    if((Object.entries(formErrors).length !== 0)&&(formErrors.flag1=="checked")&&(formErrors.flag2=="checked")&&(formErrors.flag3=="checked")&&(formErrors.flag4=="checked")&&(formErrors.flag5=="checked")&&(formErrors.flag6=="checked")){
+      Axios.post(url, {
+        email: data.mail,
+        mobile: data.mobile,
+        password: data.password,
+        username: data.username,
+        name: data.name,
+        user_type: data.type,
+      }).then((res) => {
+        console.log(res);
+         //navigate("/");
+         if(res.data.message="Username Already Exist"){
+           alert("Username Already Exist")
+         }
+         else{
+          alert("Registered")
+         }
+      });
+    }
+  }
+
   const validate = (values) => {
     const errors = {};
     //const regex ;
@@ -103,7 +110,6 @@ const [isSubmit,setIsSubmit] = useState(false);
   }
 
   return (
-
 
     <div className="hold-transition register-page">
   <div className="register-box">

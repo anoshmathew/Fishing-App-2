@@ -1,5 +1,5 @@
 import React,{useState,useEffect,useRef} from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
 import Axios from "axios";
 import FishCatchTable from './FishCatchTable';
 
@@ -12,6 +12,8 @@ function ListFishCatch(param) {
     var getResult ;
     const [page, setPage] = useState(1)
     const [search, setSearch] = useState(true);
+    const location = useLocation()
+    const itm = location.state;
     const [data, setData] = useState({     
         Req_id: "",
         Fish_id: "",
@@ -61,6 +63,7 @@ function ListFishCatch(param) {
 
     async function getData() {
       param.setSideNavSel("listfishcatch")
+      console.log(loggedUser)
         Axios.post(
             url1,
             { user_id: loggedUser.id, limit:page},
@@ -142,7 +145,7 @@ function ListFishCatch(param) {
         <section className="content collapse multi-collapse" id="multiCollapseExample2">
            <div className="container-fluid">
              <div className="row">
-               <div className="col-md-8 mx-auto">
+               <div className="col-md-12 mx-auto">
                  {/* general form elements */}
                  <div className="card card-warning">
                    <div className="card-header">
@@ -216,19 +219,25 @@ function ListFishCatch(param) {
                     </div>
                     
                     <div className="card-footer clearfix">
-              <ul className="pagination pagination-sm float-right"> 
-              <li className="page-item mr-2" >
-          <a href="#" className="page-link" onClick={prevPage}>
-            &laquo;
-          </a>
-          </li>
-          <li className="page-item mr-2" >
-          <a href="#" className="page-link" onClick={nextPage}>
-            &laquo;
-          </a>          
-          </li>       
-              </ul>
+              <ul className="pagination pagination-sm float-left"> 
+                <li className="page-item mr-2" >
+                  <a href="" onClick={prevPage}className="page-link">
+                 &lArr; Prev 
+                  </a>
+                </li>
+                </ul>
+                <ul className="pagination pagination-sm float-right">
+                <li className="page-item mr-2" >
+                  <a href="" onClick={nextPage}className="page-link">
+                  Next &rArr;
+                  </a>          
+                </li> 
+                </ul>      
+              
             </div>
+
+
+            
 
                   </div>
                 </div>

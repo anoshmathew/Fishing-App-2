@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-function CreateUser() {
+function CreateUser(param) {
   const navigate = useNavigate();
-  var msg;
   const url = "http://work.phpwebsites.in/fishing/api/register";
   const [data, setData] = useState({
     mail: "",
@@ -12,33 +11,90 @@ function CreateUser() {
     password: "",
     newpassword: "",
     name: "",
-    
     username: "",
     type: "",
   });
+
+  const [formErrors, setformErrors] = useState({});
+  useEffect(() => {
+    update();
+   }, [formErrors])
+
+ function update(){
+  Axios.post(url, {
+    email: data.mail,
+    mobile: data.mobile,
+    password: data.password,
+    username: data.username,
+    name: data.name,
+    user_type: data.type,
+  }).then((res) => {
+    console.log(res.data);
+    if(res.data.status == "yes"){
+      param.setsucess({...param.sucess, createuser:true})
+      navigate("../listuserdata");
+      //Alert.success('Success Alert')
+    }
+    else{
+      param.setsucess({...param.sucess, createuser:false})
+    }
+    
+  });
+ }
+
   function submit(e) {
     e.preventDefault();
-    if(data.password ==data.newpassword){
-
-   
     console.log(data);
-    Axios.post(url, {
-      email: data.mail,
-      mobile: data.mobile,
-      password: data.password,
-      username: data.username,
-      name: data.name,
-      user_type: data.type,
-    }).then((res) => {
-      console.log(res.data);
-      navigate("/");
-    });
-    //Noooooo Token PAssed
+    setformErrors(validate(data));
   }
-  else{
-    msg ="Password dosen't Match";
-  }
-  }
+
+  const validate = (values) => {
+    const errors = {};
+    //const regex ;
+    if(!data.username){
+      errors.username = "Username is required!"
+     
+    }
+    else
+    {
+      errors.flag1="checked";
+    }
+    
+    if(!data.name){
+      errors.name = "Name is required!"
+    }
+    {
+      errors.flag2="checked";
+    }
+    if(!data.mail){
+      errors.mail = "Email is required!"
+    }
+    {
+      errors.flag3="checked";
+    }
+    
+    if(!data.mobile){
+      errors.mobile = "Mobile is required!"
+    }
+    {
+      errors.flag4="checked";
+    }
+    if(!data.password){
+      errors.password = "Password is required!"
+    }
+    {
+      errors.flag5="checked";
+    }
+    if(!data.type){
+      errors.type = "Type is required!"
+    }
+    {
+      errors.flag5="checked";
+    }
+    return errors;
+
+  };
+
   function handle(e) {
     const newdata = { ...data };
     newdata[e.target.id] = e.target.value;
@@ -92,6 +148,7 @@ function CreateUser() {
                   value={data.name}
                   placeholder="Name" />
                </div>
+               <p style={{color:"red"}}>{formErrors.name}</p>
                <div className="form-group col-md-6">
                  <label >Username</label>
                  <input  className="form-control" 
@@ -101,6 +158,7 @@ function CreateUser() {
                  value={data.username}
                   placeholder="User Name" />
                </div>
+               <p style={{color:"red"}}>{formErrors.username}</p>
                </div>
                <div className="row">
                <div className="form-group col-md-6">
@@ -112,7 +170,7 @@ function CreateUser() {
                   value={data.mobile}
                   placeholder="Mobile" />
                </div>
-               
+               <p style={{color:"red"}}>{formErrors.mobile}</p>
                <div className="form-group col-md-6">
                  <label >Email</label>
                  <input  className="form-control" 
@@ -122,7 +180,7 @@ function CreateUser() {
                  value={data.mail}
                   placeholder="Email" />
                </div>
-      
+               <p style={{color:"red"}}>{formErrors.mail}</p>
               </div>
                 
                
@@ -139,7 +197,7 @@ function CreateUser() {
             <div className="input-group-append">
             </div>
             </div>
-            
+            <p style={{color:"red"}}>{formErrors.password}</p>
               
             
           <div className="form-group col-md-6">
@@ -150,9 +208,12 @@ function CreateUser() {
             <option value="user">User</option>
             <option value="employee">Employee</option>
           </select>
+          
                 </div>
+                
+                
           </div>
-
+          <p style={{color:"red"}}>{formErrors.type}</p>
          
               
             

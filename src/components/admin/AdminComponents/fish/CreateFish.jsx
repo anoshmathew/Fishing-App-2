@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-
+import {Url} from "../../../../constants/global"
 
 function CreateFish() {
   const navigate = useNavigate();
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const [formErrors, setformErrors] = useState({});
   var msg;
-  const url = "http://work.phpwebsites.in/fishing/api/fishcreate";
+  
   const token = loggedUser.api_token;
   const [data, setData] = useState({  
    
@@ -36,7 +36,7 @@ function CreateFish() {
     if(data.name!=""){
 
     console.log(data);
-    Axios.post(url, {
+    Axios.post(Url.creatfishurl, {
       user_id: loggedUser.id ,
       fish_name: data.name,    
     },{ headers: { Token: loggedUser.api_token } }
@@ -106,13 +106,8 @@ function CreateFish() {
               <button type="submit" className="btn btn-primary btn-block"  style={{width:"130px"}}>Add</button>
             </div>
             {/* /.col */}
-            
-        
-
-               
+         
              </div>
-
-            
 
            </form>
            

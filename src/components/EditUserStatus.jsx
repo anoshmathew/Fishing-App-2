@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Axios from "axios";
-
+import { Url} from '../constants/global'
 
 function EditUserStatus() {
-  const url = "http://work.phpwebsites.in/fishing/api/userstatus";
+ 
   const [data, setData] = useState({
     User_ID: "",
     Status: "",
@@ -17,7 +17,7 @@ function EditUserStatus() {
       console.log("From Local Storage");
       console.log("loggedUser Token: ", token);
       Axios.post(
-        url,
+        Url.userstatusurl,
         { user_id: data.User_ID, status: data.Status },
         { headers: { Token: token } }
       ).then((res) => {

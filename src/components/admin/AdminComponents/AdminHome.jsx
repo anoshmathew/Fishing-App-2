@@ -3,34 +3,20 @@ import Axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState,useRef } from "react";
 
-function AdminHome(page) {
-  const isMounted1 = useRef(false);
-  const navigate = useNavigate();
+function AdminHome(param) {
+
   var loggedUser = JSON.parse(localStorage.getItem("data"));
 
-  const url = "http://work.phpwebsites.in/fishing/api/userslist";
+  useEffect(()=>{
+    param.setSideNavSel("dashboard")
+
+},[]);
   
 //if(isMounted5==false){
 //  isMounted5=true;
 // window.location.reload();
 //}
-page.setSideNavSel("dashboard")
-  function listUser(){
-    console.log(page.page);
-    Axios.post(
-      url,
-      { user_id: loggedUser.id, limit:page.page},
-      { headers: { Token: loggedUser.api_token } }
-    ).then((res) => {
-      let list = res.data.data;
-      localStorage.setItem("userlist", JSON.stringify(list));
-      console.log(res);
-      navigate("../listuserdata");
-      
 
-    });
-    }
-  
 
   return (
     <div className="content-wrapper">
@@ -54,13 +40,14 @@ page.setSideNavSel("dashboard")
   {/* Content Header (Page header) */}
   <div className="content-header">
     <div className="container-fluid">
+    
       <div className="row mb-3">
         <div className="col-sm-6">
           <h1 className="m-0">Dashboard</h1>
         </div>{/* /.col */}
         <div className="col-sm-6">
           <ol className="breadcrumb float-sm-right">
-            <li className="breadcrumb-item"><a href="#">Admin</a></li>
+            <li className="breadcrumb-item"><a href="">{loggedUser.user_type == "admin"?"Admin":loggedUser.user_type == "user"?"User":"Employee"}</a></li>
             <li className="breadcrumb-item active">Dashboard</li>
           </ol>
         </div>{/* /.col */}
@@ -73,7 +60,9 @@ page.setSideNavSel("dashboard")
     <div className="container-fluid">
       {/* Small boxes (Stat box) */}
       <div className="row">
-        <div className="col-xl-4 ">
+      {loggedUser.user_type == "admin" ?
+      
+      <div className="col-xl-4 ">
           {/* small box */}
           <div className="small-box bg-primary">
             <div className="inner" style={{height:"120px"}}>
@@ -83,9 +72,31 @@ page.setSideNavSel("dashboard")
             <div className="icon">
             <i className="ion ion-stats-bars" />
             </div>
-            <a href="#" onClick={listUser} className="small-box-footer">More info <i className="fas fa-arrow-circle-right" /></a>
+            <Link to="../listuserdata" className="small-box-footer">More info <i className="fas fa-arrow-circle-right" /></Link>
           </div>
         </div>
+
+      : null}
+
+{loggedUser.user_type == "user" ?
+      
+      <div className="col-xl-4 ">
+          {/* small box */}
+          <div className="small-box bg-primary">
+            <div className="inner" style={{height:"120px"}}>
+              <h3>Upload ID</h3>
+           
+            </div>
+            <div className="icon">
+            <i className="ion ion-upload nav-icon" />
+            </div>
+            <Link to="../uploadid" className="small-box-footer">More info <i className="fas fa-arrow-circle-right" /></Link>
+          </div>
+        </div>
+
+      : null}
+     
+        
         <div className="col-xl-4">
           {/* small box */}
           <div className="small-box bg-info">

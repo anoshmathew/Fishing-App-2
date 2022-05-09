@@ -1,16 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import man from '../img/avatar5.png'
-import FileUpload from "./admin/AdminComponents/FileUpload";
+import{Url} from "../constants/global"
 //import './css/EditUserData.css'
 
 function EditUserData(param) {
-  const url = "http://work.phpwebsites.in/fishing/api/edituser";
-  const url2 = "http://work.phpwebsites.in/fishing/api/uploadph";
+  
+  const isMounted1 = useRef(false);
+  const isMounted2 = useRef(false);
+  
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const navigate = useNavigate();
   console.log("loggedUser id: ", loggedUser.id);
+  const [edit, setedit] = useState(false)
+  const[userdetails,setuserdetails]=useState({
+    username:"",
+    name:"",
+    id:"",
+    email:"",
+    mobile:"",
+    status:"",
+    photourl:""
+  });
   const [data, setData] = useState({
     User_ID: loggedUser.id,
     Email: loggedUser.email,
@@ -19,9 +31,46 @@ function EditUserData(param) {
     Name: loggedUser.name,
     file:"",
   });
+  
   const [file, setfile] = useState();
+ // const [pic, setpic] = useState();
  param.setSideNavSel("myprofile")
- 
+ useEffect(()=>{
+  listUser();
+
+},[]);
+useEffect(()=>{
+  if (isMounted1.current){
+    listUser();
+  }
+  else {
+    isMounted1.current = true;
+  }
+},[edit]);
+
+
+function listUser(){
+  Axios.post(
+    Url.userdetailsurl,
+    { user_id: loggedUser.id
+    },
+    { headers: { Token: loggedUser.api_token } }
+  ).then((res) => {
+    let li = res.data.data;
+    console.log(res);
+    setuserdetails({
+      username:li.username,
+      name:li.name,
+      id:li.id,
+      email:li.email,
+      mobile:li.mobile,
+      status:li.status,
+      photourl:res.data.photo
+    });
+    
+  });
+}
+
   function submit(e) {
     e.preventDefault();
     
@@ -30,20 +79,25 @@ function EditUserData(param) {
       console.log("From Local Storage");
       console.log("loggedUser Token: ", token);
       Axios.post(
-        url,
+        Url.edituserurl,
         {
           user_id: loggedUser.id,
           email: data.Email,
           mobile: data.Mobile,
           username: data.UserName,
-          name: data.Name,
+          name: data.Name
+         
         },
         { headers: { Token: token } }
       ).then((res) => {
-        console.log(loggedUser.id);
-        param.setedit(param.edit+1);
-       navigate("../listuserdata");
-       //window.location.reload();  
+        console.log(res);
+        setedit(!edit);
+        
+          alert(res.data.message)
+        
+
+        //navigate("../listuserdata");
+        //window.location.reload();  
       });
       
     } else {
@@ -59,13 +113,14 @@ function EditUserData(param) {
   var bodyFormData = new FormData();
   const [picture, setPicture] = useState(null);
   const uploadPicture = (e) => {
-   
+   // e.preventDefault();
         /* contains the preview, if you want to show the picture to the user
            you can access it with this.state.currentPicture
        */
-       
-           setPicture(e.target.files[0])
+        
+        setPicture(e.target.files[0])
         console.log(e.target.files[0]);
+       // setpic(URL.createObjectURL(e.target.files[0]))
     
 };
 
@@ -80,25 +135,24 @@ function EditUserData(param) {
       console.log(picture);
       
       Axios.post(
-        url2,
+        Url.uploadphotourl,
         bodyFormData,
         { headers: {  
           Token: token,
          // 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
           //'Content-Type': 'multipart/form-data'
         } 
-          
-
       }
       ).then((res) => {
         console.log(res);
-       // edit.setedit(edit.edit+1); content-type : multipart/form-data ,
+       setedit(!edit);
+       setPicture()
        // navigate("../listuserdata");
        //window.location.reload();
         
       });
-      
-    } else {
+    }
+    else {
       console.log("Local Storage is Empty");
     }
   }
@@ -134,27 +188,26 @@ function EditUserData(param) {
 <section className="content">
    <div className="container-fluid">
      <div className="row">
-       <div className="col-md-8 mx-auto">
+       <div className="col-md-12 mx-auto">
          {/* general form elements */}
          <div className="card card-warning">
            <div className="card-header">
              <h3 className="card-title">My Profile</h3>
            </div>
-          
-          
-         
-          
+
           <div className="card-body text-center">
             
           <div className="row">
           <div className="col-md-6" >
-          <img src={man} className="brand-image img-circle elevation-3" />
-          <div style={{width:"100%",backgroundColor:"rgb(255, 193, 7)" , borderRadius:"4px"}}>
-            <input type="file" name="file" id="file" onChange={(e)=>uploadPicture(e)} />
-          </div>
-          <div>
+          <img src={picture==null?(userdetails.photourl !=null ? userdetails.photourl: man):picture} alt="Profile" className="brand-image img-circle elevation-3" style={{width:"200px" ,height:"200px"}} />
+          {picture==null?<div style={{width:"100%",backgroundColor:"rgb(255, 193, 7)" , borderRadius:"4px"}}>
+         
+            <input type="file" name="file" id="file" onChange={(e)=>uploadPicture(e)} style={{width:"100%",}}/>
+          </div>:<div>
             <button className="btn btn-primary" onClick={e => handleUpload(e)}>Upload</button>
-          </div>
+          </div>}
+          
+          
         
           </div>
           
@@ -167,32 +220,32 @@ function EditUserData(param) {
   <tr>
     <td>Username</td>
     <td>:</td>
-    <td>{loggedUser.username}</td>
+    <td>{userdetails.username}</td>
   </tr>
   <tr>
     <td>Name</td>
     <td>:</td>
-    <td>{loggedUser.name}</td>
+    <td>{userdetails.name}</td>
   </tr>
   <tr>
     <td>Id</td>
     <td>:</td>
-    <td>{loggedUser.id}</td>
+    <td>{userdetails.id}</td>
   </tr>
   <tr>
     <td>Email</td>
     <td>:</td>
-    <td>{loggedUser.email}</td>
+    <td>{userdetails.email}</td>
   </tr>
   <tr>
     <td>Mobile</td>
     <td>:</td>
-    <td>{loggedUser.mobile}</td>
+    <td>{userdetails.mobile}</td>
   </tr>
   <tr>
     <td>Status</td>
     <td>:</td>
-    <td>{loggedUser.status}</td>
+    <td>{userdetails.status}</td>
   </tr>
   </tbody>
 </table>
@@ -226,7 +279,7 @@ function EditUserData(param) {
  <section className="content collapse multi-collapse" id="multiCollapseExample2">
    <div className="container-fluid">
      <div className="row">
-       <div className="col-md-8 mx-auto">
+       <div className="col-md-12 mx-auto">
          {/* general form elements */}
          <div className="card card-primary">
            <div className="card-header">

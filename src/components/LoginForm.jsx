@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { Url} from '../constants/global'
 //import "./css/LoginPage.css";
 function LoginForm() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ function LoginForm() {
     username: "",
     password: "",
   });
-
+  const [formErrors, setformErrors] = useState({});
   const errors = {};
 
   const validate = (values) => {
@@ -35,50 +36,46 @@ function LoginForm() {
     return errors;
 
   };
-
-  const [formErrors, setformErrors] = useState({});
-  const [isSubmit,setIsSubmit] = useState(false);
-
-  function submit(e) {
-    e.preventDefault();
-
-    setformErrors(validate(data));
-    setIsSubmit(true);
-    console.log(formErrors);
-
-  }
-  if((formErrors.flag1=="checked")&&(formErrors.flag2=="checked")){
-    Axios.post(url, {
-      username: data.username,
-      password: data.password,
-    }).then((res) => {
-      let info = res.data.data;
-      msg = res.data.message
-      //  let token =info.api_token ;
-      localStorage.setItem("data", JSON.stringify(info));
-      localStorage.setItem("relo", false);
-      if (msg == "Inavlid Username/Password"){
-        alert("Inavlid Username/Password");
-      }
-
-      //var loggedUser = JSON.parse(localStorage.getItem('data'));
-      // console.log('loggedUser Token: ',loggedUser.api_token);
-      var loggedUser = JSON.parse(localStorage.getItem("data"));
-      if (loggedUser.user_type == "admin") {
-      
-        navigate("admin/home");
-      } else if (loggedUser.user_type == "user") {
-        navigate("user/home");
-      }
-    });
-  }
-
-
-
   useEffect(() => {
-    
+
+    onSignup();
     
   }, [formErrors])
+  
+  function onSignup(){
+    if((Object.entries(formErrors).length !== 0)&&(data.username != "")&&(data.password !="")){
+      Axios.post(Url.loginurl, {
+        username: data.username,
+        password: data.password,
+      }).then((res) => {
+        let info = res.data.data;
+        msg = res.data.message
+        //  let token =info.api_token ;
+        localStorage.setItem("data", JSON.stringify(info));
+        localStorage.setItem("relo", false);
+        if (msg == "Inavlid Username/Password"){
+          alert("Inavlid Username/Password");
+        }
+        else{
+          var loggedUser = JSON.parse(localStorage.getItem("data"));
+          navigate("admin/home");
+        }
+        console.log(res);
+      });
+    }
+  }
+
+ 
+ 
+  function submit(e) {
+    e.preventDefault();
+    setformErrors(validate(data));
+    
+   // console.log(Object.entries(formErrors).length)
+   
+  }
+  
+
  
 
   const handleClick = () => navigate("register");

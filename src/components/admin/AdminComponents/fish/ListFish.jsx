@@ -2,12 +2,12 @@ import React,{useState,useEffect,useRef} from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import FishTable from './FishTable';
-
+import { Url} from '../../../../constants/global'
 
 function ListFish(param) {
-    const url1 = "http://work.phpwebsites.in/fishing/api/fishlist";      
-    const url2 = "http://work.phpwebsites.in/fishing/api/fishstatus";
-    const url3 = "http://work.phpwebsites.in/fishing/api/fishdelete";
+  console.log(Url);
+
+   
     const [fishlist, setfishlist] = useState([]);
     var getResult ;
     const [activetogfish, setactivetogfish] = useState(false);
@@ -29,6 +29,7 @@ function ListFish(param) {
         getData();
         // loadData();
       }, []);
+
       useEffect(()=>{
         if (isMounted1.current){
             getData();
@@ -37,6 +38,8 @@ function ListFish(param) {
           isMounted1.current = true;
         }
       },[activetogfish]);
+
+
       useEffect(()=>{
         if (isMounted1.current){
             getData();
@@ -65,7 +68,7 @@ function ListFish(param) {
     async function getData() {
       param.setSideNavSel("listfish")
         Axios.post(
-            url1,
+            Url.listfishurl,
             { user_id: loggedUser.id, limit:page},
             { headers: { Token: loggedUser.api_token } }
           ).then((res) => {
@@ -79,7 +82,7 @@ function ListFish(param) {
       function toggleStatusFish(item){
         if(item.status == "active"){
           Axios.post(
-            url2,
+            Url.fishstatusurl,
             { user_id: loggedUser.id,fish_id: item.id, status: "inactive" },
             { headers: { Token: token } }
           ).then((res) => {
@@ -90,7 +93,7 @@ function ListFish(param) {
        
         else{
           Axios.post(
-            url2,
+            Url.fishstatusurl,
             { user_id: loggedUser.id, fish_id: item.id, status: "active" },
             { headers: { Token: token } }
           ).then((res) => {
@@ -105,7 +108,7 @@ function ListFish(param) {
        
         
         Axios.post(
-          url3,
+          Url.fishdeleteurl,
           { user_id: loggedUser.id, fish_id: item.id },
           { headers: { Token: token } }
         ).then((res) => {
@@ -124,12 +127,12 @@ function ListFish(param) {
         function submit(e) {
             e.preventDefault();
             Axios.post(
-              url1,
+              Url.listfishurl,
               { user_id: loggedUser.id, 
                 limit:1,
                 //^ To do--------------------------------------------------------------------------
                 
-                //-----------------------
+                
                 fish_id:data.Fish_id
               },
               { headers: { Token: loggedUser.api_token } }
@@ -184,7 +187,7 @@ function ListFish(param) {
 <section className="content collapse multi-collapse" id="multiCollapseExample2">
    <div className="container-fluid">
      <div className="row">
-       <div className="col-md-8 mx-auto">
+       <div className="col-md-12 mx-auto">
          {/* general form elements */}
          <div className="card card-warning">
            <div className="card-header">
@@ -239,18 +242,21 @@ function ListFish(param) {
               </table>
             </div>
             <div className="card-footer clearfix">
-              <ul className="pagination pagination-sm float-right"> 
-              <li className="page-item mr-2" >
-          <a href="#" className="page-link" onClick={prevPage}>
-            &laquo;
-          </a>
-          </li>
-          <li className="page-item mr-2" >
-          <a href="#" className="page-link"  onClick={nextPage}>
-            &laquo;
-          </a>          
-          </li>       
-              </ul>
+              <ul className="pagination pagination-sm float-left"> 
+                <li className="page-item mr-2" >
+                  <a href="" onClick={prevPage}className="page-link">
+                 &lArr; Prev 
+                  </a>
+                </li>
+                </ul>
+                <ul className="pagination pagination-sm float-right">
+                <li className="page-item mr-2" >
+                  <a href="" onClick={nextPage}className="page-link">
+                  Next &rArr;
+                  </a>          
+                </li> 
+                </ul>      
+              
             </div>
           </div>
         </div>

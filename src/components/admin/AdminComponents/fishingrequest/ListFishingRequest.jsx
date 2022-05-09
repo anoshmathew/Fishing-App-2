@@ -28,6 +28,7 @@ function ListFishingRequest(param) {
     start_date:""
   });
     const [activetogfishreq, setactivetogfishreq] = useState(false)
+    const [EditFishingReq, setEditFishingReq] = useState(false)
     const [togdelfishreq, settogdelfishreq] = useState(false)
     const isMounted1 = useRef(false);
     const isMounted2 = useRef(false);
@@ -49,6 +50,15 @@ function ListFishingRequest(param) {
           isMounted1.current = true;
         }
       },[activetogfishreq]);
+
+      useEffect(()=>{
+        if (isMounted2.current){
+            getData();
+        }
+        else {
+          isMounted2.current = true;
+        }
+      },[EditFishingReq]);
       useEffect(()=>{
         if (isMounted3.current){
             getData();
@@ -186,7 +196,7 @@ function ListFishingRequest(param) {
 <section className="content collapse multi-collapse" id="multiCollapseExample2">
    <div className="container-fluid">
      <div className="row">
-       <div className="col-md-8 mx-auto">
+       <div className="col-md-12 mx-auto">
          {/* general form elements */}
          <div className="card card-warning">
            <div className="card-header">
@@ -242,18 +252,21 @@ function ListFishingRequest(param) {
               </table>
             </div>
             <div className="card-footer clearfix">
-              <ul className="pagination pagination-sm float-right"> 
-              <li className="page-item mr-2" >
-          <a href="#" className="page-link" onClick={prevPage}>
-            &laquo;
-          </a>
-          </li>
-          <li className="page-item mr-2" >
-          <a href="#" className="page-link" onClick={nextPage}>
-            &laquo;
-          </a>          
-          </li>       
-              </ul>
+              <ul className="pagination pagination-sm float-left"> 
+                <li className="page-item mr-2" >
+                  <a href="" onClick={prevPage}className="page-link">
+                 &lArr; Prev 
+                  </a>
+                </li>
+                </ul>
+                <ul className="pagination pagination-sm float-right">
+                <li className="page-item mr-2" >
+                  <a href="" onClick={nextPage}className="page-link">
+                  Next &rArr;
+                  </a>          
+                </li> 
+                </ul>      
+              
             </div>
           </div>
         </div>

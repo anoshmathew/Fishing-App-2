@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { Url} from '../../../../constants/global'
 
 function CreateRequest() {
     const navigate = useNavigate();
   var loggedUser = JSON.parse(localStorage.getItem("data"));
 
   var msg;
-  const url = "http://work.phpwebsites.in/fishing/api/fishreq";
+  
   const token = loggedUser.api_token;
   const [data, setData] = useState({  
     //user_id:"",
@@ -30,7 +31,7 @@ function CreateRequest() {
     if(data.name!=""){
 
     console.log(data);
-    Axios.post(url, {
+    Axios.post(Url.createfishrequrl, {
         user_id: loggedUser.id ,
         name: data.name,   
         email:data.email,

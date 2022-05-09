@@ -1,10 +1,10 @@
 import React, { useState,useEffect } from "react";
 import Axios from "axios";
 import { Link, useNavigate,useLocation  } from "react-router-dom";
-
+import{Url} from "../constants/global"
 
 function EditUserForm(edit,setedit) {
-  const url = "http://work.phpwebsites.in/fishing/api/edituser";
+  //const url = "http://work.phpwebsites.in/fishing/api/edituser";
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const location = useLocation()
   const itm = location.state;
@@ -21,50 +21,53 @@ function EditUserForm(edit,setedit) {
   const [formErrors, setformErrors] = useState({});
   const [isSubmit,setIsSubmit] = useState(false);
   
+ useEffect(() => {
+  update();
+ }, [formErrors])
+
+ function update(){
+
+  if((Object.entries(formErrors).length !== 0)&&(data.Mobile != "")&&(data.Email !="")&&(data.UserName != "")&&(data.Name!="")){
+    if (loggedUser != null) {
+      const token = loggedUser.api_token;
+      console.log("From Local Storage");
+      console.log("loggedUser Token: ", token);
+      console.log(data.Mobile);
+      Axios.post(
+        Url.edituserurl,
+        {
+          user_id: loggedUser.id,
+          email: data.Email,
+          mobile: data.Mobile,
+          username: data.UserName,
+          name: data.Name,
+          id: itm.id,
+        },
+        { headers: { Token: token } }
+      ).then((res) => {
+        
+      edit.setedit(edit.edit+1);
+       navigate("../listuserdata");   
+        
+      });
+    } else {
+      console.log("Local Storage is Empty");
+    }
+  }
+ }
  
   function submit(e) {
     e.preventDefault();
     setformErrors(validate(data));
-    setIsSubmit(true);
-    if((Object.entries(formErrors).length !== 0)&&(data.Mobile != "")&&(data.Email !="")&&(data.UserName != "")&&(data.Name!="")){
-      if (loggedUser != null) {
-        const token = loggedUser.api_token;
-        console.log("From Local Storage");
-        console.log("loggedUser Token: ", token);
-        console.log(data.Mobile);
-        Axios.post(
-          url,
-          {
-            user_id: loggedUser.id,
-            email: data.Email,
-            mobile: data.Mobile,
-            username: data.UserName,
-            name: data.Name,
-            id: itm.id,
-          },
-          { headers: { Token: token } }
-        ).then((res) => {
-          
-        edit.setedit(edit.edit+1);
-         navigate("../listuserdata");   
-          
-        });
-      } else {
-        console.log("Local Storage is Empty");
-      }
-    }
+    //setIsSubmit(true);  
+   
+    
     
   }
 
   
 
-  useEffect(() => {
-    if(Object.keys(formErrors).length === 0 && isSubmit)
-  {
-
-  }
-    
-  }, [formErrors])
+ 
 
   const validate = (values) => {
     const errors = {};

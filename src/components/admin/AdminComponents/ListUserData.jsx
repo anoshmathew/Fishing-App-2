@@ -3,20 +3,48 @@ import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react/cjs/react.development";
 import TableComponent from "./TableComponent";
+import Position from "rsuite/esm/Overlay/Position";
 
-function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSearch,search,setSideNavSel}) {
-  setSideNavSel("manageusers");
+function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSearch,search,setSideNavSel,sucess,setsucess}) {
+  useEffect(()=>{
+    setSideNavSel("manageusers");
+    listUser();
+  
+},[]);
+  
   var list = JSON.parse(localStorage.getItem("userlist"));
   var obj = JSON.parse(localStorage.getItem("listform"));
   const isMounted1 = useRef(false);
+  const isMounted2 = useRef(false);
+  const isMounted3 = useRef(false);
+
+console.log(sucess);
+
+useEffect(()=>{
+  if (isMounted1.current){
+    listUser();
+  }
+  else {
+    isMounted1.current = true;
+  }
+},[sucess]);
+
   useEffect(()=>{
-    if (isMounted1.current){
+    if (isMounted2.current){
       listUser();
     }
     else {
-      isMounted1.current = true;
+      isMounted2.current = true;
     }
   },[page]);
+  useEffect(()=>{
+    if (isMounted3.current){
+      listUser();
+    }
+    else {
+      isMounted3.current = true;
+    }
+  },[del]);
   
   const url1 = "http://work.phpwebsites.in/fishing/api/userdelete";
   const url2 = "http://work.phpwebsites.in/fishing/api/userslist";
@@ -25,7 +53,7 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
   
   const token = loggedUser.api_token;
   const navigate = useNavigate();
-
+  const [showgreen, setshowgreen] = useState(false);
   const [detailsShown, setDetailShown] = useState([]);
   const [data, setData] = useState({
     User_ID: "",
@@ -34,8 +62,15 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
     UserName: "",
     Name: "",
   });
-  const [list2, setlist2] = useState(list)
-  
+  const [timeOut, setTimeOut] = useState(null)
+    if(sucess.createuser===true){
+      setTimeout(() => {
+        setsucess({...sucess, createuser:false})
+      }, 3000)
+    }
+     
+  //const [list2, setlist2] = useState([list])
+  const [list2, setlist2] = useState([])
   function listUser(){
     Axios.post(
       url2,
@@ -118,11 +153,15 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
     Axios.post(
       url2,
       { user_id: loggedUser.id, 
+        
         limit:1,
         //^ To do--------------------------------------------------------------------------
         
         //-----------------------
-        username:data.UserName
+        name:data.Name,
+        username:data.UserName,
+        mobile:data.Mobile,
+        email:data.Email
       },
       { headers: { Token: loggedUser.api_token } }
     ).then((res) => {
@@ -147,9 +186,18 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
       console.log(res);
       setlist2(li)
     });
+    setData({Name:"",
+  UserName:"",
+  Email:"",
+  Mobile:""
+});
   }
-
-
+if(sucess){
+  //setsucess(false)
+  //setshowgreen(true);
+  console.log(sucess.createuser)
+}
+ 
   function nextPage(e){  
     e.preventDefault();
    setPage(page+1);
@@ -192,11 +240,20 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
       </button>    
   </div>
 </div>
-
+<div className="alert alert-success alert-dismissable" style={sucess.createuser?{"display":"block","width":"100%", "position":"absolute","z-index":"2","top":"0" } :{"display":"none"}}>
+			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
+			<i className="ace-icon fa fa-times"></i>
+			</button>
+			<strong>
+			<i className="ace-icon fa fa-check"></i>
+			Success! 
+			</strong>
+			 User Added.<br/>
+	</div>
 <section className="content collapse multi-collapse" id="multiCollapseExample2">
    <div className="container-fluid">
      <div className="row">
-       <div className="col-md-8 mx-auto">
+       <div className="col-md-12 mx-auto">
          {/* general form elements */}
          <div className="card card-warning">
            <div className="card-header">
@@ -256,7 +313,8 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
 
              <div className="card-footer">
                <button type="submit" className="btn btn-warning mr-2"><i className="fa fa-search" />Search</button>
-               <button className="btn btn-danger" onClick={cancelSearch}><i className="fa fa-back" />Cancel</button>
+               <button className="btn btn-danger" onClick={cancelSearch} data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2"><i className="fa fa-back" />Cancel</button>
+               
              </div>
 
            </form>
@@ -283,18 +341,21 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
               </table>
             </div>
             <div className="card-footer clearfix">
-              <ul className="pagination pagination-sm float-right"> 
+              <ul className="pagination pagination-sm float-left"> 
                 <li className="page-item mr-2" >
-                  <a href="#" onClick={prevPage}className="page-link">
-                  &laquo;
+                  <a href="" onClick={prevPage}className="page-link">
+                 &lArr; Prev 
                   </a>
                 </li>
+                </ul>
+                <ul className="pagination pagination-sm float-right">
                 <li className="page-item mr-2" >
-                  <a href="#" onClick={nextPage}className="page-link">
-                  &laquo;
+                  <a href="" onClick={nextPage}className="page-link">
+                  Next &rArr;
                   </a>          
-                </li>       
-              </ul>
+                </li> 
+                </ul>      
+              
             </div>
           </div>
         </div>

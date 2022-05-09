@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function PriceTable(param) {
   return (
-    <div>
+    <>
         
         <thead>
     <tr>
@@ -34,7 +34,7 @@ function PriceTable(param) {
             ))}
 
     </tbody>
-    </div>
+    </>
   )
 }
 

@@ -1,10 +1,11 @@
 import React, { useState,useEffect } from 'react'
 import Axios from "axios";
 import { Link, useNavigate,useLocation  } from "react-router-dom";
+import { Url} from '../constants/global'
 
 function EditPriceForm(param) {
 
-  const url = "http://work.phpwebsites.in/fishing/api/editprice";
+ 
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const location = useLocation()
   const itm = location.state;
@@ -32,7 +33,7 @@ function EditPriceForm(param) {
         console.log("From Local Storage");
         console.log("loggedUser Token: ", data);      
         Axios.post(
-          url,
+          Url.editpriceurl,
           {
             user_id: loggedUser.id,
             price_id: data.ID,

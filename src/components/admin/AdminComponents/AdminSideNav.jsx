@@ -4,13 +4,13 @@ import companyLogo from '../../../img/AdminLTELogo.png'
 import { useNavigate, Link } from "react-router-dom";
 import man from '../../../img/avatar5.png';
 //import '../../css/AdminSideNav.css';
+import { Url} from '../../../constants/global'
 
-
-function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4,SideNavSel,sideNavSel}) {
+function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4,sideNavSel}) {
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const {username:userName,user_type:userType} = loggedUser;
-  const url1 = "http://work.phpwebsites.in/fishing/api/userslist";
-  const url2 = "http://work.phpwebsites.in/fishing/api/userslist";
+  
+
   const isMounted1 = useRef(false);
   const isMounted2 = useRef(false);
   const isMounted3 = useRef(false);
@@ -27,7 +27,7 @@ function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4,SideNavSel,sid
  
 function listUser(){
     Axios.post(
-      url1,
+      Url.userlisturl,
       { user_id: loggedUser.id, limit:page},
       { headers: { Token: loggedUser.api_token } }
     ).then((res) => {
@@ -130,12 +130,15 @@ useEffect(()=>{
                   <p>Dashboard</p>
                   </Link>
               </li>
+              {loggedUser.user_type == "admin" ?
               <li className="nav-item">
-                <a href="" className={"nav-link " + (sideNavSel == "manageusers" ? "active":"") }  data-toggle="pill" onClick={listUser}>
+                <Link to="listuserdata" className={"nav-link " + (sideNavSel == "manageusers" ? "active":"") }  data-toggle="pill" >
                   <i className="nav-icon fas fa-list" />
                   <p>Manage Users</p>
-                </a>
+                </Link>
               </li>
+              :null}
+               {loggedUser.user_type == "admin" ?
               <li className="nav-item has-treeview">
                 <a href="" className="nav-link"  >
                   <i className="nav-icon fas fa-chart-pie" />
@@ -147,30 +150,36 @@ useEffect(()=>{
                 <ul className="nav nav-treeview">
                 <li className="nav-item">
                     <Link to="listprice" className={"nav-link " + (sideNavSel == "listprice" ? "active":"") } >
-                      <i className="ion ion-person nav-icon" />
+                      <i className="ion ion-star nav-icon" />
                       <p>Manage Price</p>
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link to="listfish" className={"nav-link " + (sideNavSel == "listfish" ? "active":"") } >
-                      <i className="ion ion-person nav-icon" />
+                      <i className="ion ion-star nav-icon" />
                       <p>Manage Fish</p>
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link to="listfishingrequest" className={"nav-link " + (sideNavSel == "listfishreq" ? "active":"") } >
-                      <i className="ion ion-person nav-icon" />
+                      <i className="ion ion-star nav-icon" />
                       <p>Manage Fishing Request</p>
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link to="listfishcatch" className={"nav-link " + (sideNavSel == "listfishcatch" ? "active":"") } >
-                      <i className="ion ion-person nav-icon" />
-                      <p>Manage Fishing Catch</p>
-                    </Link>
-                  </li>
+                  
                 </ul>
               </li>
+              :null}
+
+            {loggedUser.user_type == "user" ?
+              <li className="nav-item">
+                <Link to="uploadid" className={"nav-link " + (sideNavSel == "uploadid" ? "active":"") } data-toggle="pill">
+                  <i className="ion ion-upload nav-icon" />
+                  <p>Upload ID</p>
+                </Link>
+              </li>
+              :null}
+
               <li className="nav-item has-treeview">
                 <a href="" className="nav-link"  >
                   <i className="nav-icon fas fa-chart-pie" />

@@ -3,14 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 
 function TableComponent(param) {
     var loggedUser = JSON.parse(localStorage.getItem("data"));
-    
-   
     console.log(param.list2);
   return (
     <>
                      <thead>
                   <tr>
-                            <th>IID</th>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Username</th>
                             <th>Mobile</th>
@@ -22,7 +20,7 @@ function TableComponent(param) {
                 <tbody>
                           {param.list2.filter(item => !item.name.includes(loggedUser.name)).filter(item => !item.username.includes(loggedUser.username)).map((item) => (
                             <>
-                            <tr key={"DETAIL:" + item.username}>
+                            <tr key={item.id}>
                               <td className="center">{item.id}</td>
                               <td>{item.name}</td>
                               <td>{item.username}</td>
@@ -37,8 +35,8 @@ function TableComponent(param) {
                                 <button className="btn btn-warning" type="button" onClick={() => param.toggleShown(item.username)}>{param.detailsShown.includes(item.username) ? <i className="fa fa-angle-double-up" />:<i className="fa fa-angle-double-down" />}</button>
                               </td>
                             </tr>
-                              {param.detailsShown.includes(item.username) && (
-                              <tr key={"DETAIL:" + item.username} className="additional-info">
+                            {param.detailsShown.includes(item.username) && (
+                              <tr key={item.id} className="additional-info">
                               <td colSpan="7">{"Password: " + item.password}</td>
                             </tr>
                             )}
