@@ -130,6 +130,15 @@ useEffect(()=>{
                   <p>Dashboard</p>
                   </Link>
               </li>
+              
+              {loggedUser.user_type == "employee" ?
+              <li className="nav-item">
+              <Link to="listidcard" className={"nav-link " + (sideNavSel == "listidcard" ? "active":"") } >
+                <i className="ion ion-star nav-icon" />
+                <p>Manage User ID Card</p>
+              </Link>
+            </li>
+              :null}
               {loggedUser.user_type == "admin" ?
               <li className="nav-item">
                 <Link to="listuserdata" className={"nav-link " + (sideNavSel == "manageusers" ? "active":"") }  data-toggle="pill" >
@@ -167,16 +176,12 @@ useEffect(()=>{
                     </Link>
                   </li>
                   
-                  <li className="nav-item">
-                    <Link to="listidcard" className={"nav-link " + (sideNavSel == "listidcard" ? "active":"") } >
-                      <i className="ion ion-star nav-icon" />
-                      <p>Manage User ID Card</p>
-                    </Link>
-                  </li>
+                  
                 </ul>
               </li>
               :null}
-
+                  
+                 
             {loggedUser.user_type == "user" ?
               <li className="nav-item">
                 <Link to="uploadid" className={"nav-link " + (sideNavSel == "uploadid" ? "active":"") } data-toggle="pill">
