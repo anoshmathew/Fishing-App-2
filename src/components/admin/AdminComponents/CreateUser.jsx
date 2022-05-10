@@ -31,7 +31,7 @@ function CreateUser(param) {
   }).then((res) => {
     console.log(res.data);
     if(res.data.status == "yes"){
-      param.setsucess({...param.sucess, createuser:true})
+      param.setsucess({...param.sucess,statusmsg:"User Created", createuser:true})
       navigate("../listuserdata");
       //Alert.success('Success Alert')
     }

@@ -20,6 +20,9 @@ pricedeleteurl:"http://work.phpwebsites.in/fishing/api/pricedelete",
 editpriceurl:"http://work.phpwebsites.in/fishing/api/editprice",
 
 createfishrequrl:"http://work.phpwebsites.in/fishing/api/fishreq",
-    }
+listidcardurl:"http://work.phpwebsites.in/fishing/api/listcard",
+idcardstatusurl:"http://work.phpwebsites.in/fishing/api/idstatus"
+      
+}
 
 export { Url }

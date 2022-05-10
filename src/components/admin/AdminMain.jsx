@@ -27,6 +27,7 @@ import ListPrice from "./AdminComponents/PriceList/ListPrice";
 import ListUserData from "./AdminComponents/ListUserData";
 import ListUserDataForm from "./AdminComponents/ListUserDataForm";
 import Uploadid from "./AdminComponents/UploadID/Uploadid";
+import Listuseridcard from "./AdminComponents/UserId/Listuseridcard";
 
 function AdminMain() {
   const [lim, setlim] = useState(0);
@@ -41,7 +42,7 @@ function AdminMain() {
   const [search, setSearch] = useState(false);
   const [sideNavSel, setSideNavSel] = useState("dashboard");
   const [list2, setlist2] = useState("nothing");
-  const [sucess, setsucess] = useState({createuser:false,
+  const [sucess, setsucess] = useState({statusmsg:"",createuser:false,
     
   createcard:false})
 
@@ -71,6 +72,7 @@ function AdminMain() {
         <Route path="/editfishreq" element={<EditFishingRequest />} />
         <Route path="listfishcatch" element={<ListFishCatch setSideNavSel={setSideNavSel}/>} />
         <Route path="/uploadid" element={<Uploadid setSideNavSel={setSideNavSel}/>} />
+        <Route path="/listidcard" element={<Listuseridcard setSideNavSel={setSideNavSel}/>} />
       </Routes>
       {/*
                 

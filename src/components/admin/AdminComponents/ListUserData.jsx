@@ -3,8 +3,8 @@ import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react/cjs/react.development";
 import TableComponent from "./TableComponent";
-import Position from "rsuite/esm/Overlay/Position";
 
+import "./ListUserData.css"
 function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSearch,search,setSideNavSel,sucess,setsucess}) {
   useEffect(()=>{
     setSideNavSel("manageusers");
@@ -65,7 +65,7 @@ useEffect(()=>{
   const [timeOut, setTimeOut] = useState(null)
     if(sucess.createuser===true){
       setTimeout(() => {
-        setsucess({...sucess, createuser:false})
+        setsucess({...sucess, createuser:false,statusmsg:""})
       }, 3000)
     }
      
@@ -214,7 +214,16 @@ if(sucess){
 <div className="content-wrapper justify-content-center mt-5" >
 
 
-
+<div className={"alert alert-success alert-dismissable " + (sucess.createuser?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
+			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
+			<i className="ace-icon fa fa-times"></i>
+			</button>
+			<strong>
+			<i className="ace-icon fa fa-check"></i>
+			Success! 
+			</strong>
+      {sucess.statusmsg}<br/>
+	</div>
 <div className="content-header">
   <div className="container-fluid">
     <div className="row mb-2">
@@ -240,16 +249,7 @@ if(sucess){
       </button>    
   </div>
 </div>
-<div className="alert alert-success alert-dismissable" style={sucess.createuser?{"display":"block","width":"100%", "position":"absolute","z-index":"2","top":"0" } :{"display":"none"}}>
-			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
-			<i className="ace-icon fa fa-times"></i>
-			</button>
-			<strong>
-			<i className="ace-icon fa fa-check"></i>
-			Success! 
-			</strong>
-			 User Added.<br/>
-	</div>
+
 <section className="content collapse multi-collapse" id="multiCollapseExample2">
    <div className="container-fluid">
      <div className="row">

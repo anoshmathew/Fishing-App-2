@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import {Url} from "../../../../constants/global"
 
-function CreateFish() {
+function CreateFish(param) {
   const navigate = useNavigate();
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const [formErrors, setformErrors] = useState({});
@@ -16,6 +16,15 @@ function CreateFish() {
     
    
   });
+  useEffect(() => {
+    param.setsucess({register:false,
+      createuser:false,
+      createcard:false,
+      createfish:false,
+      changgedpassword:false,
+      profilechanged:false,})
+  }, [])
+  
   const validate = (values) => {
     const errors = {};
     //const regex ;

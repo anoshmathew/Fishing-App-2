@@ -167,6 +167,12 @@ useEffect(()=>{
                     </Link>
                   </li>
                   
+                  <li className="nav-item">
+                    <Link to="listidcard" className={"nav-link " + (sideNavSel == "listidcard" ? "active":"") } >
+                      <i className="ion ion-star nav-icon" />
+                      <p>Manage User ID Card</p>
+                    </Link>
+                  </li>
                 </ul>
               </li>
               :null}
