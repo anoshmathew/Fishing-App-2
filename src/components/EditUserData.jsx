@@ -163,6 +163,8 @@ function listUser(){
     setData(newdata);
   }
 
+  const fileRef = useRef();
+
   return (
     <div className="content-wrapper justify-content-left mt-5">
 
@@ -200,9 +202,12 @@ function listUser(){
           <div className="row">
           <div className="col-md-6" >
           <img src={picture==null?(userdetails.photourl !=null ? userdetails.photourl: man):picture} alt="Profile" className="brand-image img-circle elevation-3" style={{width:"200px" ,height:"200px"}} />
-          {picture==null?<div style={{width:"100%",backgroundColor:"rgb(255, 193, 7)" , borderRadius:"4px"}}>
+          {picture==null?<div style={{"width":"100%","backgroundColor":"rgb(255, 193, 7)" , "borderRadius":"4px"}}>
          
-            <input type="file" name="file" id="file" onChange={(e)=>uploadPicture(e)} style={{width:"100%",}}/>
+            <button onClick={() => fileRef.current.click()} style={{"padding":"0px 10px","color":"white","font-size":"25px","border-radius":"10%","background":"rgb(0, 123, 255)"}}>
+            <i className="ion ion-upload nav-icon" />
+            </button>
+            <input type="file" name="file" id="file" onChange={(e)=>uploadPicture(e)} style={{width:"100%",}} ref={fileRef} hidden/>
           </div>:<div>
             <button className="btn btn-primary" onClick={e => handleUpload(e)}>Upload</button>
           </div>}
