@@ -6,7 +6,7 @@ import man from '../../../img/avatar5.png';
 //import '../../css/AdminSideNav.css';
 import { Url} from '../../../constants/global'
 
-function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4,sideNavSel}) {
+function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4,sideNavSel,name}) {
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const {username:userName,user_type:userType} = loggedUser;
   
@@ -108,7 +108,7 @@ useEffect(()=>{
 
             <div className="info">
               <Link to="home" className="d-block">
-                {userName}
+                {name}
               </Link>
             </div>
           </div>

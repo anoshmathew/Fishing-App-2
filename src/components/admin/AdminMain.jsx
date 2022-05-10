@@ -29,7 +29,7 @@ import ListUserDataForm from "./AdminComponents/ListUserDataForm";
 import Uploadid from "./AdminComponents/UploadID/Uploadid";
 import Listuseridcard from "./AdminComponents/UserId/Listuseridcard";
 
-function AdminMain() {
+function AdminMain({usrname,setusrname}) {
   const [lim, setlim] = useState(0);
   const [page, setPage] = useState(1);
   const [pricepage, setpricePage] = useState(1);
@@ -43,16 +43,15 @@ function AdminMain() {
   const [sideNavSel, setSideNavSel] = useState("dashboard");
   const [list2, setlist2] = useState("nothing");
   const [sucess, setsucess] = useState({statusmsg:"",createuser:false,
-    
   createcard:false})
-
+  const [name, setname] = useState(usrname);
   return (
     <div>
-      <Header />
-      <AdminSideNav setlim={setlim} page={page} activetog={activetog} edit={edit} del={del} isMounted4={isMounted4} setSideNavSel={setSideNavSel} sideNavSel={sideNavSel} />
+      <Header name={name}  />
+      <AdminSideNav setlim={setlim} name={name} setname={setname} page={page} activetog={activetog} edit={edit} del={del} isMounted4={isMounted4} setSideNavSel={setSideNavSel} sideNavSel={sideNavSel} />
       <Routes>
-        <Route path="home" element={<AdminHome page={page} setlim={setlim} setSideNavSel={setSideNavSel}/>} />
-        <Route path="settings/edituserdata" element={<EditUserData setSideNavSel={setSideNavSel} edit={edit} setedit={setedit}/>} />
+        <Route path="home" element={<AdminHome page={page}  setlim={setlim} setSideNavSel={setSideNavSel}/>} />
+        <Route path="settings/edituserdata" element={<EditUserData name={name} setname={setname} setSideNavSel={setSideNavSel} edit={edit} setedit={setedit}/>} />
         <Route path="/edituserform" element={<EditUserForm edit={edit} setedit={setedit} />} />
         <Route path="/editpriceform" element={<EditPriceForm editprice={editprice} seteditprice={seteditprice} />} />
         <Route path="settings/resetpassword" element={<ResetPassword setSideNavSel={setSideNavSel}/>}  />

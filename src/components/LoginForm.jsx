@@ -3,7 +3,7 @@ import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Url} from '../constants/global'
 //import "./css/LoginPage.css";
-function LoginForm() {
+function LoginForm(param) {
   const navigate = useNavigate();
   let msg ;
   const url = "http://work.phpwebsites.in/fishing/api/login";
@@ -57,10 +57,10 @@ function LoginForm() {
           alert("Inavlid Username/Password");
         }
         else{
-          var loggedUser = JSON.parse(localStorage.getItem("data"));
+          param.setusrname(info.username);
           navigate("admin/home");
         }
-        console.log(res);
+        console.log(info);
       });
     }
   }

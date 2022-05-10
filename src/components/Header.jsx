@@ -2,11 +2,12 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import man from '../img/avatar5.png';
 
-function Header() {
+function Header(param) {
   const navigate = useNavigate();
   var loggedUser = JSON.parse(localStorage.getItem("data"));
 
-  const {username:userName,user_type:userType} = loggedUser;
+  //const {username:userName,user_type:userType} = loggedUser;
+  
   function submit(e) {
     e.preventDefault();
     localStorage.removeItem("data");
@@ -48,7 +49,7 @@ function Header() {
           <img src={man} className="img-circle mr-1" alt="User Image"  style={{ width: '1.5rem'  }}/>
      
              
-            {userName}
+            {param.name}
              
             <span className="fas fa-angle-down ml-1" ></span>
             

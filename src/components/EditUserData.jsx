@@ -58,6 +58,7 @@ function listUser(){
   ).then((res) => {
     let li = res.data.data;
     console.log(res);
+    param.setname(li.username)
     setuserdetails({
       username:li.username,
       name:li.name,
@@ -90,12 +91,12 @@ function listUser(){
         },
         { headers: { Token: token } }
       ).then((res) => {
+        var info = res.data.data;
         console.log(res);
+       
         setedit(!edit);
+        alert(res.data.message)
         
-          alert(res.data.message)
-        
-
         //navigate("../listuserdata");
         //window.location.reload();  
       });
@@ -217,7 +218,7 @@ function listUser(){
           </div>
           
             <div className="col-md-6">
-            <div className="row mt-4 text-left" style={{fontWeight:"bold"}}>
+            <div className="row mt-4 text-left" style={{"fontWeight":"bold"}}>
         
             <table>
             <tbody>
