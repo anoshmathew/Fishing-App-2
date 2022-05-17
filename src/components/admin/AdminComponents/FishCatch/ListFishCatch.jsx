@@ -216,7 +216,7 @@ function ListFishCatch(param) {
                       <table className="table table-bordered table-hover table-sm">
                       
                       {
-                 loading===true?(<div>
+                 loading===true?(<div style={{display:"flex",justifyContent:"center"}}>
                    <ReactLoading
                   type="spinningBubbles"
                   color="grey"

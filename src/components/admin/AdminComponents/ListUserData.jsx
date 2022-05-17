@@ -337,7 +337,7 @@ if(sucess){
             <div className="card-body table-responsive p-0">
               <table className="table table-bordered table-hover table-sm">
                 {
-                 loading===true?(<div>
+                 loading===true?(<div style={{display:"flex",justifyContent:"center"}}>
                    <ReactLoading
                   type="spinningBubbles"
                   color="grey"
