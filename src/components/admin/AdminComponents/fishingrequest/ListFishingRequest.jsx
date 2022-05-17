@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import FishingRequestTable from './FishingRequestTable';
 import ReactLoading from "react-loading";
+import { Url} from '../../../../constants/global'
 
 function ListFishingRequest(param) {
     const url1 = "http://work.phpwebsites.in/fishing/api/fishreqlist";      
@@ -80,7 +81,7 @@ function ListFishingRequest(param) {
     async function getData() {
       param.setSideNavSel("listfishreq");
         Axios.post(
-            url1,
+            Url.fishreqlisturl,
             { user_id: loggedUser.id, limit:page},
             { headers: { Token: loggedUser.api_token } }
           ).then((res) => {
@@ -101,7 +102,7 @@ function ListFishingRequest(param) {
       function toggleStatusFish(item){
         if(item.open_edit == "yes"){
           Axios.post(
-            url2,
+            Url.fishreqopenediturl,
             { user_id: loggedUser.id,req_id: item.id, status: "no" },
             { headers: { Token: token } }
           ).then((res) => {
@@ -125,7 +126,7 @@ function ListFishingRequest(param) {
       function delFun(item) {
 
         Axios.post(
-          url3,
+          Url.fishreqdeleteurl,
           { user_id: loggedUser.id, req_id: item.req_id },
           { headers: { Token: token } }
         ).then((res) => {
@@ -145,7 +146,7 @@ function ListFishingRequest(param) {
         function submit(e) {
             e.preventDefault();
             Axios.post(
-              url1,
+              Url.fishreqlisturl,
               { user_id: loggedUser.id, 
                 limit:1,
                 //^ To do--------------------------------------------------------------------------

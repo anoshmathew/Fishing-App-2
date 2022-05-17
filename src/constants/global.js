@@ -22,7 +22,11 @@ editpriceurl:baseUrl+"editprice",
 
 createfishrequrl:baseUrl+"fishreq",
 listidcardurl:baseUrl+"listcard",
-idcardstatusurl:baseUrl+"idstatus"
+idcardstatusurl:baseUrl+"idstatus",
+
+fishreqlisturl: "http://work.phpwebsites.in/fishing/api/fishreqlist",   
+fishreqopenediturl : "http://work.phpwebsites.in/fishing/api/fishreqopenedit",
+fishreqdeleteurl : "http://work.phpwebsites.in/fishing/api/fishreqdelete",
       
 }
 
