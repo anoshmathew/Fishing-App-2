@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import FishTable from './FishTable';
 import { Url} from '../../../../constants/global'
+import ReactLoading from "react-loading";
 
 function ListFish(param) {
   console.log(Url);
@@ -18,6 +19,7 @@ function ListFish(param) {
         Fish_id: "",
       });
       const [page, setPage] = useState(1)
+      const [loading, setLoading] = useState(true)
     const isMounted1 = useRef(false);
     const isMounted2 = useRef(false);
     const isMounted3 = useRef(false);
@@ -76,6 +78,7 @@ function ListFish(param) {
             localStorage.setItem("fishdatalist", JSON.stringify(getResult));       
             console.log(getResult);
             setfishlist(getResult);
+            setLoading(false)
           });
       }
 
@@ -104,20 +107,32 @@ function ListFish(param) {
         }
       }
       function delFun(item) {
-        
-       
-        
+ 
         Axios.post(
           Url.fishdeleteurl,
           { user_id: loggedUser.id, fish_id: item.id },
           { headers: { Token: token } }
         ).then((res) => {
-          settogdelfish(!togdelfish);
-          console.log("deleted");
+          
+    
+          if(res.data.status == "yes"){
+            param.setsucess({...param.sucess,color:"success",statusmsg:"Deleted", createuser:true})
+            console.log("deleted");
+            settogdelfish(!togdelfish);
+            console.log("deleted");
+            //Alert.success('Success Alert')
+          }
+          else{
+            param.setsucess({...param.sucess,color:"danger",statusmsg:"Error", createuser:false})
+          }
           });
           
         }
-
+        if(param.sucess.createuser===true){
+          setTimeout(() => {
+            param.setsucess({...param.sucess, createuser:false,statusmsg:""})
+          }, 3000)
+        }
 
         function handle(e) {
             const newdata = { ...data };
@@ -159,6 +174,15 @@ function ListFish(param) {
 
   return (
     <div className="content-wrapper justify-content-center mt-5" >
+      <div className={"alert alert-"+(param.sucess.color)+" alert-dismissable " + (param.sucess.createuser?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
+			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
+			<i className="ace-icon fa fa-times"></i>
+			</button>
+			<strong>
+			<i className="ace-icon fa fa-check"></i>
+			</strong>
+      {param.sucess.statusmsg}<br/>
+	</div>
 <div className="content-header">
   <div className="container-fluid">
     <div className="row mb-2">
@@ -236,8 +260,17 @@ function ListFish(param) {
             </div>
             <div className="card-body table-responsive p-0">
               <table className="table table-bordered table-hover table-sm">
-               
-              {<FishTable fishlist={fishlist} toggleStatusFish={toggleStatusFish} delFun={delFun}/>}
+               {
+                 loading===true?(<div>
+                   <ReactLoading
+                  type="spinningBubbles"
+                  color="grey"
+                  height={100}
+                  width={50}
+                />
+                   </div>):(<FishTable fishlist={fishlist} toggleStatusFish={toggleStatusFish} delFun={delFun}/>)
+               }
+            
                                                   
               </table>
             </div>

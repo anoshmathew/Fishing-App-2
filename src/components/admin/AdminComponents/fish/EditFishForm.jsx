@@ -37,8 +37,16 @@ function EditFishForm(param) {
           { headers: { Token: token } }
         ).then((res) => {  
             console.log(res)       
-            param.seteditfish(param.editfish+1);
-            navigate("../listfish");            
+           // param.seteditfish(param.editfish+1);
+            
+            if(res.data.status == "yes"){
+              param.setsucess({...param.sucess,color:"success",statusmsg:"Fish Added", createuser:true})
+              navigate("../listfish"); 
+             
+            }
+            else{
+              param.setsucess({...param.sucess,color:"danger",statusmsg:"Error", createuser:false})
+            }             
         });
         } 
         else{

@@ -5,13 +5,11 @@ import { Url} from '../constants/global'
 
 function EditPriceForm(param) {
 
- 
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const location = useLocation()
   const itm = location.state;
   const navigate = useNavigate();
-  
- 
+
   const [data, setData] = useState({
     ID:itm.id,
     Price: itm.price,
@@ -21,8 +19,7 @@ function EditPriceForm(param) {
   });
   const [formErrors, setformErrors] = useState({});
   const [isSubmit,setIsSubmit] = useState(false);
-  
- 
+
   function submit(e) {
     e.preventDefault();
     setformErrors(validate(data));
@@ -47,7 +44,15 @@ function EditPriceForm(param) {
         ).then((res) => {  
             console.log(res)       
             param.seteditprice(param.editprice+1);
-            navigate("../listprice");            
+     
+            if(res.data.status == "yes"){
+              param.setsucess({...param.sucess,color:"success",statusmsg:"Price Created", createuser:true})
+              navigate("../listprice");
+             
+            }
+            else{
+              param.setsucess({...param.sucess,color:"danger",statusmsg:"Error", createuser:false})
+            }        
         });
         } 
         else{
@@ -57,14 +62,11 @@ function EditPriceForm(param) {
     
   }
 
-  
-
   useEffect(() => {
     if(Object.keys(formErrors).length === 0 && isSubmit)
   {
 
   }
-    
   }, [formErrors])
 
   const validate = (values) => {
@@ -99,7 +101,6 @@ function EditPriceForm(param) {
       errors.flag4="checked";
     }
     return errors;
-
   };
 
   function handle(e) {

@@ -6,13 +6,13 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 
 function App() {
-  const [usrname, setusrname] = useState("");
+  const [details, setdetails] = useState({name:"",photo:""});
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<LoginForm setusrname={setusrname}/>} />
+        <Route path="/" element={<LoginForm setdetails={setdetails}/>} />
         <Route path="register" element={<RegisterForm />} />
-        <Route path="admin/*" element={<AdminMain usrname={usrname} setusrname={setusrname}/>} />
+        <Route path="admin/*" element={<AdminMain details={details} setdetails={setdetails}/>} />
         <Route path="user/*" element={<UserMain/>} />
       </Routes>
     </div>

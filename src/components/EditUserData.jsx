@@ -3,6 +3,7 @@ import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import man from '../img/avatar5.png'
 import{Url} from "../constants/global"
+
 //import './css/EditUserData.css'
 
 function EditUserData(param) {
@@ -31,7 +32,11 @@ function EditUserData(param) {
     Name: loggedUser.name,
     file:"",
   });
-  
+  if(param.sucess.createuser===true){
+    setTimeout(() => {
+      param.setsucess({...param.sucess, createuser:false,statusmsg:""})
+    }, 3000)
+  }
   const [file, setfile] = useState();
  // const [pic, setpic] = useState();
  param.setSideNavSel("myprofile")
@@ -49,7 +54,9 @@ useEffect(()=>{
 },[edit]);
 
 
+
 function listUser(){
+  console.log(param.sucess)
   Axios.post(
     Url.userdetailsurl,
     { user_id: loggedUser.id
@@ -58,7 +65,7 @@ function listUser(){
   ).then((res) => {
     let li = res.data.data;
     console.log(res);
-    param.setname(li.username)
+    param.setdetails({name:li.username, photo:res.data.photo})
     setuserdetails({
       username:li.username,
       name:li.name,
@@ -94,8 +101,9 @@ function listUser(){
         var info = res.data.data;
         console.log(res);
        
-        setedit(!edit);
-        alert(res.data.message)
+        //setedit(!edit);
+        param.setsucess({statusmsg:"Edited", createuser:true})
+
         
         //navigate("../listuserdata");
         //window.location.reload();  
@@ -114,16 +122,38 @@ function listUser(){
   var bodyFormData = new FormData();
   const [picture, setPicture] = useState(null);
   const uploadPicture = (e) => {
-   // e.preventDefault();
+
+         e.preventDefault();
         /* contains the preview, if you want to show the picture to the user
            you can access it with this.state.currentPicture
        */
-        
         setPicture(e.target.files[0])
         console.log(e.target.files[0]);
        // setpic(URL.createObjectURL(e.target.files[0]))
-    
+       
+ 
 };
+if(picture != null){
+
+  const token = loggedUser.api_token;
+  bodyFormData.append('user_id', loggedUser.id);
+  bodyFormData.append('photo', picture);
+ 
+  console.log(picture); 
+  Axios.post(
+    Url.uploadphotourl,
+    bodyFormData,
+    { headers: {  
+      Token: token,
+     
+    } 
+  }
+  ).then((res) => {
+    console.log(res);
+   setedit(!edit);
+   setPicture() 
+  });
+}
 
   function handleUpload(e) {
     e.preventDefault();
@@ -168,7 +198,15 @@ function listUser(){
 
   return (
     <div className="content-wrapper justify-content-left mt-5">
-
+<div className={"alert alert-success alert-dismissable " + (param.sucess.createuser?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
+			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
+			<i className="ace-icon fa fa-times"></i>
+			</button>
+			<strong>
+			<i className="ace-icon fa fa-check"></i>
+			</strong>
+      {param.sucess.statusmsg}<br/>
+	</div>
 
   <div className="content-header">
   <div className="container-fluid">
@@ -201,20 +239,13 @@ function listUser(){
           <div className="card-body text-center">
             
           <div className="row">
-          <div className="col-md-6" >
-          <img src={picture==null?(userdetails.photourl !=null ? userdetails.photourl: man):picture} alt="Profile" className="brand-image img-circle elevation-3" style={{width:"200px" ,height:"200px"}} />
-          {picture==null?<div style={{"width":"100%","backgroundColor":"rgb(255, 193, 7)" , "borderRadius":"4px"}}>
-         
-            <button onClick={() => fileRef.current.click()} style={{"padding":"0px 10px","color":"white","font-size":"25px","border-radius":"10%","background":"rgb(0, 123, 255)"}}>
-            <i className="ion ion-upload nav-icon" />
-            </button>
+          <div className="col-md-6">
+            <img src={param.details.photo!=null?param.details.photo:man} alt={man} className="brand-image img-circle elevation-3" style={{width:"200px" ,height:"200px"}} />
+             
+
+            <button onClick={()=>fileRef.current.click()} style={{"position":"absolute","border":"1px solid black","borderRadius":"50%","marginLeft":"-123px","marginTop":"75px","width":"50px","height":"50px","backgroundColor":"rgba(0, 0, 0, 0.33)"}}><i className="ion ion-upload nav-icon" style={{"fontSize":"25px", "color":"white"}}/></button>
             <input type="file" name="file" id="file" onChange={(e)=>uploadPicture(e)} style={{width:"100%",}} ref={fileRef} hidden/>
-          </div>:<div>
-            <button className="btn btn-primary" onClick={e => handleUpload(e)}>Upload</button>
-          </div>}
-          
-          
-        
+                         
           </div>
           
             <div className="col-md-6">

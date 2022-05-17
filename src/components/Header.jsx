@@ -1,13 +1,36 @@
-import React from "react";
+import React,{ useEffect} from "react";
+import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import man from '../img/avatar5.png';
+import{Url} from "../constants/global"
 
 function Header(param) {
   const navigate = useNavigate();
   var loggedUser = JSON.parse(localStorage.getItem("data"));
-
-  //const {username:userName,user_type:userType} = loggedUser;
   
+  //const {username:userName,user_type:userType} = loggedUser;
+  console.log(param.details.photo)
+  
+  useEffect(()=>{
+    
+    listUser();
+  
+},[]);
+  function listUser(){
+    
+    Axios.post(
+      Url.userdetailsurl,
+      { user_id: loggedUser.id
+      },
+      { headers: { Token: loggedUser.api_token } }
+    ).then((res) => {
+      
+      param.setdetails({name:res.data.data.username, photo:res.data.photo})
+      
+      
+    });
+  }
+
   function submit(e) {
     e.preventDefault();
     localStorage.removeItem("data");
@@ -46,10 +69,10 @@ function Header(param) {
             >
           
           
-          <img src={man} className="img-circle mr-1" alt="User Image"  style={{ width: '1.5rem'  }}/>
+          <img src={param.details.photo!=null?param.details.photo:man} className="img-circle mr-1"  style={{ width: '1.5rem',height:'1.5rem'  }}/>
      
              
-            {param.name}
+            {param.details.name}
              
             <span className="fas fa-angle-down ml-1" ></span>
             

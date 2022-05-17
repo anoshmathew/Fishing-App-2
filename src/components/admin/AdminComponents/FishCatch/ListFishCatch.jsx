@@ -2,7 +2,7 @@ import React,{useState,useEffect,useRef} from 'react'
 import { Link, useNavigate,useLocation } from "react-router-dom";
 import Axios from "axios";
 import FishCatchTable from './FishCatchTable';
-
+import ReactLoading from "react-loading";
 
 function ListFishCatch(param) {
     const url1 = "http://work.phpwebsites.in/fishing/api/catfishlist";      
@@ -14,6 +14,7 @@ function ListFishCatch(param) {
     const [search, setSearch] = useState(true);
     const location = useLocation()
     const itm = location.state;
+    const [loading, setLoading] = useState(true)
     const [data, setData] = useState({     
         Req_id: "",
         Fish_id: "",
@@ -72,6 +73,7 @@ function ListFishCatch(param) {
              getResult = res.data.data;  
             localStorage.setItem("fishreqdatalist", JSON.stringify(getResult));       
             console.log(getResult);
+            setLoading(false)
             setfishingCatchList(getResult);
           });
       }
@@ -212,9 +214,17 @@ function ListFishCatch(param) {
                     </div>
                     <div className="card-body table-responsive p-0">
                       <table className="table table-bordered table-hover table-sm">
-                       
-                      {<FishCatchTable fishingCatchList={fishingCatchList} />}
-                                                          
+                      
+                      {
+                 loading===true?(<div>
+                   <ReactLoading
+                  type="spinningBubbles"
+                  color="grey"
+                  height={100}
+                  width={50}
+                />
+                   </div>):(<FishCatchTable fishingCatchList={fishingCatchList} />)
+               }                                  
                       </table>
                     </div>
                     

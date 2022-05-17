@@ -51,7 +51,15 @@ function CreateFish(param) {
     },{ headers: { Token: loggedUser.api_token } }
     ).then((res) => {
       console.log(res.data);
-      navigate("../listfish");
+    
+      if(res.data.status == "yes"){
+        param.setsucess({...param.sucess,color:"success",statusmsg:"Fish Created", createuser:true})
+        navigate("../listfish");
+        //Alert.success('Success Alert')
+      }
+      else{
+        param.setsucess({...param.sucess,color:"danger",statusmsg:"Error!!", createuser:false})
+      }
     });
   }
   

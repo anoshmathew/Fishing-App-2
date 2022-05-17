@@ -6,7 +6,7 @@ import man from '../../../img/avatar5.png';
 //import '../../css/AdminSideNav.css';
 import { Url} from '../../../constants/global'
 
-function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4,sideNavSel,name}) {
+function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4,sideNavSel,details}) {
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const {username:userName,user_type:userType} = loggedUser;
   
@@ -103,12 +103,12 @@ useEffect(()=>{
           <div className="user-panel mt-3 pb-3 mb-3 d-flex">
           
           <div className="image">
-          <img src={man} className="img-circle elevation-2" alt="User Image"/>
+          <img src={details.photo==null?man:details.photo} className="img-circle elevation-2" alt="User Image" style={{ width: '1.5rem',height:'1.5rem'  }}/>
           </div>
 
             <div className="info">
               <Link to="home" className="d-block">
-                {name}
+                {details.name}
               </Link>
             </div>
           </div>

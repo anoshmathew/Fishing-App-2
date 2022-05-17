@@ -3,12 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import PriceTable from './PriceTable';
 import { Url} from '../../../../constants/global'
+import ReactLoading from "react-loading";
 
-function ListPrice(param) {
+function ListPrice({setSideNavSel, setsucess,sucess}) {
     const [pricelist, setpricelist] = useState([]);
     const [activetogprice, setactivetogprice] = useState(false)
     const [togdelprice, settogdelprice] = useState(false)
     const [page, setPage] = useState(1)
+    const [loading, setLoading] = useState(true)
     var getResult ;
     var loggedUser = JSON.parse(localStorage.getItem("data"));
     const token = loggedUser.api_token;
@@ -62,8 +64,8 @@ function ListPrice(param) {
         getData();
         // loadData();
       }, []);
-    async function getData() {
-        param.setSideNavSel("listprice")
+    function getData() {
+        setSideNavSel("listprice")
         Axios.post(
             Url.pricelisturl,
             { user_id: loggedUser.id, limit:page},
@@ -72,9 +74,12 @@ function ListPrice(param) {
              getResult = res.data.data;  
             localStorage.setItem("pricedatalist", JSON.stringify(getResult));       
             console.log(getResult);
+            setLoading(false);
             setpricelist(getResult);
           });
       }
+
+     
       function toggleStatusPrice(item){
         if(item.status == "active"){
           Axios.post(
@@ -108,13 +113,28 @@ function ListPrice(param) {
           { user_id: loggedUser.id, price_id: item.id },
           { headers: { Token: token } }
         ).then((res) => {
-          settogdelprice(!togdelprice);
-          console.log("deleted");
+          
+          
+          if(res.data.status == "yes"){
+            setsucess({...sucess,color:"success",statusmsg:"Deleted", createuser:true})
+            console.log("deleted");
+            settogdelprice(!togdelprice);
+            //Alert.success('Success Alert')
+          }
+          else{
+            setsucess({...sucess,color:"danger",statusmsg:"Error", createuser:false})
+          }
     
           });
           
         }
-
+        const [timeOut, setTimeOut] = useState(null)
+    if(sucess.createuser===true){
+      setTimeout(() => {
+        setsucess({...sucess, createuser:false,statusmsg:""})
+      }, 3000)
+    }
+        console.log(sucess)
 
 
 
@@ -141,6 +161,7 @@ function ListPrice(param) {
               setpricelist(res.data.data);
             });
           }
+          
         
           function cancelSearch(e){
             e.preventDefault();
@@ -151,7 +172,8 @@ function ListPrice(param) {
            setPage(page+1);
            console.log(page);
           }
-          function prevPage(){
+          function prevPage(e){
+            e.preventDefault();
             setPage(page-1) ;
             console.log(page);
            }
@@ -160,6 +182,17 @@ function ListPrice(param) {
   return (
     
     <div className="content-wrapper justify-content-center mt-5" >
+      
+      <div className={"alert alert-"+(sucess.color)+" alert-dismissable " + (sucess.createuser?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
+			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
+			<i className="ace-icon fa fa-times"></i>
+			</button>
+			<strong>
+			<i className="ace-icon fa fa-check"></i>
+			</strong>
+      {sucess.statusmsg}<br/>
+	</div>
+
 <div className="content-header">
   <div className="container-fluid">
     <div className="row mb-2">
@@ -240,8 +273,16 @@ function ListPrice(param) {
             <div className="card-body table-responsive p-0">
               <table className="table table-bordered table-hover table-sm">
                
-                {<PriceTable pricelist={pricelist} toggleStatusPrice={toggleStatusPrice}  delFun={delFun} />}
-                                                  
+                {
+                 loading===true?(<div>
+                   <ReactLoading
+                  type="spinningBubbles"
+                  color="grey"
+                  height={100}
+                  width={50}
+                />
+                   </div>):(<PriceTable pricelist={pricelist} toggleStatusPrice={toggleStatusPrice}  delFun={delFun} />)
+               }                             
               </table>
             </div>
             <div className="card-footer clearfix">

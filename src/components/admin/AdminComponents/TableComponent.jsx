@@ -18,7 +18,7 @@ function TableComponent(param) {
                   </tr>
                 </thead>
                 <tbody>
-                          {param.list2.filter(item => !item.name.includes(loggedUser.name)).filter(item => !item.username.includes(loggedUser.username)).map((item) => (
+                          {param.list2.filter(item => item.username != loggedUser.username ).map((item) => (
                             <>
                             <tr key={item.id}>
                               <td className="center">{item.id}</td>

@@ -3,7 +3,7 @@ import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Url} from '../../../../constants/global'
 
-function CreateRequest() {
+function CreateRequest(param) {
     const navigate = useNavigate();
   var loggedUser = JSON.parse(localStorage.getItem("data"));
 
@@ -48,7 +48,20 @@ function CreateRequest() {
     ).then((res) => {
       console.log(res);
       //navigate("../listfish");
+      if(res.data.status == "yes"){
+        param.setsucess({...param.sucess,color:"success",statusmsg:"Fish Created", createuser:true})
+       // navigate("../listfish");
+        //Alert.success('Success Alert')
+      }
+      else{
+        param.setsucess({...param.sucess,color:"danger",statusmsg:"Error!!", createuser:false})
+      }
     });
+  }
+  if(param.sucess.createuser===true){
+    setTimeout(() => {
+      param.setsucess({...param.sucess, createuser:false,statusmsg:""})
+    }, 3000)
   }
   
   }
@@ -59,7 +72,16 @@ function CreateRequest() {
   }
   return (
     <div><div className="content-wrapper justify-content-left mt-5">
-
+   
+       <div className={"alert alert-"+(param.sucess.color)+" alert-dismissable " + (param.sucess.createuser?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
+			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
+			<i className="ace-icon fa fa-times"></i>
+			</button>
+			<strong>
+			<i className="ace-icon fa fa-check"></i>
+			</strong>
+      {param.sucess.statusmsg}<br/>
+	    </div>
     <div className="content-header">
       <div className="container-fluid">
         <div className="row mb-2">

@@ -2,8 +2,9 @@ import React, { useState,useEffect } from "react";
 import Axios from "axios";
 import { Link, useNavigate,useLocation  } from "react-router-dom";
 import{Url} from "../constants/global"
+import ReactLoading from "react-loading";
 
-function EditUserForm(edit,setedit) {
+function EditUserForm(edit) {
   //const url = "http://work.phpwebsites.in/fishing/api/edituser";
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const location = useLocation()
@@ -47,8 +48,8 @@ function EditUserForm(edit,setedit) {
       ).then((res) => {
         
       edit.setedit(edit.edit+1);
-       navigate("../listuserdata");   
-        
+      edit.setsucess({statusmsg:"Edited", createuser:true})
+       navigate("../listuserdata");           
       });
     } else {
       console.log("Local Storage is Empty");
@@ -60,14 +61,8 @@ function EditUserForm(edit,setedit) {
     e.preventDefault();
     setformErrors(validate(data));
     //setIsSubmit(true);  
-   
-    
-    
   }
 
-  
-
- 
 
   const validate = (values) => {
     const errors = {};
@@ -112,6 +107,7 @@ function EditUserForm(edit,setedit) {
 
   return (
     <div className="content-wrapper justify-content-left mt-5">
+
 
 <div className="content-header">
   <div className="container-fluid">

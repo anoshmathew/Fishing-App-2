@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react/cjs/react.development";
+
 import TableComponent from "./TableComponent";
+import ReactLoading from "react-loading";
 
 import "./ListUserData.css"
 function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSearch,search,setSideNavSel,sucess,setsucess}) {
@@ -11,7 +12,7 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
     listUser();
   
 },[]);
-  
+  const [loading, setLoading] = useState(true)
   var list = JSON.parse(localStorage.getItem("userlist"));
   var obj = JSON.parse(localStorage.getItem("listform"));
   const isMounted1 = useRef(false);
@@ -68,7 +69,7 @@ useEffect(()=>{
         setsucess({...sucess, createuser:false,statusmsg:""})
       }, 3000)
     }
-     
+
   //const [list2, setlist2] = useState([list])
   const [list2, setlist2] = useState([])
   function listUser(){
@@ -76,8 +77,7 @@ useEffect(()=>{
       url2,
       { user_id: loggedUser.id, 
         limit:page,
-        //^ To do--------------------------------------------------------------------------
-        
+        //^ To do-------------------------------------------
         //-----------------------
         username:data.UserName
       },
@@ -85,6 +85,8 @@ useEffect(()=>{
     ).then((res) => {
       let li = res.data.data;
       console.log(res);
+      
+      setLoading(false)
       setlist2(li)
     });
   }
@@ -100,7 +102,6 @@ useEffect(()=>{
     ).then((res) => {
       setdel(del+1);
       console.log("deleted");
-
       });
   }
   const toggleShown = username => {
@@ -203,7 +204,8 @@ if(sucess){
    setPage(page+1);
    console.log(page);
   }
-  function prevPage(){
+  function prevPage(e){
+    e.preventDefault();
     setPage(page-1) ;
     console.log(page);
    }
@@ -220,7 +222,6 @@ if(sucess){
 			</button>
 			<strong>
 			<i className="ace-icon fa fa-check"></i>
-			Success! 
 			</strong>
       {sucess.statusmsg}<br/>
 	</div>
@@ -335,9 +336,16 @@ if(sucess){
             </div>
             <div className="card-body table-responsive p-0">
               <table className="table table-bordered table-hover table-sm">
-               
-                {<TableComponent list={list} list2={list2} toggleStatus={toggleStatus} delFun={delFun} detailsShown={detailsShown} setDetailShown={setDetailShown} toggleShown={toggleShown}/>}
-                                                  
+                {
+                 loading===true?(<div>
+                   <ReactLoading
+                  type="spinningBubbles"
+                  color="grey"
+                  height={100}
+                  width={50}
+                />
+                   </div>):(<TableComponent list={list} list2={list2} toggleStatus={toggleStatus} delFun={delFun} detailsShown={detailsShown} setDetailShown={setDetailShown} toggleShown={toggleShown}/>)
+               }                                   
               </table>
             </div>
             <div className="card-footer clearfix">

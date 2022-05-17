@@ -2,6 +2,7 @@ import React,{useState,useEffect,useRef} from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import FishingRequestTable from './FishingRequestTable';
+import ReactLoading from "react-loading";
 
 function ListFishingRequest(param) {
     const url1 = "http://work.phpwebsites.in/fishing/api/fishreqlist";      
@@ -10,7 +11,7 @@ function ListFishingRequest(param) {
     const [fishingRequestlist, setfishingRequestlist] = useState([]);
     var getResult ;
     const [page, setPage] = useState(1)
-
+    const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState(true);
     const [data, setData] = useState({  
     //user_id:"",
@@ -86,8 +87,15 @@ function ListFishingRequest(param) {
              getResult = res.data.data;  
             localStorage.setItem("fishreqdatalist", JSON.stringify(getResult));       
             console.log(getResult);
+            setLoading(false)
             setfishingRequestlist(getResult);
           });
+      }
+
+      if(param.sucess.createuser===true){
+        setTimeout(() => {
+          param.setsucess({...param.sucess, createuser:false,statusmsg:""})
+        }, 3000)
       }
 
       function toggleStatusFish(item){
@@ -168,6 +176,15 @@ function ListFishingRequest(param) {
            }
   return (
     <div className="content-wrapper justify-content-center mt-5" >
+       <div className={"alert alert-"+(param.sucess.color)+" alert-dismissable " + (param.sucess.createuser?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
+			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
+			<i className="ace-icon fa fa-times"></i>
+			</button>
+			<strong>
+			<i className="ace-icon fa fa-check"></i>
+			</strong>
+      {param.sucess.statusmsg}<br/>
+	</div>
 <div className="content-header">
   <div className="container-fluid">
     <div className="row mb-2">
@@ -246,9 +263,16 @@ function ListFishingRequest(param) {
             </div>
             <div className="card-body table-responsive p-0">
               <table className="table table-bordered table-hover table-sm">
-               
-              {<FishingRequestTable fishingRequestList={fishingRequestlist} delFun={delFun} toggleStatusFish={toggleStatusFish}/>}
-                                                  
+              {
+                 loading===true?(<div>
+                   <ReactLoading
+                  type="spinningBubbles"
+                  color="grey"
+                  height={100}
+                  width={50}
+                />
+                   </div>):(<FishingRequestTable fishingRequestList={fishingRequestlist} delFun={delFun} toggleStatusFish={toggleStatusFish}/>)
+               }                                   
               </table>
             </div>
             <div className="card-footer clearfix">

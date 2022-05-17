@@ -14,21 +14,23 @@ function RegisterForm() {
     username: "",
     type: "",
   });
-
+  
 const [formErrors, setformErrors] = useState({});
 const [isSubmit,setIsSubmit] = useState(false);
-
+const [popup, setpopup] = useState({color:"",mesg:""});
   function submit(e) {
     e.preventDefault();
     setformErrors(validate(data));
     //setIsSubmit(true);
     console.log(data);
     console.log(formErrors);
-    
-    
   }
 
- 
+  if(popup.mesg!=""){
+    setTimeout(() => {
+      setpopup({color:"",mesg:""})
+    }, 3000)
+  }
 
   useEffect(() => {
     registerfun();
@@ -36,6 +38,7 @@ const [isSubmit,setIsSubmit] = useState(false);
   }, [formErrors])
   
   function registerfun(){
+    console.log(data);
     if((Object.entries(formErrors).length !== 0)&&(formErrors.flag1=="checked")&&(formErrors.flag2=="checked")&&(formErrors.flag3=="checked")&&(formErrors.flag4=="checked")&&(formErrors.flag5=="checked")&&(formErrors.flag6=="checked")){
       Axios.post(url, {
         email: data.mail,
@@ -47,15 +50,17 @@ const [isSubmit,setIsSubmit] = useState(false);
       }).then((res) => {
         console.log(res);
          //navigate("/");
-         if(res.data.message="Username Already Exist"){
-           alert("Username Already Exist")
+         if(res.data.status="Username Already Exist"){
+          setpopup({color:"danger",mesg:"Username Already Exist"})
          }
          else{
-          alert("Registered")
+          setpopup({color:"sucess",mesg:"Registered"})
          }
+         
       });
     }
   }
+  
 
   const validate = (values) => {
     const errors = {};
@@ -110,8 +115,18 @@ const [isSubmit,setIsSubmit] = useState(false);
   }
 
   return (
+<div>
+<div className={"alert alert-"+(popup.color) + " alert-dismissable " + (popup.mesg!=""?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
+			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
+			<i className="ace-icon fa fa-times"></i>
+			</button>
+			<strong>
+			<i className="ace-icon fa fa-check"></i>
+			</strong>
+      {popup.mesg}<br/>
+	    </div>
 
-    <div className="hold-transition register-page">
+      <div className="hold-transition register-page">
   <div className="register-box">
     <div className="register-logo">
       <a><b>FISHING </b>APP</a>
@@ -247,6 +262,8 @@ const [isSubmit,setIsSubmit] = useState(false);
 
    
     </div>
+</div>
+    
   );
 }
 export default RegisterForm;

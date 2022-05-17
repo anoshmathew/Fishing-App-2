@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-function CreatePrice() {
+function CreatePrice({sucess, setsucess}) {
   const navigate = useNavigate();
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const [formErrors, setformErrors] = useState({});
@@ -31,12 +31,19 @@ function CreatePrice() {
       },{ headers: { Token: loggedUser.api_token } }
       ).then((res) => {
         console.log(res.data);
-        navigate("../listprice");
+        
+        if(res.data.status == "yes"){
+          setsucess({...sucess,color:"success",statusmsg:"Price Created", createuser:true})
+          navigate("../listprice");
+          //Alert.success('Success Alert')
+        }
+        else{
+          setsucess({...sucess,color:"danger",statusmsg:"Error", createuser:false})
+        }
       });
     }
   }
 
-  
   const validate = (values) => {
     const errors = {};
     //const regex ;

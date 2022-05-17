@@ -59,7 +59,15 @@ function EditFishingRequest(param) {
           ).then((res) => {  
               console.log(res)       
               //param.setEditFishingReq(!param.EditFishingReq);
-              navigate("../listfishingrequest");            
+                    
+              if(res.data.status == "yes"){
+                param.setsucess({...param.sucess,color:"success",statusmsg:"Fish Request Added", createuser:true})
+                navigate("../listfishingrequest");
+               
+              }
+              else{
+                param.setsucess({...param.sucess,color:"danger",statusmsg:"Error", createuser:false})
+              }        
           });
          
       

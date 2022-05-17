@@ -1,27 +1,28 @@
+const baseUrl = 'http://work.phpwebsites.in/fishing/api/';
 const Url = {
-loginurl:'http://work.phpwebsites.in/fishing/api/login',
-passreseturl:"http://work.phpwebsites.in/fishing/api/resetpassword",
+loginurl: baseUrl+'login',
+passreseturl:baseUrl+"resetpassword",
 
 
-listfishurl:'http://work.phpwebsites.in/fishing/api/fishlist',
-fishstatusurl:"http://work.phpwebsites.in/fishing/api/fishstatus",
-fishdeleteurl:"http://work.phpwebsites.in/fishing/api/fishdelete",
-editfishurl:"http://work.phpwebsites.in/fishing/api/editfish",
-creatfishurl:"http://work.phpwebsites.in/fishing/api/fishcreate",
+listfishurl:baseUrl+'fishlist',
+fishstatusurl:baseUrl+"fishstatus",
+fishdeleteurl:baseUrl+"fishdelete",
+editfishurl:baseUrl+"editfish",
+creatfishurl:baseUrl+"fishcreate",
 
-userstatusurl:"http://work.phpwebsites.in/fishing/api/userstatus",
-userlisturl:"http://work.phpwebsites.in/fishing/api/userslist",
-edituserurl:"http://work.phpwebsites.in/fishing/api/edituser",
-userdetailsurl:"http://work.phpwebsites.in/fishing/api/userdetail",
-uploadphotourl:"http://work.phpwebsites.in/fishing/api/uploadph",
-pricelisturl:"http://work.phpwebsites.in/fishing/api/pricelist",      
-pricestatusurl:"http://work.phpwebsites.in/fishing/api/pricestatus",
-pricedeleteurl:"http://work.phpwebsites.in/fishing/api/pricedelete",
-editpriceurl:"http://work.phpwebsites.in/fishing/api/editprice",
+userstatusurl:baseUrl+"userstatus",
+userlisturl:baseUrl+"userslist",
+edituserurl:baseUrl+"edituser",
+userdetailsurl:baseUrl+"userdetail",
+uploadphotourl:baseUrl+"uploadph",
+pricelisturl:baseUrl+"pricelist",      
+pricestatusurl:baseUrl+"pricestatus",
+pricedeleteurl:baseUrl+"pricedelete",
+editpriceurl:baseUrl+"editprice",
 
-createfishrequrl:"http://work.phpwebsites.in/fishing/api/fishreq",
-listidcardurl:"http://work.phpwebsites.in/fishing/api/listcard",
-idcardstatusurl:"http://work.phpwebsites.in/fishing/api/idstatus"
+createfishrequrl:baseUrl+"fishreq",
+listidcardurl:baseUrl+"listcard",
+idcardstatusurl:baseUrl+"idstatus"
       
 }
 
