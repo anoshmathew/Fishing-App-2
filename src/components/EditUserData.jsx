@@ -7,7 +7,7 @@ import{Url} from "../constants/global"
 //import './css/EditUserData.css'
 
 function EditUserData(param) {
-  
+  console.log(param.details.photo)
   const isMounted1 = useRef(false);
   const isMounted2 = useRef(false);
   
@@ -65,7 +65,12 @@ function listUser(){
   ).then((res) => {
     let li = res.data.data;
     console.log(res);
-    param.setdetails({name:li.username, photo:res.data.photo})
+    if(res.data.photo=="http://work.phpwebsites.in/fishing/public/uploads/medium"){
+        param.setdetails({name:res.data.data.username,photo:null})
+      }
+      else{
+        param.setdetails({name:res.data.data.username,photo:res.data.photo});
+      }
     setuserdetails({
       username:li.username,
       name:li.name,
@@ -74,6 +79,7 @@ function listUser(){
       mobile:li.mobile,
       status:li.status,
       photourl:res.data.photo
+      
     });
     
   });

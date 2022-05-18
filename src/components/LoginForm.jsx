@@ -61,9 +61,11 @@ function LoginForm(param) {
         else{
           if(res.data.photo=="http://work.phpwebsites.in/fishing/public/uploads/medium"){
             param.setdetails({name:res.data.data.username,photo:null});
+            console.log("1")
           }
           else{
-param.setdetails({name:res.data.data.username,photo:res.data.photo});
+            param.setdetails({name:res.data.data.username,photo:res.data.photo});
+            console.log("2")
           }
             
           
