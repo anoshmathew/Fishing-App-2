@@ -190,7 +190,7 @@ function ListFishingRequest(param) {
   <div className="container-fluid">
     <div className="row mb-2">
       <div className="col-sm-6">
-        <h1 className="m-0 text-dark">Manage Fishing Request</h1>
+        <h1 className="m-0 text-dark">Fishing Request</h1>
       </div>{/* /.col */}
       <div className="col-sm-6">
         <ol className="breadcrumb float-sm-right">
@@ -203,7 +203,7 @@ function ListFishingRequest(param) {
 </div>
 <div className="row" style={{clear: 'both', marginBottom: 10,marginRight: 10}}>
   <div className="col-md-12 " align="right" style={{clear: 'both'}}>
-    <Link type="button" className="btn btn-inline btn-danger mr-1" to="../createrequest"><i className="fa fa-edit" />New Fishing Request</Link>
+    {/*<Link type="button" className="btn btn-inline btn-danger mr-1" to="../createrequest"><i className="fa fa-edit" />New Fishing Request</Link>*/}
     <button className="btn btn-warning" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
       <i className="fa fa-search" />  
       Search
@@ -260,7 +260,7 @@ function ListFishingRequest(param) {
         <div className="col-md-12" >
           <div className="card">
             <div className="card-header">
-              <h3 className="card-title">Fish List</h3>
+              <h3 className="card-title">Fishing Request List</h3>
             </div>
             <div className="card-body table-responsive p-0">
               <table className="table table-bordered table-hover table-sm">

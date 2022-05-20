@@ -6,7 +6,7 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 
 function App() {
-  const [details, setdetails] = useState({name:"",photo:""});
+  const [details, setdetails] = useState({name:"",username:"",id:"",email:"",mobile:"",status:"",photo:""});
   return (
     <div className="App">
       <Routes>

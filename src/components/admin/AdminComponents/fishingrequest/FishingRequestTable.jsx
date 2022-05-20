@@ -41,7 +41,7 @@ function FishingRequestTable(param) {
             <a role="button" className="btn btn-primary mr-1" onClick={() => param.toggleStatusFish(item)} >{item.open_edit=='no'?<i className="fas fa-lock-open"></i>:<i className="fas fa-lock"></i>}</a>
             </td>
             <td>
-            <Link type="button" className="btn btn-inline btn-warning mr-1"  to="../editfishreq" state={item}><i className="fa fa-edit" /></Link>
+            {/*<Link type="button" className="btn btn-inline btn-warning mr-1"  to="../editfishreq" state={item}><i className="fa fa-edit" /></Link>*/}
                 
                 <a role="button" className="btn btn-danger mr-1" onClick={() => param.delFun(item)} ><i className="fas fa-trash-alt"></i></a>            
            </td>             

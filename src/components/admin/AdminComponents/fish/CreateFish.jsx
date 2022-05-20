@@ -113,8 +113,10 @@ function CreateFish(param) {
                   onChange={(e) => handle(e)}
                   value={data.name}
                   placeholder="Fish Name" />
+                  <br/>
+                  <p style={{color:"red"}}>{formErrors.name}</p> 
                </div>
-               <p style={{color:"red"}}>{formErrors.name}</p> 
+               
                </div>
                
             {/* /.col */}

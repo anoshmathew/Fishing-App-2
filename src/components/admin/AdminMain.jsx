@@ -28,6 +28,8 @@ import ListUserData from "./AdminComponents/ListUserData";
 import ListUserDataForm from "./AdminComponents/ListUserDataForm";
 import Uploadid from "./AdminComponents/UploadID/Uploadid";
 import Listuseridcard from "./AdminComponents/UserId/Listuseridcard";
+import{Url} from "../../constants/global"
+import Axios from "axios";
 
 function AdminMain({details,setdetails}) {
   const [lim, setlim] = useState(0);
@@ -45,6 +47,46 @@ function AdminMain({details,setdetails}) {
   const [sucess, setsucess] = useState({color:"",statusmsg:"",createuser:false,
   createcard:false})
  // const [name, setname] = useState(usrname);
+ var loggedUser = JSON.parse(localStorage.getItem("data"));
+ useEffect(()=>{
+    
+  listUser();
+
+},[]);
+function listUser(){
+  console.log("shdvbajhdb")
+  Axios.post(
+    Url.userdetailsurl,
+    { user_id: loggedUser.id
+    },
+    { headers: { Token: loggedUser.api_token } }
+  ).then((res) => {
+    
+    //param.setdetails({name:res.data.data.username, photo:res.data.photo})
+    if(res.data.photo=="http://work.phpwebsites.in/fishing/public/uploads/medium"){
+            setdetails({username:res.data.data.username,
+              name:res.data.data.name,
+              id:res.data.data.id,
+              email:res.data.data.email,
+              mobile:res.data.data.mobile,
+              status:res.data.data.status,
+              photo:null});
+            console.log("1")
+          }
+          else{
+            setdetails({username:res.data.data.username,
+              name:res.data.data.name,
+              id:res.data.data.id,
+              email:res.data.data.email,
+              mobile:res.data.data.mobile,
+              status:res.data.data.status,
+              photo:res.data.photo});
+            console.log("2")
+          }
+    
+  });
+}
+
   return (
     <div>
       <Header details={details} setdetails={setdetails}  />
@@ -54,7 +96,7 @@ function AdminMain({details,setdetails}) {
         <Route path="settings/edituserdata" element={<EditUserData details={details} setdetails={setdetails} setSideNavSel={setSideNavSel} edit={edit} setedit={setedit} sucess={sucess} setsucess={setsucess}/>} />
         <Route path="/edituserform" element={<EditUserForm edit={edit} setedit={setedit} sucess={sucess} setsucess={setsucess} />} />
         <Route path="/editpriceform" element={<EditPriceForm editprice={editprice} seteditprice={seteditprice} sucess={sucess} setsucess={setsucess}/>} />
-        <Route path="settings/resetpassword" element={<ResetPassword setSideNavSel={setSideNavSel}/>}  />
+        <Route path="settings/resetpassword" element={<ResetPassword setSideNavSel={setSideNavSel} setsucess={setsucess}/>}  />
         <Route path="settings/edituserstatus" element={<EditUserStatus />} />
         <Route path="/createuser" element={<CreateUser setsucess={setsucess} sucess={sucess}/>} />
         <Route path="logout" element={<Logout/>} />

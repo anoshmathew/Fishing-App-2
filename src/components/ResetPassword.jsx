@@ -5,7 +5,8 @@ import { Url} from '../constants/global'
 
 function ResetPassword(param) {
   param.setSideNavSel("resetpass");
-  var errPass;
+  const [alert, setalert] = useState("")
+  const [errPass, seterrPass] = useState("")
   const navigate = useNavigate();
   const [data, setData] = useState({
     OldPassword:"",
@@ -13,10 +14,16 @@ function ResetPassword(param) {
     ConPassword: "",
   });
 
+  if(alert!=""){
+    setTimeout(() => {
+      setalert("")
+    }, 3000)
+  }
+
   function submit(e) {
     e.preventDefault();
     var loggedUser = JSON.parse(localStorage.getItem("data"));
-    if (loggedUser != null) {
+
       const token = loggedUser.api_token;
       
       console.log("From Local Storage");
@@ -32,16 +39,16 @@ function ResetPassword(param) {
       ).then((res) => {
         console.log(res.data);
         console.log("Password Changed")
-        navigate("../listuserdata");
-        window.location.reload();
+        seterrPass("");
+        setalert("Password Changed!");
+        //navigate("../listuserdata")
       });
     }
     else{
-      errPass = "Password not Matching!!"
+      seterrPass("Passwords not Matching!!");
+ 
     }
-    } else {
-      console.log("Local Storage is Empty");
-    }
+    
   }
 
 
@@ -53,7 +60,15 @@ function ResetPassword(param) {
 
   return ( 
     <div className="content-wrapper justify-content-left mt-5" style={{background:"white"}}>
-
+<div className={"alert alert-success alert-dismissable " + (alert!=""?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
+			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
+			<i className="ace-icon fa fa-times"></i>
+			</button>
+			<strong>
+			<i className="ace-icon fa fa-check"></i>
+			</strong>
+      {alert}<br/>
+	</div>
 <div className="content-header">
   <div className="container-fluid">
     <div className="row mb-2">
@@ -75,7 +90,7 @@ function ResetPassword(param) {
     <section className="content">
    <div className="container-fluid">
      <div className="row">
-       <div className="col-md-5">
+       <div className="col-md-12">
          {/* general form elements */}
          <div className="card card-primary">
            <div className="card-header">
@@ -86,27 +101,11 @@ function ResetPassword(param) {
            <form onSubmit={(e)=>submit(e)}>
              <div className="card-body">
 
-             <div className="form-group">
-                 <label >Old Password</label>
-             <div className="input-group mb-3">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text"><i className="fa fa-key"></i></span>
-                  </div>
-               	  <input type="password" 
-                   onChange={(e) => handle(e)}
-                   className="form-control" 
-                   value={data.OldPassword} 
-                   name="OldPassword" 
-                   id="OldPassword" 
-                   placeholder="Old password" 
-                   maxlength="20" 
-                   required=""/>
-                </div>
-                </div>
+             
 
-               <div className="form-group">
+               <div className="form-group col-md-6">
                  <label >New Password</label>
-                 <div className="input-group mb-3">
+                 <div className="input-group">
                   <div className="input-group-prepend">
                     <span className="input-group-text"><i className="fa fa-key"></i></span>
                   </div>
@@ -124,9 +123,9 @@ function ResetPassword(param) {
                </div>
 
 
-               <div className="form-group">
+               <div className="form-group col-md-6">
                  <label >Confirm Password</label>
-                 <div className="input-group mb-3">
+                 <div className="input-group">
                   <div className="input-group-prepend">
                     <span className="input-group-text"><i className="fa fa-key"></i></span>
                   </div>
@@ -137,10 +136,12 @@ function ResetPassword(param) {
                   onChange={(e) => handle(e)}
                   value={data.ConPassword}
                   placeholder="Confirm Password" />
+                  
                </div>
+               <p style={{color:"red"}}>{errPass}</p>
                </div>
              </div>
-
+            
              <div className="card-footer">
                <button type="submit" className="btn btn-primary btn-block" style={{width:"130px"}}>Change</button>
              </div>

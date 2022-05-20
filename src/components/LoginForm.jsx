@@ -49,10 +49,10 @@ function LoginForm(param) {
         username: data.username,
         password: data.password,
       }).then((res) => {
-        let info = res.data.data;
+        
         msg = res.data.message
         //  let token =info.api_token ;
-        localStorage.setItem("data", JSON.stringify(info));
+        localStorage.setItem("data", JSON.stringify(res.data.data));
         localStorage.setItem("relo", false);
         if (msg == "Inavlid Username/Password"){
           setpopup({mesg:"Inavlid Username/Password"})
@@ -60,11 +60,23 @@ function LoginForm(param) {
         }
         else{
           if(res.data.photo=="http://work.phpwebsites.in/fishing/public/uploads/medium"){
-            param.setdetails({name:res.data.data.username,photo:null});
+            param.setdetails({username:res.data.data.username,
+              name:res.data.data.name,
+              id:res.data.data.id,
+              email:res.data.data.email,
+              mobile:res.data.data.mobile,
+              status:res.data.data.status,
+              photo:null});
             console.log("1")
           }
           else{
-            param.setdetails({name:res.data.data.username,photo:res.data.photo});
+            param.setdetails({username:res.data.data.username,
+              name:res.data.data.name,
+              id:res.data.data.id,
+              email:res.data.data.email,
+              mobile:res.data.data.mobile,
+              status:res.data.data.status,
+              photo:res.data.photo});
             console.log("2")
           }
             
@@ -172,7 +184,7 @@ function LoginForm(param) {
    
       <div className="row">
         <div className="col-md-12 mt-4 text-center">
-        <button className="btn btn-primary rounded-pill" onClick={handleClick}>Register a new membership</button>
+          Not a member?<a href="" onClick={handleClick}> Click here </a>to sign up.
         </div>
       </div>
     </div>

@@ -6,35 +6,7 @@ import{Url} from "../constants/global"
 
 function Header(param) {
   const navigate = useNavigate();
-  var loggedUser = JSON.parse(localStorage.getItem("data"));
-  
-  //const {username:userName,user_type:userType} = loggedUser;
-  console.log(param.details.photo)
-  
-  useEffect(()=>{
-    
-    listUser();
-  
-},[]);
-  function listUser(){
-    
-    Axios.post(
-      Url.userdetailsurl,
-      { user_id: loggedUser.id
-      },
-      { headers: { Token: loggedUser.api_token } }
-    ).then((res) => {
-      
-      //param.setdetails({name:res.data.data.username, photo:res.data.photo})
-      if(res.data.photo=="http://work.phpwebsites.in/fishing/public/uploads/medium"){
-        param.setdetails({name:res.data.data.username,photo:null})
-      }
-      else{
-        param.setdetails({name:res.data.data.username,photo:res.data.photo});
-      }
-      
-    });
-  }
+ 
 
   function submit(e) {
     e.preventDefault();

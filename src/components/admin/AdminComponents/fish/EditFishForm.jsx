@@ -115,7 +115,7 @@ function EditFishForm(param) {
                    
     
                  
-                   <div className="form-group col-xs-12">
+                   <div className="form-group col-md-6">
                      <label >Fish Name</label>
                      <input  className="form-control" 
                      type="text"
@@ -123,8 +123,9 @@ function EditFishForm(param) {
                      onChange={(e) => handle(e)}
                      value={data.Fish_Name}
                      placeholder="Fish Name" />
+                     <p style={{color:"red"}}>{formErrors.fishname}</p>
                    </div>
-                   <p style={{color:"red"}}>{formErrors.fishname}</p>
+                   
                    
     
                  <div className="card-footer">

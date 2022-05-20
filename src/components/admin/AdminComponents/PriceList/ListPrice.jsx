@@ -223,7 +223,7 @@ function ListPrice({setSideNavSel, setsucess,sucess}) {
 <section className="content collapse multi-collapse" id="multiCollapseExample2">
    <div className="container-fluid">
      <div className="row">
-       <div className="col-md-8 mx-auto">
+       <div className="col-md-12 mx-auto">
          {/* general form elements */}
          <div className="card card-warning">
            <div className="card-header">

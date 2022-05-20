@@ -9,11 +9,10 @@ import{Url} from "../constants/global"
 function EditUserData(param) {
   console.log(param.details.photo)
   const isMounted1 = useRef(false);
-  const isMounted2 = useRef(false);
   
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const navigate = useNavigate();
-  console.log("loggedUser id: ", loggedUser.id);
+  console.log("loggedUser id: ", loggedUser.email);
   const [edit, setedit] = useState(false)
   const[userdetails,setuserdetails]=useState({
     username:"",
@@ -54,7 +53,6 @@ useEffect(()=>{
 },[edit]);
 
 
-
 function listUser(){
   console.log(param.sucess)
   Axios.post(
@@ -64,13 +62,9 @@ function listUser(){
     { headers: { Token: loggedUser.api_token } }
   ).then((res) => {
     let li = res.data.data;
+    localStorage.setItem("data", JSON.stringify(res.data.data));
     console.log(res);
-    if(res.data.photo=="http://work.phpwebsites.in/fishing/public/uploads/medium"){
-        param.setdetails({name:res.data.data.username,photo:null})
-      }
-      else{
-        param.setdetails({name:res.data.data.username,photo:res.data.photo});
-      }
+    
     setuserdetails({
       username:li.username,
       name:li.name,
@@ -81,6 +75,26 @@ function listUser(){
       photourl:res.data.photo
       
     });
+    if(res.data.photo=="http://work.phpwebsites.in/fishing/public/uploads/medium"){
+            param.setdetails({username:res.data.data.username,
+              name:res.data.data.name,
+              id:res.data.data.id,
+              email:res.data.data.email,
+              mobile:res.data.data.mobile,
+              status:res.data.data.status,
+              photo:null});
+            console.log("1")
+          }
+          else{
+            param.setdetails({username:res.data.data.username,
+              name:res.data.data.name,
+              id:res.data.data.id,
+              email:res.data.data.email,
+              mobile:res.data.data.mobile,
+              status:res.data.data.status,
+              photo:res.data.photo});
+            console.log("2")
+          }
     
   });
 }
@@ -107,7 +121,7 @@ function listUser(){
         var info = res.data.data;
         console.log(res);
        
-        //setedit(!edit);
+        setedit(!edit);
         param.setsucess({statusmsg:"Edited", createuser:true})
 
         
@@ -119,12 +133,7 @@ function listUser(){
       console.log("Local Storage is Empty");
     }
   }
-  function handlefile(e) {
-    const filedata = { ...file };
-    filedata[e.target.id] = e.target.value;
-    setfile(filedata);
-    console.log(filedata);
-  }
+
   var bodyFormData = new FormData();
   const [picture, setPicture] = useState(null);
   const uploadPicture = (e) => {
@@ -156,43 +165,16 @@ if(picture != null){
   }
   ).then((res) => {
     console.log(res);
+    if(res.data.photo=="http://work.phpwebsites.in/fishing/public/uploads/medium"){
+        param.setdetails(...param.details , {name:res.data.data.name,photo:null})
+      }
+      else{
+        param.setdetails({name:res.data.data.name,photo:res.data.photo});
+      }
    setedit(!edit);
    setPicture() 
   });
 }
-
-  function handleUpload(e) {
-    e.preventDefault();
-    
-    if (loggedUser != null) {
-      const token = loggedUser.api_token;
-      bodyFormData.append('user_id', loggedUser.id);
-      bodyFormData.append('photo', picture);
-     
-      console.log(picture);
-      
-      Axios.post(
-        Url.uploadphotourl,
-        bodyFormData,
-        { headers: {  
-          Token: token,
-         // 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
-          //'Content-Type': 'multipart/form-data'
-        } 
-      }
-      ).then((res) => {
-        console.log(res);
-       setedit(!edit);
-       setPicture()
-       // navigate("../listuserdata");
-       //window.location.reload();
-        
-      });
-    }
-    else {
-      console.log("Local Storage is Empty");
-    }
-  }
 
   function handle(e) {
     const newdata = { ...data };
@@ -249,7 +231,7 @@ if(picture != null){
             <img src={param.details.photo!=null?param.details.photo:man} alt={man} className="brand-image img-circle elevation-3" style={{width:"200px" ,height:"200px"}} />
              
 
-            <button onClick={()=>fileRef.current.click()} style={{"position":"absolute","border":"1px solid black","borderRadius":"50%","marginLeft":"-123px","marginTop":"75px","width":"50px","height":"50px","backgroundColor":"rgba(0, 0, 0, 0.33)"}}><i className="ion ion-upload nav-icon" style={{"fontSize":"25px", "color":"white"}}/></button>
+            <button onClick={()=>fileRef.current.click()} style={{"position":"absolute","border":"1px solid black","borderRadius":"50%","marginLeft":"-123px","marginTop":"75px","width":"50px","height":"50px","backgroundColor":"rgba(0, 0, 0, 0.33)"}}><i className="ion ion-camera nav-icon" style={{"fontSize":"25px", "color":"white"}}/></button>
             <input type="file" name="file" id="file" onChange={(e)=>uploadPicture(e)} style={{width:"100%",}} ref={fileRef} hidden/>
                          
           </div>

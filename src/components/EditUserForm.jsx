@@ -129,7 +129,7 @@ function EditUserForm(edit) {
  
    <div className="container-fluid">
      <div className="row">
-       <div className="col-md-8">
+       <div className="col-md-12">
          {/* general form elements */}
          <div className="card card-primary">
            <div className="card-header">
@@ -138,11 +138,11 @@ function EditUserForm(edit) {
            {/* /.card-header */}
            {/* form start */}
            <form onSubmit={(e)=>submit(e)}>
-             <div className="card-body" style={{ width: '28rem' }}>
+             <div className="card-body">
                
                
-
-             <div className="form-group col-xs-12">
+             <div className="row">
+             <div className="form-group col-md-6">
                  <label >Name</label>
                  <input  className="form-control" 
                   type="text"
@@ -150,19 +150,23 @@ function EditUserForm(edit) {
                   onChange={(e) => handle(e)}
                   value={data.Name}
                   placeholder="Name" />
+                  <p style={{color:"red"}}>{formErrors.name}</p>
                </div>
-               <p style={{color:"red"}}>{formErrors.name}</p>
-               <div className="form-group col-xs-12">
+               
+               <div className="form-group col-md-6">
                  <label >Username</label>
                  <input  className="form-control" 
                  type="text"
                  id="UserName"
                  onChange={(e) => handle(e)}
                  value={data.UserName}
-                  placeholder="User Name" />
+                placeholder="User Name" />
+                <p style={{color:"red"}}>{formErrors.username}</p>
                </div>
-               <p style={{color:"red"}}>{formErrors.username}</p>
-               <div className="form-group col-xs-12">
+               
+               </div>
+               <div className="row">
+               <div className="form-group col-md-6">
                  <label >Mobile</label>
                  <input  className="form-control" 
                   type="text"
@@ -170,9 +174,10 @@ function EditUserForm(edit) {
                   onChange={(e) => handle(e)}
                   value={data.Mobile}
                   placeholder="Mobile" />
+                  <p style={{color:"red"}}>{formErrors.mobile}</p>
                </div>
-               <p style={{color:"red"}}>{formErrors.mobile}</p>
-               <div className="form-group col-xs-12">
+               
+               <div className="form-group col-md-6">
                  <label >Email</label>
                  <input  className="form-control" 
                  type="text"
@@ -180,9 +185,10 @@ function EditUserForm(edit) {
                  onChange={(e) => handle(e)}
                  value={data.Email}
                   placeholder="Email" />
+                  <p style={{color:"red"}}>{formErrors.mail}</p>
                </div>
-               <p style={{color:"red"}}>{formErrors.mail}</p>
                
+               </div>
              </div>
 
              <div className="card-footer">

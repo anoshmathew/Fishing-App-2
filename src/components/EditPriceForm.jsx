@@ -132,7 +132,7 @@ function EditPriceForm(param) {
      
        <div className="container-fluid">
          <div className="row">
-           <div className="col-md-8">
+           <div className="col-md-12">
              {/* general form elements */}
              <div className="card card-primary">
                <div className="card-header">
@@ -141,12 +141,12 @@ function EditPriceForm(param) {
                {/* /.card-header */}
                {/* form start */}
                <form onSubmit={(e)=>submit(e)}>
-                 <div className="card-body" style={{ width: '28rem' }}>
+                 <div className="card-body">
                    
                    
-    
-                 
-                   <div className="form-group col-xs-12">
+                  
+                 <div className="row">
+                   <div className="form-group col-md-6">
                      <label >Card Name</label>
                      <input  className="form-control" 
                      type="text"
@@ -154,9 +154,9 @@ function EditPriceForm(param) {
                      onChange={(e) => handle(e)}
                      value={data.Card_Name}
                       placeholder="Card Name" />
+                      <p style={{color:"red"}}>{formErrors.cardname}</p>
                    </div>
-                   <p style={{color:"red"}}>{formErrors.cardname}</p>
-                   <div className="form-group col-xs-12">
+                   <div className="form-group col-md-6">
                      <label >Days</label>
                      <input  className="form-control" 
                       type="text"
@@ -164,10 +164,11 @@ function EditPriceForm(param) {
                       onChange={(e) => handle(e)}
                       value={data.Days}
                       placeholder="Days" />
+                      <p style={{color:"red"}}>{formErrors.days}</p>
                    </div>
-                   <p style={{color:"red"}}>{formErrors.days}</p>
-                   
-                   <div className="form-group col-xs-12">
+                   </div>
+                   <div className="row">
+                   <div className="form-group col-md-6">
                      <label >Card Type</label>
                      <input  className="form-control" 
                       type="text"
@@ -175,9 +176,10 @@ function EditPriceForm(param) {
                       onChange={(e) => handle(e)}
                       value={data.Type}
                       placeholder="Card Type" />
+                      <p style={{color:"red"}}>{formErrors.type}</p>
                    </div>
-                   <p style={{color:"red"}}>{formErrors.type}</p>
-                   <div className="form-group col-xs-12">
+                   
+                   <div className="form-group col-md-6">
                      <label >Price</label>
                      <input  className="form-control" 
                      type="text"
@@ -185,11 +187,12 @@ function EditPriceForm(param) {
                      onChange={(e) => handle(e)}
                      value={data.Price}
                       placeholder="Price" />
+                    <p style={{color:"red"}}>{formErrors.price}</p>
                    </div>
-                   <p style={{color:"red"}}>{formErrors.price}</p>
+                  
                    
                  </div>
-    
+                 </div>
                  <div className="card-footer">
                    <button type="submit" className="btn btn-primary">Save</button>
                  </div>

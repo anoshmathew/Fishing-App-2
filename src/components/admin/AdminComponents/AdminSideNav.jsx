@@ -140,12 +140,23 @@ useEffect(()=>{
             </li>
               :null}
               {loggedUser.user_type == "admin" ?
+
               <li className="nav-item">
                 <Link to="listuserdata" className={"nav-link " + (sideNavSel == "manageusers" ? "active":"") }  data-toggle="pill" >
                   <i className="nav-icon fas fa-list" />
                   <p>Manage Users</p>
                 </Link>
+                
               </li>
+              
+              :null}
+              {loggedUser.user_type == "admin" ?
+              <li className="nav-item">
+                    <Link to="listfishingrequest" className={"nav-link " + (sideNavSel == "listfishreq" ? "active":"") } >
+                      <i className="ion ion-star nav-icon" />
+                      <p>Fishing Requests</p>
+                    </Link>
+                  </li>
               :null}
                {loggedUser.user_type == "admin" ?
               <li className="nav-item has-treeview">
@@ -169,12 +180,7 @@ useEffect(()=>{
                       <p>Manage Fish</p>
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link to="listfishingrequest" className={"nav-link " + (sideNavSel == "listfishreq" ? "active":"") } >
-                      <i className="ion ion-star nav-icon" />
-                      <p>Manage Fishing Request</p>
-                    </Link>
-                  </li>
+                  
                   
                   
                 </ul>
@@ -193,7 +199,7 @@ useEffect(()=>{
 
               <li className="nav-item has-treeview">
                 <a href="" className="nav-link"  >
-                  <i className="nav-icon fas fa-chart-pie" />
+                  <i className="nav-icon fas fa-cog" />
                   <p>
                     Settings
                     <i className="right fas fa-angle-left" />
