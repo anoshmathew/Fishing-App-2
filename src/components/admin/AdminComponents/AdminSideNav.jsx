@@ -8,8 +8,9 @@ import { Url} from '../../../constants/global'
 
 function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4,sideNavSel,details}) {
   var loggedUser = JSON.parse(localStorage.getItem("data"));
+  var fullloggedUser = JSON.parse(localStorage.getItem("fulldata"));
   const {username:userName,user_type:userType} = loggedUser;
-  
+  console.log(fullloggedUser.idstatus)
 
   const isMounted1 = useRef(false);
   const isMounted2 = useRef(false);
@@ -25,6 +26,8 @@ function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4,sideNavSel,det
   }
 
  
+/*
+
 function listUser(){
     Axios.post(
       Url.userlisturl,
@@ -85,6 +88,8 @@ useEffect(()=>{
   }
  
 },[edit]);
+
+*/
  
 
   console.log(userType);
@@ -130,17 +135,38 @@ useEffect(()=>{
                   <p>Dashboard</p>
                   </Link>
               </li>
-              
+   
+
               {loggedUser.user_type == "employee" ?
+              <>
+              <li className="nav-item">
+                  <Link to="listuserdata" className={"nav-link " + (sideNavSel == "manageusers" ? "active":"") }  data-toggle="pill" >
+                  <i className="nav-icon fas fa-list" />
+                  <p>Manage Users</p>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                    <Link to="listfishingrequest" className={"nav-link " + (sideNavSel == "listfishreq" ? "active":"") } >
+                      <i className="ion ion-star nav-icon" />
+                      <p>Fishing Requests</p>
+                    </Link>
+                  </li>
               <li className="nav-item">
               <Link to="listidcard" className={"nav-link " + (sideNavSel == "listidcard" ? "active":"") } >
                 <i className="ion ion-star nav-icon" />
-                <p>Manage User ID Card</p>
+                <p>Approve Users</p>
               </Link>
             </li>
+            <li className="nav-item">
+            <Link to="rejecteduser" className={"nav-link " + (sideNavSel == "rejectedusers" ? "active":"") } >
+              <i className="ion ion-star nav-icon" />
+              <p>Rejected Users</p>
+            </Link>
+          </li>
+          </>
               :null}
               {loggedUser.user_type == "admin" ?
-
+              
               <li className="nav-item">
                 <Link to="listuserdata" className={"nav-link " + (sideNavSel == "manageusers" ? "active":"") }  data-toggle="pill" >
                   <i className="nav-icon fas fa-list" />
@@ -150,6 +176,7 @@ useEffect(()=>{
               </li>
               
               :null}
+              
               {loggedUser.user_type == "admin" ?
               <li className="nav-item">
                     <Link to="listfishingrequest" className={"nav-link " + (sideNavSel == "listfishreq" ? "active":"") } >
@@ -189,13 +216,34 @@ useEffect(()=>{
                   
                  
             {loggedUser.user_type == "user" ?
+            <>
+            {
+            fullloggedUser.idstatus=="Not Uploaded" ? 
               <li className="nav-item">
                 <Link to="uploadid" className={"nav-link " + (sideNavSel == "uploadid" ? "active":"") } data-toggle="pill">
                   <i className="ion ion-upload nav-icon" />
                   <p>Upload ID</p>
                 </Link>
               </li>
-              :null}
+              : null
+            }
+               {fullloggedUser.idstatus=="Confirm" ? 
+               <li className="nav-item">
+               <Link to="createrequest" className={"nav-link " + (sideNavSel == "createreq" ? "active":"") } data-toggle="pill">
+                 <i className="ion ion-arrow-swap nav-icon" />
+                 <p>Create Request</p>
+               </Link>
+             </li>:
+              null}
+             
+            <li className="nav-item">
+              <Link to="listfishcatch" className={"nav-link " + (sideNavSel == "listcaughtfish" ? "active":"") } >
+                <i className="ion ion-star nav-icon" />
+                <p>Manage Catch Fish</p>
+              </Link>
+            </li>
+            </>
+            :null}
 
               <li className="nav-item has-treeview">
                 <a href="" className="nav-link"  >

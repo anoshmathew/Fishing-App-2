@@ -228,7 +228,7 @@ if(picture != null){
             
           <div className="row">
           <div className="col-md-6">
-            <img src={param.details.photo!=null?param.details.photo:man} alt={man} className="brand-image img-circle elevation-3" style={{width:"200px" ,height:"200px"}} />
+            <img src={param.details.photo!=null?param.details.photo:man} alt="Img" className="brand-image img-circle elevation-3" style={{width:"200px" ,height:"200px"}} />
              
 
             <button onClick={()=>fileRef.current.click()} style={{"position":"absolute","border":"1px solid black","borderRadius":"50%","marginLeft":"-123px","marginTop":"75px","width":"50px","height":"50px","backgroundColor":"rgba(0, 0, 0, 0.33)"}}><i className="ion ion-camera nav-icon" style={{"fontSize":"25px", "color":"white"}}/></button>
@@ -363,7 +363,7 @@ if(picture != null){
              </div>
 
              <div className="card-footer">
-               <button type="submit" className="btn btn-primary">Submit</button>
+               <button type="submit" className="btn btn-primary" data-toggle="collapse" data-target="#multiCollapseExample2" aria-controls="multiCollapseExample2">Submit</button>
              </div>
 
            </form>

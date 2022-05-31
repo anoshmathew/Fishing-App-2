@@ -1,15 +1,14 @@
 import React,{useState,useEffect,useRef} from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
-import IdcardTable from './IdcardTable';
 import { Url} from '../../../../constants/global'
-import ReactLoading from "react-loading";
+import RejectedTable from './RejectedTable';
 
-function Listuseridcard(param) {
+function RejectedUser(param) {
 
   const [pricelist, setpricelist] = useState([]);
   const [activetogprice, setactivetogprice] = useState(false)
-  const [loading, setLoading] = useState(true)
+
   const [page, setPage] = useState(1)
   var getResult ;
   var loggedUser = JSON.parse(localStorage.getItem("data"));
@@ -56,14 +55,13 @@ function Listuseridcard(param) {
       // loadData();
     }, []);
   async function getData() {
-      param.setSideNavSel("listidcard")
+      param.setSideNavSel("rejectedusers")
       Axios.post(
           Url.listidcardurl,
-          { user_id: loggedUser.id,req_user_id:"119", limit:page},
+          { user_id: loggedUser.id, limit:page},
           { headers: { Token: loggedUser.api_token } }
         ).then((res) => {
            getResult = res.data.data;  
-           setLoading(false)
          // localStorage.setItem("pricedatalist", JSON.stringify(getResult));       
           console.log(res);
           setpricelist(getResult);
@@ -81,17 +79,7 @@ function Listuseridcard(param) {
           console.log(res);
         });
       }
-      function toggleReject(item){
-      
-        Axios.post(
-          Url.idcardstatusurl,
-          { user_id: loggedUser.id,st_id: item.id, status: "Rejected" },
-          { headers: { Token: token } }
-        ).then((res) => {
-          setactivetogprice(!activetogprice);
-          console.log(res);
-        });
-      }
+     
      
       
     
@@ -144,12 +132,12 @@ function Listuseridcard(param) {
   <div className="container-fluid">
     <div className="row mb-2">
       <div className="col-sm-6">
-        <h1 className="m-0 text-dark">Approve Users</h1>
+        <h1 className="m-0 text-dark">Rejected User ID Card</h1>
       </div>{/* /.col */}
       <div className="col-sm-6">
         <ol className="breadcrumb float-sm-right">
           <li className="breadcrumb-item"><a href="">Admin</a></li>
-          <li className="breadcrumb-item active">Approve Users</li>
+          <li className="breadcrumb-item active">Rejected User ID Card</li>
         </ol>
       </div>{/* /.col */}
     </div>{/* /.row */}
@@ -220,17 +208,7 @@ function Listuseridcard(param) {
             <div className="card-body table-responsive p-0">
               <table className="table table-bordered table-hover table-sm">
                
-              {
-                 loading===true?(<div style={{display:"flex",justifyContent:"center"}}>
-                   <ReactLoading
-                  type="spinningBubbles"
-                  color="grey"
-                  height={100}
-                  width={50}
-                />
-                   </div>):(<IdcardTable pricelist={pricelist} toggleConfirm={toggleConfirm} toggleReject={toggleReject} />)
-               }
-                
+                {<RejectedTable pricelist={pricelist} toggleConfirm={toggleConfirm} />}
                                                   
               </table>
             </div>
@@ -264,4 +242,4 @@ function Listuseridcard(param) {
   )
 }
 
-export default Listuseridcard
+export default RejectedUser

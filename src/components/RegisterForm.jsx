@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useRef } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 //import "./css/RegisterForm.css"
@@ -14,11 +14,21 @@ function RegisterForm() {
     username: "",
     type: "",
   });
-  
+  const isMounted1 = useRef(false);
 const [formErrors, setformErrors] = useState({});
 const [isSubmit,setIsSubmit] = useState(false);
 const [popup, setpopup] = useState({color:"",mesg:""});
-  function submit(e) {
+  
+useEffect(()=>{
+  if (isMounted1.current){
+    registerfun();
+  }
+  else {
+    isMounted1.current = true;
+  }
+},[formErrors]);
+
+function submit(e) {
     e.preventDefault();
     setformErrors(validate(data));
     //setIsSubmit(true);
@@ -32,10 +42,7 @@ const [popup, setpopup] = useState({color:"",mesg:""});
     }, 3000)
   }
 
-  useEffect(() => {
-    registerfun();
-    
-  }, [formErrors])
+  
   
   function registerfun(){
     console.log(data);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Url} from '../../../../constants/global'
@@ -6,10 +6,14 @@ import { Url} from '../../../../constants/global'
 function CreateRequest(param) {
     const navigate = useNavigate();
   var loggedUser = JSON.parse(localStorage.getItem("data"));
-
+console.log(loggedUser)
   var msg;
+  useEffect(() => {
+    param.setSideNavSel("createreq")
+  }, [])
   
-  const token = loggedUser.api_token;
+ 
+  
   const [data, setData] = useState({  
     //user_id:"",
     name: "",   
@@ -27,15 +31,14 @@ function CreateRequest(param) {
   });
   function submit(e) {
     e.preventDefault();
-    console.log(loggedUser.id)
-    if(data.name!=""){
-
     console.log(data);
+    console.log(loggedUser);
+    
     Axios.post(Url.createfishrequrl, {
         user_id: loggedUser.id ,
-        name: data.name,   
-        email:data.email,
-        mobile:data.mobile,
+        name: loggedUser.name,   
+        email:loggedUser.email,
+        mobile:loggedUser.mobile,
         house_name:data.house_name,
         street:data.street,
         city:data.city,
@@ -57,7 +60,7 @@ function CreateRequest(param) {
         param.setsucess({...param.sucess,color:"danger",statusmsg:"Error!!", createuser:false})
       }
     });
-  }
+  
   if(param.sucess.createuser===true){
     setTimeout(() => {
       param.setsucess({...param.sucess, createuser:false,statusmsg:""})
@@ -90,7 +93,7 @@ function CreateRequest(param) {
           </div>{/* /.col */}
           <div className="col-sm-6">
             <ol className="breadcrumb float-sm-right">
-              <li className="breadcrumb-item"><a href="">Admin</a></li>
+              <li className="breadcrumb-item"><a href="">User</a></li>
               <li className="breadcrumb-item active">Add Fishing Request</li>
             </ol>
           </div>{/* /.col */}
@@ -106,7 +109,7 @@ function CreateRequest(param) {
              {/* general form elements */}
              <div className="card card-primary">
                <div className="card-header">
-                 <h3 className="card-title">Create Fish</h3>
+                 <h3 className="card-title">Create Fishing Request</h3>
                </div>
                {/* /.card-header */}
                {/* form start */}
@@ -122,7 +125,7 @@ function CreateRequest(param) {
                       id="name"
                       onChange={(e) => handle(e)}
                       value={data.name}
-                      placeholder="Fish Name" />
+                      placeholder="Disabled" />
                    </div>
                    <div className="form-group col-md-6">
                  <label >Email</label>
@@ -131,7 +134,7 @@ function CreateRequest(param) {
                   id="email"
                   onChange={(e) => handle(e)}
                   value={data.email}
-                  placeholder="Email" />
+                  placeholder="Disabled" />
                </div>
                <div className="form-group col-md-6">
                  <label >Mobile</label>
@@ -140,7 +143,7 @@ function CreateRequest(param) {
                   id="mobile"
                   onChange={(e) => handle(e)}
                   value={data.mobile}
-                  placeholder="mobile" />
+                  placeholder="Disabled" />
                </div>
                <div className="form-group col-md-6">
                  <label >House Name</label>

@@ -5,7 +5,7 @@ import { Url} from '../constants/global'
 
 function ResetPassword(param) {
   param.setSideNavSel("resetpass");
-  const [alert, setalert] = useState("")
+  const [alert, setalert] = useState({color:"",status:false,msg:""})
   const [errPass, seterrPass] = useState("")
   const navigate = useNavigate();
   const [data, setData] = useState({
@@ -14,9 +14,10 @@ function ResetPassword(param) {
     ConPassword: "",
   });
 
-  if(alert!=""){
+  if(alert.status){
     setTimeout(() => {
-      setalert("")
+      setalert({color:"",status:false,msg:""})
+      console.log(alert)
     }, 3000)
   }
 
@@ -34,13 +35,23 @@ function ResetPassword(param) {
       Axios.post(
         Url.passreseturl,
         { user_id: loggedUser.id,
+          old_password:data.OldPassword,
           password: data.NewPassword },
         { headers: { Token: token } }
       ).then((res) => {
-        console.log(res.data);
-        console.log("Password Changed")
-        seterrPass("");
-        setalert("Password Changed!");
+        console.log(res);
+        if(res.data.status == "yes")
+        {
+          console.log("Password Changed")
+          seterrPass("");
+          setalert({color:"success",status:true,msg:"Password Changed!"});
+          console.log(alert)
+        }
+       else{
+        seterrPass("Invalid Password");
+        setalert( {color:"danger",status:true,msg:res.data.message});
+        console.log(alert) 
+      }
         //navigate("../listuserdata")
       });
     }
@@ -60,14 +71,14 @@ function ResetPassword(param) {
 
   return ( 
     <div className="content-wrapper justify-content-left mt-5" style={{background:"white"}}>
-<div className={"alert alert-success alert-dismissable " + (alert!=""?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
+<div className={"alert alert-"+(alert.color)+" alert-dismissable " + (alert.status?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
 			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
 			<i className="ace-icon fa fa-times"></i>
 			</button>
 			<strong>
 			<i className="ace-icon fa fa-check"></i>
 			</strong>
-      {alert}<br/>
+      {alert.msg}<br/>
 	</div>
 <div className="content-header">
   <div className="container-fluid">
@@ -101,8 +112,22 @@ function ResetPassword(param) {
            <form onSubmit={(e)=>submit(e)}>
              <div className="card-body">
 
-             
-
+             <div className="form-group col-md-6">
+                 <label >Old Password</label>
+                 <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text"><i className="fa fa-key"></i></span>
+                  </div>
+               	  <input type="password" 
+                   onChange={(e) => handle(e)}
+                   className="form-control" 
+                   value={data.OldPassword}
+                   id="OldPassword" 
+                   placeholder="Old password" 
+                   maxlength="20" 
+                   required=""/>
+                </div>
+              </div>
                <div className="form-group col-md-6">
                  <label >New Password</label>
                  <div className="input-group">

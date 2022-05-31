@@ -1,7 +1,7 @@
 import React from 'react'
+import { Link, useNavigate } from "react-router-dom";
 
-
-function IdcardTable(param) {
+function RejectedTable(param) {
     return (
       <>
           
@@ -14,11 +14,11 @@ function IdcardTable(param) {
                 <th>Status</th>
                 <th>User ID</th>
                 <th>Approve</th>
-                <th>Reject</th>
+               
       </tr>
     </thead>
     <tbody>
-              {param.pricelist.filter((item)=>item.status=="Upload").map((item) => (
+              {param.pricelist.filter((item)=>item.status=="Rejected").map((item) => (
                 
               <tr key={item.id}>
                   <td >{item.id}</td>
@@ -32,11 +32,7 @@ function IdcardTable(param) {
                       <a role="button" className="btn btn-primary mr-1" onClick={() => param.toggleConfirm(item)} >{<i className="fas fa-check"></i>}</a>
                      
                   </td>    
-                  <td>
-               
-                      <a role="button" className="btn btn-danger mr-1" onClick={() => param.toggleReject(item)} >{<i className="fas fa-times"></i>}</a>
-                     
-                  </td>          
+                         
               </tr>                     
               ))}
   
@@ -45,4 +41,4 @@ function IdcardTable(param) {
     )
   }
 
-export default IdcardTable
+export default RejectedTable

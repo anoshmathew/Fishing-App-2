@@ -3,12 +3,12 @@ import { Link, useNavigate,useLocation } from "react-router-dom";
 import Axios from "axios";
 import FishCatchTable from './FishCatchTable';
 import ReactLoading from "react-loading";
+import { Url} from '../../../../constants/global'
 
 function ListFishCatch(param) {
-    const url1 = "http://work.phpwebsites.in/fishing/api/catfishlist";      
-    const url2 = "http://work.phpwebsites.in/fishing/api/fishreqstatus";
-    const url3 = "http://work.phpwebsites.in/fishing/api/fishreqdelete";
+    
     const [fishingCatchList, setfishingCatchList] = useState([]);
+    
     var getResult ;
     const [page, setPage] = useState(1)
     const [search, setSearch] = useState(true);
@@ -63,10 +63,10 @@ function ListFishCatch(param) {
       },[page]);
 
     async function getData() {
-      param.setSideNavSel("listfishcatch")
+      param.setSideNavSel("listcaughtfish")
       console.log(loggedUser)
         Axios.post(
-            url1,
+            Url.catchfishurl,
             { user_id: loggedUser.id, limit:page},
             { headers: { Token: loggedUser.api_token } }
           ).then((res) => {
@@ -87,8 +87,9 @@ function ListFishCatch(param) {
         function submit(e) {
             e.preventDefault();
             Axios.post(
-              url1,
+              Url.catchfishurl,
               { user_id: loggedUser.id, 
+                
                 limit:1,
                 //^ To do--------------------------------------------------------------------------
                 //-----------------------
@@ -127,7 +128,7 @@ function ListFishCatch(param) {
               </div>{/* /.col */}
               <div className="col-sm-6">
                 <ol className="breadcrumb float-sm-right">
-                  <li className="breadcrumb-item"><a href="">Admin</a></li>
+                  <li className="breadcrumb-item"><a href="">User</a></li>
                   <li className="breadcrumb-item active">Manage Caught Fish</li>
                 </ol>
               </div>{/* /.col */}
@@ -136,7 +137,7 @@ function ListFishCatch(param) {
         </div>
         <div className="row" style={{clear: 'both', marginBottom: 10,marginRight: 10}}>
           <div className="col-md-12 " align="right" style={{clear: 'both'}}>
-            
+          <Link type="button" className="btn btn-inline btn-danger mr-1" to="../addfishcaught"><i className="fa fa-plus" /> Add Fish</Link>
             <button className="btn btn-warning" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
               <i className="fa fa-search" />  
               Search

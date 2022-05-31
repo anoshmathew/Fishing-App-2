@@ -22,7 +22,7 @@ function FishCatchTable(param) {
         <tr key={item.id}>
             <td>{item.id}</td>
             <td>{item.fish_id}</td>
-            <td>{item.fish_weight}</td>
+            <td>{item.fish_weight} Kg</td>
             <td>{item.req_id}</td>
             <td>{item.status}</td>
             <td>{item.user_id}</td>

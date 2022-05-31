@@ -30,6 +30,8 @@ import Uploadid from "./AdminComponents/UploadID/Uploadid";
 import Listuseridcard from "./AdminComponents/UserId/Listuseridcard";
 import{Url} from "../../constants/global"
 import Axios from "axios";
+import RejectedUser from "./AdminComponents/Rejected/RejectedUser";
+import AddFish from "./AdminComponents/FishCatch/AddFish";
 
 function AdminMain({details,setdetails}) {
   const [lim, setlim] = useState(0);
@@ -108,12 +110,14 @@ function listUser(){
         <Route path="listfish" element={<ListFish setSideNavSel={setSideNavSel}  sucess={sucess} setsucess={setsucess}/>} />
         <Route path="createfish" element={<CreateFish  sucess={sucess} setsucess={setsucess}/>} />
         <Route path="/editfishform" element={<EditFishForm editfish={editfish} seteditfish={seteditfish} sucess={sucess} setsucess={setsucess}/>} />
-        <Route path="createrequest" element={<CreateRequest sucess={sucess} setsucess={setsucess}/>} />
+        <Route path="createrequest" element={<CreateRequest setSideNavSel={setSideNavSel} sucess={sucess} setsucess={setsucess}/>} />
         <Route path="listfishingrequest" element={<ListFishingRequest setSideNavSel={setSideNavSel} sucess={sucess} setsucess={setsucess}/>} />
         <Route path="/editfishreq" element={<EditFishingRequest sucess={sucess} setsucess={setsucess}/>} />
         <Route path="listfishcatch" element={<ListFishCatch setSideNavSel={setSideNavSel}/>} />
         <Route path="/uploadid" element={<Uploadid setSideNavSel={setSideNavSel}/>} />
         <Route path="/listidcard" element={<Listuseridcard setSideNavSel={setSideNavSel}/>} />
+        <Route path="rejecteduser" element={<RejectedUser setSideNavSel={setSideNavSel}/>} />
+        <Route path="addfishcaught" element={<AddFish sucess={sucess} setsucess={setsucess}/>} />
       </Routes>
       {/*
                 

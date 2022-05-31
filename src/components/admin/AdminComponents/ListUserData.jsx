@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-
+import { Url} from '../../../constants/global'
 import TableComponent from "./TableComponent";
 import ReactLoading from "react-loading";
 
@@ -18,7 +18,7 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
   const isMounted1 = useRef(false);
   const isMounted2 = useRef(false);
   const isMounted3 = useRef(false);
-
+  const isMounted4 = useRef(false)
 console.log(sucess);
 
 useEffect(()=>{
@@ -30,6 +30,7 @@ useEffect(()=>{
   }
 },[sucess]);
 
+
   useEffect(()=>{
     if (isMounted2.current){
       listUser();
@@ -38,6 +39,7 @@ useEffect(()=>{
       isMounted2.current = true;
     }
   },[page]);
+  
   useEffect(()=>{
     if (isMounted3.current){
       listUser();
@@ -46,10 +48,15 @@ useEffect(()=>{
       isMounted3.current = true;
     }
   },[del]);
+  useEffect(()=>{
+    if (isMounted4.current){
+      listUser();
+    }
+    else {
+      isMounted4.current = true;
+    }
+  },[activetog]);
   
-  const url1 = "http://work.phpwebsites.in/fishing/api/userdelete";
-  const url2 = "http://work.phpwebsites.in/fishing/api/userslist";
-  const url3 = "http://work.phpwebsites.in/fishing/api/userstatus";
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   
   const token = loggedUser.api_token;
@@ -74,7 +81,7 @@ useEffect(()=>{
   const [list2, setlist2] = useState([])
   function listUser(){
     Axios.post(
-      url2,
+      Url.userlisturl,
       { user_id: loggedUser.id, 
         limit:page,
         //^ To do-------------------------------------------
@@ -96,11 +103,19 @@ useEffect(()=>{
     console.log(" User id: ", loggedUser.id, "deleting user id: ", item.id);
     console.log(obj);
     Axios.post(
-      url1,
+      Url.userdeleteurl,
       { user_id: loggedUser.id, del_id: item.id },
       { headers: { Token: token } }
     ).then((res) => {
-      setdel(del+1);
+      
+      if(res.data.status == "yes"){
+        setsucess({...sucess,color:"success",statusmsg:"Deleted", createuser:true})
+        console.log("deleted");
+        setdel(del+1);
+      }
+      else{
+        setsucess({...sucess,color:"danger",statusmsg:"Error", createuser:false})
+      }
       console.log("deleted");
       });
   }
@@ -119,25 +134,23 @@ useEffect(()=>{
   function toggleStatus(item){
     if(item.status == "active"){
       Axios.post(
-        url3,
+        Url.userstatusurl,
         { user_id: loggedUser.id,st_id: item.id, status: "inactive" },
         { headers: { Token: token } }
       ).then((res) => {
-        setactivetog(true);
-        console.log(res);
-        setactivetog(false);
+        setactivetog(!activetog);
+        
         console.log(res);
       });
     }
     else{
       Axios.post(
-        url3,
+        Url.userstatusurl,
         { user_id: loggedUser.id, st_id: item.id, status: "active" },
         { headers: { Token: token } }
       ).then((res) => {
-        setactivetog(false);
-        console.log(res);
-        setactivetog(true);
+        setactivetog(!activetog);
+        
         console.log(res);
      
       });
@@ -152,10 +165,10 @@ useEffect(()=>{
   function submit(e) {
     e.preventDefault();
     Axios.post(
-      url2,
+      Url.userlisturl,
       { user_id: loggedUser.id, 
         
-        limit:1,
+        limit:page,
         //^ To do--------------------------------------------------------------------------
         
         //-----------------------
@@ -173,10 +186,14 @@ useEffect(()=>{
     });
   }
 
+  function showDetails(itm){
+    console.log(itm);
+  }
+
   function cancelSearch(e){
     e.preventDefault();
     Axios.post(
-      url2,
+      Url.userlisturl,
       { user_id: loggedUser.id, 
         limit:1,  
       },
@@ -216,7 +233,7 @@ if(sucess){
 <div className="content-wrapper justify-content-center mt-5" >
 
 
-<div className={"alert alert-success alert-dismissable " + (sucess.createuser?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
+<div className={"alert alert-success alert-dismissable " + (sucess.createuser?"":"hide")} style={{position: "absolute",zIndex:"2","width":"100%"}}>
 			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
 			<i className="ace-icon fa fa-times"></i>
 			</button>
@@ -225,7 +242,7 @@ if(sucess){
 			</strong>
       {sucess.statusmsg}<br/>
 	</div>
-<div className="content-header">
+<div className="content-header" >
   <div className="container-fluid">
     <div className="row mb-2">
       <div className="col-sm-6">
@@ -243,7 +260,7 @@ if(sucess){
 
 <div className="row" style={{clear: 'both', marginBottom: 10,marginRight: 10}}>
   <div className="col-md-12 " align="right" style={{clear: 'both'}}>
-    <Link type="button" className="btn btn-inline btn-danger mr-1" to="../createuser"><i className="fa fa-edit" /> New User</Link>
+  {loggedUser.user_type == "admin" ?<Link type="button" className="btn btn-inline btn-danger mr-1" to="../createuser"><i className="fa fa-edit" /> New User</Link>:null}
     <button className="btn btn-warning" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
       <i className="fa fa-search" />  
       Search
@@ -344,7 +361,7 @@ if(sucess){
                   height={100}
                   width={50}
                 />
-                   </div>):(<TableComponent list={list} list2={list2} toggleStatus={toggleStatus} delFun={delFun} detailsShown={detailsShown} setDetailShown={setDetailShown} toggleShown={toggleShown}/>)
+                   </div>):(<TableComponent list={list} list2={list2} toggleStatus={toggleStatus} delFun={delFun} detailsShown={detailsShown} showDetails={showDetails} setDetailShown={setDetailShown} toggleShown={toggleShown}/>)
                }                                   
               </table>
             </div>

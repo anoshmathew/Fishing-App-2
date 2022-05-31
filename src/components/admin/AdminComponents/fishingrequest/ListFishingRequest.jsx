@@ -6,9 +6,9 @@ import ReactLoading from "react-loading";
 import { Url} from '../../../../constants/global'
 
 function ListFishingRequest(param) {
-    const url1 = "http://work.phpwebsites.in/fishing/api/fishreqlist";      
+   
     const url2 = "http://work.phpwebsites.in/fishing/api/fishreqopenedit";
-    const url3 = "http://work.phpwebsites.in/fishing/api/fishreqdelete";
+
     const [fishingRequestlist, setfishingRequestlist] = useState([]);
     var getResult ;
     const [page, setPage] = useState(1)
@@ -60,7 +60,7 @@ function ListFishingRequest(param) {
         else {
           isMounted2.current = true;
         }
-      },[EditFishingReq]);
+      },[togdelfishreq]);
       useEffect(()=>{
         if (isMounted3.current){
             getData();
@@ -127,11 +127,21 @@ function ListFishingRequest(param) {
 
         Axios.post(
           Url.fishreqdeleteurl,
-          { user_id: loggedUser.id, req_id: item.req_id },
+          { user_id: loggedUser.id, req_id: item.id },
           { headers: { Token: token } }
         ).then((res) => {
-          settogdelfishreq(!togdelfishreq);
-          console.log("deleted");
+         
+          console.log(res);
+          if(res.data.status == "yes"){
+            param.setsucess({...param.sucess,color:"success",statusmsg:"Deleted", createuser:true})
+            console.log("deleted");
+            settogdelfishreq(!togdelfishreq);
+          }
+          else{
+            param.setsucess({...param.sucess,color:"danger",statusmsg:"Error", createuser:false})
+            console.log("Not deleted");
+          }
+          
           });
           
         }
@@ -148,6 +158,7 @@ function ListFishingRequest(param) {
             Axios.post(
               Url.fishreqlisturl,
               { user_id: loggedUser.id, 
+                
                 limit:1,
                 //^ To do--------------------------------------------------------------------------
                 
@@ -177,7 +188,7 @@ function ListFishingRequest(param) {
            }
   return (
     <div className="content-wrapper justify-content-center mt-5" >
-       <div className={"alert alert-"+(param.sucess.color)+" alert-dismissable " + (param.sucess.createuser?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
+       <div className={"alert alert-success alert-dismissable " + (param.sucess.createuser?"":"hide")} style={{position: "absolute",zIndex:"2","width":"100%"}}>
 			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
 			<i className="ace-icon fa fa-times"></i>
 			</button>

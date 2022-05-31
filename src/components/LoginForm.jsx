@@ -53,7 +53,7 @@ function LoginForm(param) {
         msg = res.data.message
         //  let token =info.api_token ;
         localStorage.setItem("data", JSON.stringify(res.data.data));
-        localStorage.setItem("relo", false);
+        localStorage.setItem("fulldata", JSON.stringify(res.data));
         if (msg == "Inavlid Username/Password"){
           setpopup({mesg:"Inavlid Username/Password"})
           //alert("Inavlid Username/Password");

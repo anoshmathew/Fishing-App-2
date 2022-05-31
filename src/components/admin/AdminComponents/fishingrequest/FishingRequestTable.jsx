@@ -13,10 +13,10 @@ function FishingRequestTable(param) {
           <th>Email</th>            
           <th>Start Date</th>
           <th>End Date</th>   
+          <th>Purchase Date</th> 
           <th>Amount</th>            
-          <th>Days</th>
-          <th>Purchase Date</th>   
-          <th>Email</th>      
+          <th>Days</th>  
+          
           <th>Fish Caught</th>      
           <th>Open For Edit</th>
           <th>Actions</th>                           
@@ -30,13 +30,13 @@ function FishingRequestTable(param) {
             <td>{item.name}</td>
             <td>{item.city}</td>
             <td>{item.email}</td>
-            <td>{item.start_date}</td>
-            <td>{item.close_date}</td>
-            <td >{item.amount}</td>
+            <td>{item.formatted_stdate}</td>
+            <td>{item.formatted_closdate}</td>
+            <td>{item.formatted_edate}</td>
+            <td >{item.amount}$</td>
             <td>{item.days}</td>
-            <td>{item.pur_date}</td>
-            <td>{item.email}</td>
-            <td><Link type="button" className="btn btn-inline btn-warning mr-1"  to="../listfishcatch" state={item}><i className="fa fa-edit" /></Link></td>
+                       
+            <td><Link type="button" className="btn btn-inline btn-warning mr-1"  to="../listfishcatch" state={item}><b>View</b></Link></td>
             <td>
             <a role="button" className="btn btn-primary mr-1" onClick={() => param.toggleStatusFish(item)} >{item.open_edit=='no'?<i className="fas fa-lock-open"></i>:<i className="fas fa-lock"></i>}</a>
             </td>
