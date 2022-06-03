@@ -53,12 +53,28 @@ function LoginForm(param) {
         msg = res.data.message
         //  let token =info.api_token ;
         localStorage.setItem("data", JSON.stringify(res.data.data));
-        localStorage.setItem("fulldata", JSON.stringify(res.data));
+        localStorage.setItem("fulldata", JSON.stringify(res));
         if (msg == "Inavlid Username/Password"){
           setpopup({mesg:"Inavlid Username/Password"})
           //alert("Inavlid Username/Password");
         }
         else{
+          var loggedUserfull = JSON.parse(localStorage.getItem("fulldata"));
+          var reqdetails
+          Axios.post(
+            Url.listidcardurl,
+            { user_id: loggedUserfull.data.data.id, limit:1},
+            { headers: { Token: loggedUserfull.data.data.api_token } }
+          ).then((res) => {
+            console.log(loggedUserfull.data.data.id);
+            console.log(res.data.data)
+            res.data.data.filter(item => item.user_id==loggedUserfull.data.data.id).map((item) => {
+              console.log(item)
+             
+              
+            }) 
+          });
+
           if(res.data.photo=="http://work.phpwebsites.in/fishing/public/uploads/medium"){
             param.setdetails({username:res.data.data.username,
               name:res.data.data.name,

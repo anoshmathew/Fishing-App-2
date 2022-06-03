@@ -32,6 +32,7 @@ import{Url} from "../../constants/global"
 import Axios from "axios";
 import RejectedUser from "./AdminComponents/Rejected/RejectedUser";
 import AddFish from "./AdminComponents/FishCatch/AddFish";
+import OpenReqList from "./AdminComponents/userRequest/OpenReqList";
 
 function AdminMain({details,setdetails}) {
   const [lim, setlim] = useState(0);
@@ -114,10 +115,13 @@ function listUser(){
         <Route path="listfishingrequest" element={<ListFishingRequest setSideNavSel={setSideNavSel} sucess={sucess} setsucess={setsucess}/>} />
         <Route path="/editfishreq" element={<EditFishingRequest sucess={sucess} setsucess={setsucess}/>} />
         <Route path="listfishcatch" element={<ListFishCatch setSideNavSel={setSideNavSel}/>} />
-        <Route path="/uploadid" element={<Uploadid setSideNavSel={setSideNavSel}/>} />
+       {// <Route path="/uploadid" element={<Uploadid setSideNavSel={setSideNavSel}/>} />
+  }
+  <Route path="openreqlist" element={<OpenReqList setSideNavSel={setSideNavSel}/>} />
         <Route path="/listidcard" element={<Listuseridcard setSideNavSel={setSideNavSel}/>} />
         <Route path="rejecteduser" element={<RejectedUser setSideNavSel={setSideNavSel}/>} />
         <Route path="addfishcaught" element={<AddFish sucess={sucess} setsucess={setsucess}/>} />
+        
       </Routes>
       {/*
                 

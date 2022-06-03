@@ -9,9 +9,23 @@ import { Url} from '../../../constants/global'
 function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4,sideNavSel,details}) {
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   var fullloggedUser = JSON.parse(localStorage.getItem("fulldata"));
+  //var reqdetails=JSON.parse(localStorage.getItem("reqdetail"));
   const {username:userName,user_type:userType} = loggedUser;
-  console.log(fullloggedUser.idstatus)
-
+  //console.log(reqdetails.status)
+useEffect(() => {
+ // checkFishingReqStatus()
+}, [])
+function checkFishingReqStatus(){
+  if(loggedUser.user_type=="user"){
+    Axios.post(
+      Url.fishreqstatusurl,
+      { user_id: loggedUser.id, req_id:page},
+      { headers: { Token: loggedUser.api_token } }
+    ).then((res) => {
+      console.log(res);
+    });
+  }
+}
   const isMounted1 = useRef(false);
   const isMounted2 = useRef(false);
   const isMounted3 = useRef(false);
@@ -217,27 +231,16 @@ useEffect(()=>{
                  
             {loggedUser.user_type == "user" ?
             <>
-            {
-            fullloggedUser.idstatus=="Not Uploaded" ? 
-              <li className="nav-item">
-                <Link to="uploadid" className={"nav-link " + (sideNavSel == "uploadid" ? "active":"") } data-toggle="pill">
-                  <i className="ion ion-upload nav-icon" />
-                  <p>Upload ID</p>
+            <li className="nav-item">
+              <Link to="openreqlist" className={"nav-link " + (sideNavSel == "openfishingreq" ? "active":"") } >
+                  <i className="ion ion-star nav-icon" />
+                  <p>Open Fishing Requests</p>
                 </Link>
               </li>
-              : null
-            }
-               {fullloggedUser.idstatus=="Confirm" ? 
-               <li className="nav-item">
-               <Link to="createrequest" className={"nav-link " + (sideNavSel == "createreq" ? "active":"") } data-toggle="pill">
-                 <i className="ion ion-arrow-swap nav-icon" />
-                 <p>Create Request</p>
-               </Link>
-             </li>:
-              null}
+              
              
             <li className="nav-item">
-              <Link to="listfishcatch" className={"nav-link " + (sideNavSel == "listcaughtfish" ? "active":"") } >
+              <Link to="listfishcatch" className={"nav-link " + (sideNavSel == "listcaughtfish" ? "active":"") }  data-toggle="pill" >
                 <i className="ion ion-star nav-icon" />
                 <p>Manage Catch Fish</p>
               </Link>

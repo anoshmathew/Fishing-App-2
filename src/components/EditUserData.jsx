@@ -29,6 +29,12 @@ function EditUserData(param) {
     Mobile: loggedUser.mobile,
     UserName: loggedUser.username,
     Name: loggedUser.name,
+    House_Name:loggedUser.house_name,
+    Street:loggedUser.street,
+    City:loggedUser.city,
+    State:loggedUser.state,
+    Country:loggedUser.country,
+    Pincode:loggedUser.pincode,
     file:"",
   });
   if(param.sucess.createuser===true){
@@ -113,7 +119,13 @@ function listUser(){
           email: data.Email,
           mobile: data.Mobile,
           username: data.UserName,
-          name: data.Name
+          name: data.Name,
+          house_name: data.House_Name,
+          street:data.Street,
+          city:data.Street,
+          state:data.State,
+          country:data.Country,
+          pincode:data.Pincode,
          
         },
         { headers: { Token: token } }
@@ -354,6 +366,66 @@ if(picture != null){
                  onChange={(e) => handle(e)}
                  value={data.Email}
                   placeholder="Email" />
+               </div>
+               </div>
+               <div className="row">
+               <div className="form-group col-md-6">
+                 <label >House Name</label>
+                 <input  className="form-control" 
+                  type="text"
+                  id="House_Name"
+                  onChange={(e) => handle(e)}
+                  value={data.House_Name}
+                  placeholder="House Name" />
+               </div>
+               <div className="form-group col-md-6">
+                 <label >Street</label>
+                 <input  className="form-control" 
+                 type="text"
+                 id="Street"
+                 onChange={(e) => handle(e)}
+                 value={data.Street}
+                  placeholder="Street" />
+               </div>
+               </div>
+               <div className="row">
+               <div className="form-group col-md-6">
+                 <label >City</label>
+                 <input  className="form-control" 
+                  type="text"
+                  id="City"
+                  onChange={(e) => handle(e)}
+                  value={data.City}
+                  placeholder="City" />
+               </div>
+               <div className="form-group col-md-6">
+                 <label >State</label>
+                 <input  className="form-control" 
+                 type="text"
+                 id="State"
+                 onChange={(e) => handle(e)}
+                 value={data.State}
+                  placeholder="State" />
+               </div>
+               </div>
+               <div className="row">
+               <div className="form-group col-md-6">
+                 <label >Country</label>
+                 <input  className="form-control" 
+                  type="text"
+                  id="Country"
+                  onChange={(e) => handle(e)}
+                  value={data.Country}
+                  placeholder="Country" />
+               </div>
+               <div className="form-group col-md-6">
+                 <label>Pincode</label>
+                 <input  className="form-control" 
+                 type="text"
+                 id="Pincode"
+                 onChange={(e) => handle(e)}
+                 value={data.Pincode}
+                  placeholder="Pincode" />
                </div>
                </div>
 

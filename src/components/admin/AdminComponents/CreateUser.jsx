@@ -1,10 +1,10 @@
 import React, { useState,useEffect } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-
+import{Url} from "../../../constants/global"
 function CreateUser(param) {
   const navigate = useNavigate();
-  const url = "http://work.phpwebsites.in/fishing/api/register";
+ 
   const [data, setData] = useState({
     mail: "",
     mobile: "",
@@ -21,7 +21,7 @@ function CreateUser(param) {
    }, [formErrors])
 
  function update(){
-  Axios.post(url, {
+  Axios.post(Url.registerurl, {
     email: data.mail,
     mobile: data.mobile,
     password: data.password,

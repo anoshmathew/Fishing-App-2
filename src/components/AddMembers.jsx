@@ -2,11 +2,12 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import{Url} from "../constants/global"
 
 function AddMembers() {
     const navigate = useNavigate();
 
-  const url = "http://work.phpwebsites.in/fishing/api/register";
+  
   const [data, setData] = useState({
     mail: "",
     mobile: "",
@@ -18,7 +19,7 @@ function AddMembers() {
   function submit(e) {
     e.preventDefault();
     console.log(data);
-    Axios.post(url, {
+    Axios.post(Url.registerurl, {
       email: data.mail,
       mobile: data.mobile,
       password: data.password,
@@ -101,9 +102,7 @@ function AddMembers() {
             </div>
           </div>
 
-     
-         
-          
+
 
         <div className="input-group mb-3">
           

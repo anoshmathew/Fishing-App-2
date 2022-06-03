@@ -5,36 +5,71 @@ import { Url} from '../../../../constants/global'
 
 function CreateRequest(param) {
     const navigate = useNavigate();
+   // const [list, setlist] = useState()
+    var lst;
   var loggedUser = JSON.parse(localStorage.getItem("data"));
-console.log(loggedUser)
+  var arr = [{card_name: "--Select a Card--",
+  card_type: "",
+  days: null,
+  id: null,
+  price: null,
+  status: "active"}
+];
+  const [priceCards, setpriceCards] = useState(arr)
+  console.log(loggedUser)
   var msg;
   useEffect(() => {
-    param.setSideNavSel("createreq")
+    getcards();
   }, [])
   
- 
+ function getcards(){
+ // param.setSideNavSel("listidcard")
+  Axios.post(Url.pricelisturl, {
+    user_id: loggedUser.id ,
+    price_id: loggedUser.price_id,   
+    limit:"1",
+   
+},{ headers: { Token: loggedUser.api_token } }
+).then((res) => {
+  console.log(res);
+  setpriceCards([...arr, ...res.data.data])
+  
+});
+ }
+
+ if(priceCards != null){
+  console.log(priceCards)
+  lst = priceCards.map((item) =>
+  <option key={item.id} value={JSON.stringify(item)}>{item.card_name}</option>
+  )
+ }
   
   const [data, setData] = useState({  
     //user_id:"",
-    name: "",   
-    email:"",
-    mobile:"",
-    house_name:"",
-    street:"",
-    city:"",
-    state:"",
-    country:"",
-    pincode:"",
-    price_id:"",
-    start_date:""
+    name: loggedUser.name,   
+    email:loggedUser.email,
+    mobile:loggedUser.mobile,
+    house_name:loggedUser.house_name,
+    street:loggedUser.street,
+    city:loggedUser.city,
+    state:loggedUser.state,
+    country:loggedUser.country,
+    pincode:loggedUser.pincode,
+    price_id:loggedUser.price_id,
+    start_date:loggedUser.start_date,
    
   });
+  if(data != null){
+    console.log(data)
+  }
   function submit(e) {
     e.preventDefault();
-    console.log(data);
+    var priceObj =JSON.parse(data.price_id);
+    console.log(priceObj)
     console.log(loggedUser);
     
-    Axios.post(Url.createfishrequrl, {
+    
+      Axios.post(Url.createfishrequrl, {
         user_id: loggedUser.id ,
         name: loggedUser.name,   
         email:loggedUser.email,
@@ -45,28 +80,25 @@ console.log(loggedUser)
         state:data.state,
         country:data.country,
         pincode:data.pincode,
-        price_id:data.price_id,
+        price_id:priceObj.id,
         start_date:data.start_date   , 
     },{ headers: { Token: loggedUser.api_token } }
     ).then((res) => {
       console.log(res);
       //navigate("../listfish");
       if(res.data.status == "yes"){
-        param.setsucess({...param.sucess,color:"success",statusmsg:"Fish Created", createuser:true})
-       // navigate("../listfish");
+       // param.setsucess({...param.sucess,color:"success",statusmsg:"Fish Created", createuser:true})
+       navigate("../openreqlist");
         //Alert.success('Success Alert')
+        console.log("Confirm")
       }
       else{
         param.setsucess({...param.sucess,color:"danger",statusmsg:"Error!!", createuser:false})
       }
     });
+    
   
-  if(param.sucess.createuser===true){
-    setTimeout(() => {
-      param.setsucess({...param.sucess, createuser:false,statusmsg:""})
-    }, 3000)
-  }
-  
+ 
   }
   function handle(e) {
     const newdata = { ...data };
@@ -74,32 +106,11 @@ console.log(loggedUser)
     setData(newdata);
   }
   return (
-    <div><div className="content-wrapper justify-content-left mt-5">
+    
+     
    
-       <div className={"alert alert-"+(param.sucess.color)+" alert-dismissable " + (param.sucess.createuser?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
-			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
-			<i className="ace-icon fa fa-times"></i>
-			</button>
-			<strong>
-			<i className="ace-icon fa fa-check"></i>
-			</strong>
-      {param.sucess.statusmsg}<br/>
-	    </div>
-    <div className="content-header">
-      <div className="container-fluid">
-        <div className="row mb-2">
-          <div className="col-sm-6">
-            <h1 className="m-0 text-dark">Add Fishing Request</h1>
-          </div>{/* /.col */}
-          <div className="col-sm-6">
-            <ol className="breadcrumb float-sm-right">
-              <li className="breadcrumb-item"><a href="">User</a></li>
-              <li className="breadcrumb-item active">Add Fishing Request</li>
-            </ol>
-          </div>{/* /.col */}
-        </div>{/* /.row */}
-      </div>{/* /.container-fluid */}
-    </div>
+      
+    
     
      <div className="card-body">
      
@@ -115,7 +126,30 @@ console.log(loggedUser)
                {/* form start */}
                <form onSubmit={(e)=>submit(e)}>
                  <div className="card-body">
-                   
+                 <div className="row">
+                 <div className="form-group col-md-12">
+                 <label >Price Card</label>
+                 <select className="form-control" style={{color:"rgb(143, 143, 143)"}} onChange={(e) => handle(e)} id="price_id" >
+                  {lst}
+                </select>
+                 </div>
+                 </div>
+
+                {/*
+
+                
+                 <div className="form-group col-md-6">
+                     <label >Price Id</label>
+                     <input  className="form-control" 
+                      type="text"
+                      id="price_id"
+                      onChange={(e) => handle(e)}
+                      value={JSON.stringify(JSON.parse(data.price_id).id)}
+                      placeholder="Disabled" />
+                   </div>
+  */
+  }
+
                    <div className="row">
                   
                  <div className="form-group col-md-6">
@@ -188,7 +222,7 @@ console.log(loggedUser)
                   id="country"
                   onChange={(e) => handle(e)}
                   value={data.country}
-                  placeholder="Fish Name" />
+                  placeholder="Country" />
                </div>
                <div className="form-group col-md-6">
                  <label >Pincode</label>
@@ -199,15 +233,7 @@ console.log(loggedUser)
                   value={data.pincode}
                   placeholder="Pincode" />
                </div>
-               <div className="form-group col-md-6">
-                 <label >Price ID</label>
-                 <input  className="form-control" 
-                  type="text"
-                  id="price_id"
-                  onChange={(e) => handle(e)}
-                  value={data.price_id}
-                  placeholder="Fish Name" />
-               </div>
+               
                <div className="form-group col-md-6">
                  <label >Start Date</label>
                  <input  className="form-control" 
@@ -240,10 +266,10 @@ console.log(loggedUser)
          </div>
          </div>
         </div>
-        </div>
+        
       )
-    </div>
-  )
+    
+  
 }
 
 export default CreateRequest

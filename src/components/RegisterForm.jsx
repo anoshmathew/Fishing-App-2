@@ -1,11 +1,12 @@
 import React, { useState,useEffect,useRef } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import{Url} from "../constants/global"
 //import "./css/RegisterForm.css"
 function RegisterForm() {
   const navigate = useNavigate();
 
-  const url = "http://work.phpwebsites.in/fishing/api/register";
+ 
   const [data, setData] = useState({
     mail: "",
     mobile: "",
@@ -47,7 +48,7 @@ function submit(e) {
   function registerfun(){
     console.log(data);
     if((Object.entries(formErrors).length !== 0)&&(formErrors.flag1=="checked")&&(formErrors.flag2=="checked")&&(formErrors.flag3=="checked")&&(formErrors.flag4=="checked")&&(formErrors.flag5=="checked")&&(formErrors.flag6=="checked")){
-      Axios.post(url, {
+      Axios.post(Url.registerurl, {
         email: data.mail,
         mobile: data.mobile,
         password: data.password,
@@ -57,7 +58,7 @@ function submit(e) {
       }).then((res) => {
         console.log(res);
          //navigate("/");
-         if(res.data.status="Username Already Exist"){
+         if(res.data.status=="Username Already Exist"){
           setpopup({color:"danger",mesg:"Username Already Exist"})
          }
          else{

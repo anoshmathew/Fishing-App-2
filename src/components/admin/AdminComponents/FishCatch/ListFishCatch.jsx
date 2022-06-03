@@ -13,13 +13,21 @@ function ListFishCatch(param) {
     const [page, setPage] = useState(1)
     const [search, setSearch] = useState(true);
     const location = useLocation()
-    const itm = location.state;
+    var itm = location.state;
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState({     
         Req_id: "",
         Fish_id: "",
         id:""
       });
+      if(itm.itm != null)
+      {
+        itm = itm.itm
+        console.log(itm)
+      }
+      else{
+        console.log(itm)
+      }
     const [activetogfishreq, setactivetogfishreq] = useState(false)
     const [togdelfishreq, settogdelfishreq] = useState(false)
     const isMounted1 = useRef(false);
@@ -66,8 +74,8 @@ function ListFishCatch(param) {
       param.setSideNavSel("listcaughtfish")
       console.log(loggedUser)
         Axios.post(
-            Url.catchfishurl,
-            { user_id: loggedUser.id, limit:page},
+            Url.catchfishlisturl,
+            { user_id: loggedUser.id,req_id:itm.id, limit:page},
             { headers: { Token: loggedUser.api_token } }
           ).then((res) => {
              getResult = res.data.data;  
@@ -87,10 +95,10 @@ function ListFishCatch(param) {
         function submit(e) {
             e.preventDefault();
             Axios.post(
-              Url.catchfishurl,
+              Url.catchfishlisturl,
               { user_id: loggedUser.id, 
                 
-                limit:1,
+                limit:page,
                 //^ To do--------------------------------------------------------------------------
                 //-----------------------
                 req_id:data.Req_id,
@@ -137,7 +145,9 @@ function ListFishCatch(param) {
         </div>
         <div className="row" style={{clear: 'both', marginBottom: 10,marginRight: 10}}>
           <div className="col-md-12 " align="right" style={{clear: 'both'}}>
-          <Link type="button" className="btn btn-inline btn-danger mr-1" to="../addfishcaught"><i className="fa fa-plus" /> Add Fish</Link>
+          {itm != null ? <Link type="button" className="btn btn-inline btn-danger mr-1" to="../addfishcaught" state={itm} ><i className="fa fa-plus" /> Add Fish</Link>
+:null
+}
             <button className="btn btn-warning" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
               <i className="fa fa-search" />  
               Search

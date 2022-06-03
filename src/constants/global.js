@@ -1,8 +1,9 @@
 const baseUrl = "http://work.phpwebsites.in/fishing/api/";
 const Url = {
   loginurl: baseUrl + "login",
+  registerurl : baseUrl + "register",
   passreseturl: baseUrl + "resetpassword",
-
+  
   listfishurl: baseUrl + "fishlist",
   fishstatusurl: baseUrl + "fishstatus",
   fishdeleteurl: baseUrl + "fishdelete",
@@ -13,7 +14,7 @@ const Url = {
   userlisturl: baseUrl + "userslist",
   edituserurl: baseUrl + "edituser",
   userdeleteurl: baseUrl + "userdelete",
-
+  
   userdetailsurl: baseUrl + "userdetail",
   uploadphotourl: baseUrl + "uploadph",
 
@@ -26,10 +27,11 @@ const Url = {
   listidcardurl: baseUrl + "listcard",
   idcardstatusurl: baseUrl + "idstatus",
 
-  catchfishurl: baseUrl + "catfishlist",
+  catchfishlisturl: baseUrl + "catfishlist",
 
   addfishcaught: baseUrl + "catfish",
-
+  fishreqstatusurl:baseUrl + "fishreqstatu",
+  editfishrequrl:baseUrl + "editfishreq",
   uploadidurl: baseUrl + "uploadid",
   fishreqflagurl: baseUrl + "fishreqflag",
   createfishrequrl: baseUrl + "fishreq",

@@ -1,9 +1,10 @@
 import React, { useState,useEffect } from 'react'
 import Axios from "axios";
 import { Link, useNavigate,useLocation  } from "react-router-dom";
+import{Url} from "../../../../constants/global"
 
 function EditFishingRequest(param) {
-    const url = "http://work.phpwebsites.in/fishing/api/editfishreq";
+    
     var loggedUser = JSON.parse(localStorage.getItem("data"));
     const location = useLocation()
     const itm = location.state;
@@ -39,7 +40,7 @@ function EditFishingRequest(param) {
           console.log("From Local Storage");
           console.log("loggedUser Token: ", token);      
           Axios.post(
-            url,
+            Url.editfishrequrl,
             {
               user_id: loggedUser.id ,
               req_id:itm.id,

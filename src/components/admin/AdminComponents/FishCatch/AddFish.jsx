@@ -1,66 +1,79 @@
 import React, { useState,useEffect } from "react";
 import Axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
 import {Url} from "../../../../constants/global"
 
 function AddFish(param) {
   const navigate = useNavigate();
+  
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const [formErrors, setformErrors] = useState({});
   var msg;
-  
+  const location = useLocation()
+  var itm = location.state;
   const token = loggedUser.api_token;
   const [data, setData] = useState({  
    
     fish_id: "",   
     fish_count:"",
     fish_weight:"",
-    req_id:"",
-    
-   
+    req_id:itm.id,
   });
-  
+  console.log(itm)
   
   const validate = (values) => {
     const errors = {};
     //const regex ;
-    if(!data.name){
-      errors.name = "Fish name is required!"
+    if(data.fish_id == null){
+      errors.fish_id = "Fish id is required!"
+      errors.flag1="checked";
+    }
+    else{
       errors.flag1="";
     }
-    else
-    {
-      errors.flag1="checked";
+    if(data.fish_count == null){
+      errors.fish_count = "Fish count is required!"
+      errors.flag2="checked";
+    }
+    else{
+      errors.flag2="";
+    }
+    if(data.fish_weight == null ){
+      errors.fish_weight = "Fish weight is required!"
+      errors.flag3="checked";
+    }
+    else{
+      errors.flag3="";
     }
     return errors;
   }
   function submit(e) {
     e.preventDefault();
     setformErrors(validate(data));
-    console.log(loggedUser.id)
-    if(data.name!=""){
+    
+   // if((Object.entries(formErrors).length !== 0)&&(formErrors.flag1=="checked")&&(formErrors.flag2=="checked")&&(formErrors.flag3=="checked")&&(formErrors.flag4=="checked")){
 
     console.log(data);
+    console.log(itm.id);
     Axios.post(Url.addfishcaught, {
       user_id: loggedUser.id ,
       fish_id: data.fish_id, 
       fish_count: data.fish_count,   
       fish_weight: data.fish_weight, 
-      req_id:  data.req_id,
+      req_id: itm.id,
     },{ headers: { Token: loggedUser.api_token } }
     ).then((res) => {
-      console.log(res);
-    
+     console.log(res)
       if(res.data.status == "yes"){
         //param.setsucess({...param.sucess,color:"success",statusmsg:"Fish Created", createuser:true})
-        //navigate("../listfish");
+        navigate("../listfishcatch", {state:{itm}});
         //Alert.success('Success Alert')
       }
       else{
         //param.setsucess({...param.sucess,color:"danger",statusmsg:"Error!!", createuser:false})
       }
     });
-  }
+  //}
   
   }
   function handle(e) {
@@ -113,7 +126,7 @@ function AddFish(param) {
                   value={data.fish_id}
                   placeholder="Fish ID" />
                   <br/>
-                  <p style={{color:"red"}}>{formErrors.name}</p> 
+                  <p style={{color:"red"}}>{formErrors.fish_id}</p> 
                </div>
                <div className="form-group col-md-6">
                  <label >Fish Count</label>
@@ -124,7 +137,7 @@ function AddFish(param) {
                   value={data.fish_count}
                   placeholder="Fish Count" />
                   <br/>
-                  <p style={{color:"red"}}>{formErrors.name}</p> 
+                  <p style={{color:"red"}}>{formErrors.fish_count}</p> 
                </div>
                
                </div>

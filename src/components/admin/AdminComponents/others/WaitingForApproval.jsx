@@ -3,9 +3,8 @@ import Axios from "axios";
 import { Link, useNavigate,useLocation  } from "react-router-dom";
 import { Url } from '../../../../constants/global'
 
-function Uploadid({setuploaded , uploaded}) {
-   // param.setSideNavSel("uploadid")
-   
+function WaitingForApproval() {
+  
     var loggedUser = JSON.parse(localStorage.getItem("data"));
     var bodyFormData = new FormData();
   const [picture, setPicture] = useState(null);
@@ -40,44 +39,60 @@ if (picture != null) {
     setPicture()
    if(res.data.status=="yes"){
     //Url.listidcardurl
-    setuploaded(!uploaded)
-   }
-    
+   
+   } 
   });
 }
 
 
   const fileRef = useRef();
-  return (
-        
-         
-<>
 
-           <div className="col-md-12">
+
+  return (
+
+    
+
+
+
+   <div className="container-fluid">
+     <div className="row">
+       <div className="col-md-12">
+         {/* general form elements */}
+         <div className="card card-primary">
+           <div className="card-header">
+             <h3 className="card-title">Waiting for Approval!</h3>
+           </div>
+           {/* /.card-header */}
+           <div className="card-body">
+               <h6>The ID Card was uploaded. Waiting for upproval.</h6>
+               <br/>
+               <div className="row">
+
+     <div className="col-md-12">
              {/* general form element */}
              <div className="card card-primary">
-               <div className="card-header">
-                 <h3 className="card-title">Upload your ID Proof for verification</h3>
-               </div>
-               {/* /.card-header */}
+               
                {/* form start */}
                
                <div className="col-md-12" style={{padding:"20px"}}>
           <div className="box-main" style={{width:"50%",height:"40vh",border:"2px dashed black" ,display:"flex",justifyContent:"center",alignItem:"center",marginLeft:"auto",marginRight:"auto"}}>
           <div className="upload-btn" style={{display:"flex",justifyContent:"center",alignItems:"center",height:"50px",margin:"auto auto"}}>
-            <button className="btn btn-primary" onClick={()=>fileRef.current.click()}>Upload</button>
+            <button className="btn btn-primary" onClick={()=>fileRef.current.click()}>Edit ID Card</button>
           </div>
           </div>
             <input type="file" name="file" id="file" onChange={(e)=>uploadPicture(e)} ref={fileRef} hidden/>      
           </div>
           </div>
-             
-             {/* /.card */}</div>
-  </>
-        
-
-
-  )
+     </div>
+     </div>
+           </div>
+          
+         </div>
+         {/* /.card */}</div>
+     </div>
+     
+     </div>
+  
+  );
 }
-
-export default Uploadid
+export default WaitingForApproval;

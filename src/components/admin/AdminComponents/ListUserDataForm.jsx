@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import{Url} from "../../../constants/global"
 
 function ListUserDataForm() {
   const navigate = useNavigate();
 
-  const url = "http://work.phpwebsites.in/fishing/api/userslist";
+
   const [data, setData] = useState({
     Limit: "",
     User_ID: "",
@@ -25,7 +26,7 @@ function ListUserDataForm() {
       }
       localStorage.setItem("listform", JSON.stringify(obj));
       Axios.post(
-        url,
+        Url.userlisturl,
         { user_id: data.User_ID, limit:data.Limit},
         { headers: { Token: token } }
       ).then((res) => {

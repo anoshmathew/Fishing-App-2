@@ -59,15 +59,18 @@ function Listuseridcard(param) {
       param.setSideNavSel("listidcard")
       Axios.post(
           Url.listidcardurl,
-          { user_id: loggedUser.id,req_user_id:"119", limit:page},
+          { user_id: loggedUser.id, limit:page},
           { headers: { Token: loggedUser.api_token } }
         ).then((res) => {
            getResult = res.data.data;  
            setLoading(false)
          // localStorage.setItem("pricedatalist", JSON.stringify(getResult));       
-          console.log(res);
+          console.log(getResult);
           setpricelist(getResult);
         });
+    }
+    if(pricelist!= null){
+      console.log(pricelist)
     }
     function toggleConfirm(item){
       
