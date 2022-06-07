@@ -62,7 +62,7 @@ function submit(e) {
           setpopup({color:"danger",mesg:"Username Already Exist"})
          }
          else{
-          setpopup({color:"sucess",mesg:"Registered"})
+          setpopup({color:"success",mesg:"Registered"})
          }
          
       });
@@ -124,7 +124,7 @@ function submit(e) {
 
   return (
 <div>
-<div className={"alert alert-"+(popup.color) + " alert-dismissable " + (popup.mesg!=""?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
+<div className={"alert alert-"+(popup.color) +" alert-dismissable " + (popup.mesg!=""?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
 			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
 			<i className="ace-icon fa fa-times"></i>
 			</button>

@@ -57,6 +57,7 @@ function Listuseridcard(param) {
     }, []);
   async function getData() {
       param.setSideNavSel("listidcard")
+      //console.log(loggedUser.id);
       Axios.post(
           Url.listidcardurl,
           { user_id: loggedUser.id, limit:page},
@@ -64,6 +65,7 @@ function Listuseridcard(param) {
         ).then((res) => {
            getResult = res.data.data;  
            setLoading(false)
+           console.log(res);
          // localStorage.setItem("pricedatalist", JSON.stringify(getResult));       
           console.log(getResult);
           setpricelist(getResult);
@@ -95,13 +97,6 @@ function Listuseridcard(param) {
           console.log(res);
         });
       }
-     
-      
-    
-  
-
-
-
 
       function handle(e) {
           const newdata = { ...data };

@@ -33,6 +33,7 @@ import Axios from "axios";
 import RejectedUser from "./AdminComponents/Rejected/RejectedUser";
 import AddFish from "./AdminComponents/FishCatch/AddFish";
 import OpenReqList from "./AdminComponents/userRequest/OpenReqList";
+import CloseReqList from "./AdminComponents/userRequest/CloseReqList";
 
 function AdminMain({details,setdetails}) {
   const [lim, setlim] = useState(0);
@@ -60,7 +61,8 @@ function listUser(){
   console.log("shdvbajhdb")
   Axios.post(
     Url.userdetailsurl,
-    { user_id: loggedUser.id
+    { user_id: loggedUser.id,
+      req_user_id:loggedUser.id,
     },
     { headers: { Token: loggedUser.api_token } }
   ).then((res) => {
@@ -118,6 +120,7 @@ function listUser(){
        {// <Route path="/uploadid" element={<Uploadid setSideNavSel={setSideNavSel}/>} />
   }
   <Route path="openreqlist" element={<OpenReqList setSideNavSel={setSideNavSel}/>} />
+  <Route path="closereqlist" element={<CloseReqList setSideNavSel={setSideNavSel}/>} />
         <Route path="/listidcard" element={<Listuseridcard setSideNavSel={setSideNavSel}/>} />
         <Route path="rejecteduser" element={<RejectedUser setSideNavSel={setSideNavSel}/>} />
         <Route path="addfishcaught" element={<AddFish sucess={sucess} setsucess={setsucess}/>} />

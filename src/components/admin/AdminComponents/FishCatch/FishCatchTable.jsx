@@ -8,7 +8,7 @@ function FishCatchTable(param) {
     <thead>
 <tr>
           <th>ID</th>            
-          <th>Fish ID</th>
+          <th>Fish Name</th>
           <th>Fish Weight</th>   
           <th>Req ID</th>            
           <th>Status</th>
@@ -18,10 +18,10 @@ function FishCatchTable(param) {
 </thead>
 <tbody>
         {param.fishingCatchList.map((item) => (
-          
+        
         <tr key={item.id}>
             <td>{item.id}</td>
-            <td>{item.fish_id}</td>
+            <td>{item.fish_name}</td>
             <td>{item.fish_weight} Kg</td>
             <td>{item.req_id}</td>
             <td>{item.status}</td>

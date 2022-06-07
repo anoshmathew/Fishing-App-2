@@ -144,7 +144,7 @@ function AddFish(param) {
                <div className="row">
            
              <div className="form-group col-md-6">
-                 <label >Fish Weight</label>
+                 <label >Fish Weight (Kg)</label>
                  <input  className="form-control" 
                   type="text"
                   id="fish_weight"

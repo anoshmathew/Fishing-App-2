@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Url} from '../../../constants/global'
 import TableComponent from "./TableComponent";
 import ReactLoading from "react-loading";
-
+import Modal from '@material-ui/core/Modal';
 import "./ListUserData.css"
 function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSearch,search,setSideNavSel,sucess,setsucess}) {
   useEffect(()=>{
@@ -12,14 +12,45 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
     listUser();
   
 },[]);
-  const [loading, setLoading] = useState(true)
+  const [loading1, setLoading1] = useState(true)
+  const [loading2, setLoading2] = useState(true)
   var list = JSON.parse(localStorage.getItem("userlist"));
   var obj = JSON.parse(localStorage.getItem("listform"));
   const isMounted1 = useRef(false);
   const isMounted2 = useRef(false);
   const isMounted3 = useRef(false);
   const isMounted4 = useRef(false)
+  const [open, setOpen] = useState(false)
+
+  const [details, setdetails] = useState(null)
+    
+    
 console.log(sucess);
+
+
+const detailsClicked = it => {
+  console.log(it)
+
+    Axios.post(
+      Url.userdetailsurl,
+      { user_id: loggedUser.id, 
+        req_user_id:it.id
+             
+      },
+      { headers: { Token: loggedUser.api_token } }
+    ).then((res) => {
+      
+      console.log(res);
+      setdetails(res.data)
+      
+    });
+  
+  
+};
+if(details != null){
+  console.log(details.photo)
+
+}
 
 useEffect(()=>{
   if (isMounted1.current){
@@ -93,9 +124,10 @@ useEffect(()=>{
       let li = res.data.data;
       console.log(res);
       
-      setLoading(false)
+      setLoading1(false)
       setlist2(li)
     });
+    
   }
 
   function delFun(item) {
@@ -233,6 +265,7 @@ if(sucess){
 <div className="content-wrapper justify-content-center mt-5" >
 
 
+
 <div className={"alert alert-success alert-dismissable " + (sucess.createuser?"":"hide")} style={{position: "absolute",zIndex:"2","width":"100%"}}>
 			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
 			<i className="ace-icon fa fa-times"></i>
@@ -267,6 +300,9 @@ if(sucess){
       </button>    
   </div>
 </div>
+
+
+
 
 <section className="content collapse multi-collapse" id="multiCollapseExample2">
    <div className="container-fluid">
@@ -343,6 +379,68 @@ if(sucess){
      </div>
      </section>
 
+    
+                <div className="modal fade" id="modal-xl">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h4 className="modal-title">Default Modal</h4>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              {details != null?<>
+                <div class="container">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="col-md-6">
+                  <img src={details.photo}/>
+                  <br/>
+                Name:{details.data.name}
+                <br/>
+                Username:{details.data.username}
+                </div>
+
+                <div className="col-md-6" >
+                  ID:{details.data.id}
+                  <br/>
+                Name:{details.data.name}
+                <br/>
+                Username:{details.data.username}
+                <br/>
+                Mobile:{details.data.mobile}
+              </div>
+            
+              </div>
+              </div>
+
+              <div className="row">
+                
+              <ul style={{listStyle:"none"}}>
+                <li>ID:{details.data.id}</li>
+                <li>Name:{details.data.name}</li>
+                <li>Username:{details.data.username}</li>
+                <li>Mobile:{details.data.mobile}</li>   
+                <li>Email:{details.data.email}</li>
+                <li>Address:{details.data.address}</li>
+                <li>Country:{details.data.country}</li>
+                <li>User Type:{details.data.user_type}</li>
+                <li>Created Date:{details.data.create_date}</li>
+                <li>Password:{details.data.password}</li>
+                
+              </ul>
+              </div>
+              </div>
+              </>:null}
+            </div>
+            <div className="modal-footer justify-content-between">
+              <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
   <section className="content">
     <div className="container-fluid" >
       <div className="row" >
@@ -354,14 +452,14 @@ if(sucess){
             <div className="card-body table-responsive p-0">
               <table className="table table-bordered table-hover table-sm">
                 {
-                 loading===true?(<div style={{display:"flex",justifyContent:"center"}}>
+                 loading1===true?(<div style={{display:"flex",justifyContent:"center"}}>
                    <ReactLoading
                   type="spinningBubbles"
                   color="grey"
                   height={100}
                   width={50}
                 />
-                   </div>):(<TableComponent list={list} list2={list2} toggleStatus={toggleStatus} delFun={delFun} detailsShown={detailsShown} showDetails={showDetails} setDetailShown={setDetailShown} toggleShown={toggleShown}/>)
+                   </div>):(<TableComponent list={list} list2={list2} toggleStatus={toggleStatus} delFun={delFun} detailsShown={detailsShown} showDetails={showDetails} setDetailShown={setDetailShown} toggleShown={toggleShown} detailsClicked={detailsClicked}/>)
                }                                   
               </table>
             </div>

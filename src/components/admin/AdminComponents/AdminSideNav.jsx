@@ -7,24 +7,51 @@ import man from '../../../img/avatar5.png';
 import { Url} from '../../../constants/global'
 
 function AdminSideNav({ setlim,page,activetog,del,edit,isMounted4,sideNavSel,details}) {
+  const [reqStatus, setreqStatus] = useState("")
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   var fullloggedUser = JSON.parse(localStorage.getItem("fulldata"));
   //var reqdetails=JSON.parse(localStorage.getItem("reqdetail"));
   const {username:userName,user_type:userType} = loggedUser;
   //console.log(reqdetails.status)
 useEffect(() => {
- // checkFishingReqStatus()
+  checkUploadStatus()
 }, [])
-function checkFishingReqStatus(){
-  if(loggedUser.user_type=="user"){
-    Axios.post(
-      Url.fishreqstatusurl,
-      { user_id: loggedUser.id, req_id:page},
-      { headers: { Token: loggedUser.api_token } }
-    ).then((res) => {
-      console.log(res);
-    });
-  }
+
+function checkUploadStatus() {
+  
+  Axios.post(
+    Url.listidcardurl,
+    { user_id: loggedUser.id, req_user_id:loggedUser.id, limit:1},
+    { headers: { Token: loggedUser.api_token } }
+  ).then((res) => {
+    console.log(res)
+    console.log(res.data.data.length)
+    if(res.data.data.length != 0){
+      console.log(res.data.data[0].status);
+    }
+    if(res.data.data.length == 0){
+      setreqStatus("NotUpload")
+    }
+    else if(res.data.data[0].status == "Rejected"){
+      setreqStatus("Rejected")
+    }
+    else if(res.data.data[0].status == "Confirm"){
+      setreqStatus("Confirm")
+    }
+    else if(res.data.data[0].status == "Upload"){
+      
+      setreqStatus("Upload")
+      
+    }
+
+    res.data.data.map((item)=>
+    console.log(item)
+    )
+  });
+  
+}
+if(reqStatus != ""){
+  console.log(reqStatus)
 }
   const isMounted1 = useRef(false);
   const isMounted2 = useRef(false);
@@ -230,6 +257,8 @@ useEffect(()=>{
                   
                  
             {loggedUser.user_type == "user" ?
+            
+            (reqStatus == "Confirm")  ?
             <>
             <li className="nav-item">
               <Link to="openreqlist" className={"nav-link " + (sideNavSel == "openfishingreq" ? "active":"") } >
@@ -237,15 +266,23 @@ useEffect(()=>{
                   <p>Open Fishing Requests</p>
                 </Link>
               </li>
+              <li className="nav-item">
+              <Link to="closereqlist" className={"nav-link " + (sideNavSel == "closefishingreq" ? "active":"") } >
+                  <i className="ion ion-star nav-icon" />
+                  <p>Close Fishing Requests</p>
+                </Link>
+              </li>
               
-             
+             {/*
             <li className="nav-item">
               <Link to="listfishcatch" className={"nav-link " + (sideNavSel == "listcaughtfish" ? "active":"") }  data-toggle="pill" >
                 <i className="ion ion-star nav-icon" />
                 <p>Manage Catch Fish</p>
               </Link>
             </li>
-            </>
+            */}
+            </>:
+            null
             :null}
 
               <li className="nav-item has-treeview">

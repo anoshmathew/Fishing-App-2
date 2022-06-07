@@ -194,7 +194,7 @@ function OpenReqList(param) {
       </div>{/* /.col */}
       <div className="col-sm-6">
         <ol className="breadcrumb float-sm-right">
-          <li className="breadcrumb-item"><a href="">Admin</a></li>
+          <li className="breadcrumb-item"><a href="">User</a></li>
           <li className="breadcrumb-item active">Open Fishing Requests</li>
         </ol>
       </div>{/* /.col */}

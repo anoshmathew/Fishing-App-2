@@ -36,6 +36,16 @@ function TableComponent(param) {
                               <td>
                                 <button className="btn btn-warning" type="button" onClick={() => param.toggleShown(item.username)}>{param.detailsShown.includes(item.username) ? <i className="fa fa-angle-double-up" />:<i className="fa fa-angle-double-down" />}</button>
                               </td>
+
+
+                             <td>
+                             <button type="button" onClick={() => param.detailsClicked(item)} className="btn btn-default" data-toggle="modal" data-target="#modal-xl">
+                                   Details
+                            </button>
+                                
+                          </td>
+
+
                             </tr>
                             {param.detailsShown.includes(item.username) && (
                               <tr key={item.id} className="additional-info">

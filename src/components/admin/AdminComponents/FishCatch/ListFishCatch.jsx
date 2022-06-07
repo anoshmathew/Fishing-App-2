@@ -139,7 +139,7 @@ function ListFishCatch(param) {
                   <li className="breadcrumb-item"><a href="">User</a></li>
                   <li className="breadcrumb-item active">Manage Caught Fish</li>
                 </ol>
-              </div>{/* /.col */}
+              </div>{/*this is  /.col */}
             </div>{/* /.row */}
           </div>{/* /.container-fluid */}
         </div>

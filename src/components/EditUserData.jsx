@@ -63,7 +63,8 @@ function listUser(){
   console.log(param.sucess)
   Axios.post(
     Url.userdetailsurl,
-    { user_id: loggedUser.id
+    { user_id: loggedUser.id,
+      req_user_id:loggedUser.id
     },
     { headers: { Token: loggedUser.api_token } }
   ).then((res) => {
