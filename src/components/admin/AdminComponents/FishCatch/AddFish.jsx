@@ -5,13 +5,16 @@ import {Url} from "../../../../constants/global"
 
 function AddFish(param) {
   const navigate = useNavigate();
-  
+  var lst;
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const [formErrors, setformErrors] = useState({});
   var msg;
+  var arr = [{card_name: "--Select a Card--",id:"67867"}];
+ 
   const location = useLocation()
   var itm = location.state;
   const token = loggedUser.api_token;
+  const [fishlist, setfishlist] = useState(arr)
   const [data, setData] = useState({  
    
     fish_id: "",   
@@ -47,6 +50,27 @@ function AddFish(param) {
     }
     return errors;
   }
+useEffect(() => {
+  getfishlist()
+}, [])
+
+function getfishlist(){
+  Axios.post(Url.catchfishlisturl, {
+    user_id: loggedUser.id ,
+    limit:1,
+  },{ headers: { Token: loggedUser.api_token } }
+  ).then((res) => {
+   console.log(res)
+   setfishlist([...arr, ...res.data.data])
+  });
+}
+if(fishlist!=null){
+  console.log(fishlist)
+  lst = fishlist.filter((item)=>(item.fish_name != null)).map((item) =>
+  <option key={item.id} value={JSON.stringify(item)}>{item.fish_name}</option>
+  )
+}
+
   function submit(e) {
     e.preventDefault();
     setformErrors(validate(data));
@@ -57,7 +81,7 @@ function AddFish(param) {
     console.log(itm.id);
     Axios.post(Url.addfishcaught, {
       user_id: loggedUser.id ,
-      fish_id: data.fish_id, 
+      fish_id: data.fish_data.fish_name, 
       fish_count: data.fish_count,   
       fish_weight: data.fish_weight, 
       req_id: itm.id,
@@ -116,7 +140,12 @@ function AddFish(param) {
              <div className="card-body">
                
                <div className="row">
-           
+               <div className="form-group col-md-12">
+                 <label >Fish Name</label>
+                  <select className="form-control" style={{color:"rgb(143, 143, 143)"}} onChange={(e) => handle(e)} id="fish_data" >
+                  {lst}
+                </select>
+                 </div>
              <div className="form-group col-md-6">
                  <label >Fish ID</label>
                  <input  className="form-control" 

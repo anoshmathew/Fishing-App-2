@@ -63,10 +63,10 @@ function CreateRequest(param) {
     console.log(data)
   }
   function submit(e) {
-    e.preventDefault();
+    e.preventDefault()
     var priceObj =JSON.parse(data.price_id);
     console.log(priceObj)
-    console.log(loggedUser);
+    console.log(loggedUser)
     
     
       Axios.post(Url.createfishrequrl, {

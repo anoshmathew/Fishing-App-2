@@ -269,7 +269,7 @@ useEffect(()=>{
               <li className="nav-item">
               <Link to="closereqlist" className={"nav-link " + (sideNavSel == "closefishingreq" ? "active":"") } >
                   <i className="ion ion-star nav-icon" />
-                  <p>Close Fishing Requests</p>
+                  <p>Closed Fishing Requests</p>
                 </Link>
               </li>
               
