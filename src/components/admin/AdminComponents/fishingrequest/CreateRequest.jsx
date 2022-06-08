@@ -93,12 +93,9 @@ function CreateRequest(param) {
         console.log("Confirm")
       }
       else{
-        param.setsucess({...param.sucess,color:"danger",statusmsg:"Error!!", createuser:false})
+       // param.setsucess({...param.sucess,color:"danger",statusmsg:"Error!!", createuser:false})
       }
     });
-    
-  
- 
   }
   function handle(e) {
     const newdata = { ...data };

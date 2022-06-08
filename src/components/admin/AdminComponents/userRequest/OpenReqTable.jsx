@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useNavigate } from "react-router-dom";
 
 function OpenReqTable(param) {
-  const today = new Date()
+  //const today = new Date()
 //console.log(today.format('DD-MM-YYYY'));  &&(today.format('DD-MM-YYYY').isAfter('2019-01-01'))
 //console.log(moment().format('DD-MM-YYYY')+' sdac');
 //console.log(moment(moment().format('YYYY-MM-DD')).isAfter('2022-06-01')); 
@@ -31,7 +31,8 @@ function OpenReqTable(param) {
 </tr>
 </thead>
 <tbody>
-        {param.fishingRequestList.filter((item)=>((item.user_id == loggedUser.id)&&(new Date(item.end_date).getTime() > new Date().getTime() )&&(new Date(item.start_date).getTime() >= new Date().getTime() ))).map((item) => (
+        {param.fishingRequestList.filter((item)=>((item.user_id == loggedUser.id)//&&(new Date(item.end_date).getTime() > new Date().getTime() )&&(new Date(item.start_date).getTime() >= new Date().getTime() )
+        )).map((item) => (
           
         <tr key={item.id}>
             <td >{item.id}</td>

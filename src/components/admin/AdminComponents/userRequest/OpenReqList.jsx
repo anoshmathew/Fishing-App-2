@@ -2,12 +2,17 @@ import React,{useState,useEffect,useRef} from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import ReactLoading from "react-loading";
 import { Url} from '../../../../constants/global'
 import OpenReqTable from './OpenReqTable';
 
 function OpenReqList(param) {
-   
+  var loggedUser = JSON.parse(localStorage.getItem("data"));
+  const navigate = useNavigate();
+  const notify = () => toast("Wow so easy!");
     const url2 = "http://work.phpwebsites.in/fishing/api/fishreqopenedit";
 
     const [fishingRequestlist, setfishingRequestlist] = useState([]);
@@ -16,20 +21,22 @@ function OpenReqList(param) {
     const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState(true);
     const [data, setData] = useState({  
-    //user_id:"",
-    req_id:"",
-    name: "",   
-    email:"",
-    mobile:"",
-    house_name:"",
-    street:"",
-    city:"",
-    state:"",
-    country:"",
-    pincode:"",
-    price_id:"",
-    start_date:""
-  });
+      //user_id:"",
+      name: loggedUser.name,   
+      email:loggedUser.email,
+      mobile:loggedUser.mobile,
+      house_name:loggedUser.house_name,
+      street:loggedUser.street,
+      city:loggedUser.city,
+      state:loggedUser.state,
+      country:loggedUser.country,
+      pincode:loggedUser.pincode,
+      price_id:loggedUser.price_id,
+      start_date:loggedUser.start_date,
+     
+    });
+  
+ 
     const [activetogfishreq, setactivetogfishreq] = useState(false)
     const [EditFishingReq, setEditFishingReq] = useState(false)
     const [togdelfishreq, settogdelfishreq] = useState(false)
@@ -38,7 +45,7 @@ function OpenReqList(param) {
     const isMounted3 = useRef(false);
     const isMounted4 = useRef(false);
 
-    var loggedUser = JSON.parse(localStorage.getItem("data"));
+    
     const token = loggedUser.api_token;
     useEffect(() => {
         getData();
@@ -104,7 +111,43 @@ function OpenReqList(param) {
         console.log(details.photo)
       
       }
+
+      var lst;
+      var arr = [{card_name: "--Select a Card--",
+  card_type: "",
+  days: null,
+  id: null,
+  price: null,
+  status: "active"}
+];
+      const [priceCards, setpriceCards] = useState(arr)
+      console.log(loggedUser)
+      var msg;
+      useEffect(() => {
+        getcards();
+      }, [])
       
+     function getcards(){
+     // param.setSideNavSel("listidcard")
+      Axios.post(Url.pricelisturl, {
+        user_id: loggedUser.id ,
+        price_id: loggedUser.price_id,   
+        limit:"1",
+       
+    },{ headers: { Token: loggedUser.api_token } }
+    ).then((res) => {
+      console.log(res);
+      setpriceCards([...arr, ...res.data.data])
+      
+    });
+     }
+      if(priceCards != null){
+        console.log(priceCards)
+        lst = priceCards.map((item) =>
+        <option key={item.id} value={JSON.stringify(item)}>{item.card_name}</option>
+        )
+       }
+
     async function getData() {
       param.setSideNavSel("openfishingreq");
         Axios.post(
@@ -176,7 +219,7 @@ function OpenReqList(param) {
             setData(newdata);
           }
 
-        function submit(e) {
+        function submit1(e) {
             e.preventDefault();
             Axios.post(
               Url.fishreqlisturl,
@@ -209,6 +252,45 @@ function OpenReqList(param) {
             setPage(page-1) ;
             console.log(page);
            }
+
+
+           function submit(e) {
+            e.preventDefault()
+            var priceObj =JSON.parse(data.price_id);
+            console.log(priceObj)
+            console.log(loggedUser)
+            
+            
+              Axios.post(Url.createfishrequrl, {
+                user_id: loggedUser.id ,
+                name: loggedUser.name,   
+                email:loggedUser.email,
+                mobile:loggedUser.mobile,
+                house_name:data.house_name,
+                street:data.street,
+                city:data.city,
+                state:data.state,
+                country:data.country,
+                pincode:data.pincode,
+                price_id:priceObj.id,
+                start_date:data.start_date   , 
+            },{ headers: { Token: loggedUser.api_token } }
+            ).then((res) => {
+              console.log(res);
+              //navigate("../listfish");
+              if(res.data.status == "yes"){
+               // param.setsucess({...param.sucess,color:"success",statusmsg:"Fish Created", createuser:true})
+               navigate("../openreqlist");
+                //Alert.success('Success Alert')
+                console.log("Confirm")
+              }
+              else{
+               // param.setsucess({...param.sucess,color:"danger",statusmsg:"Error!!", createuser:false})
+              }
+            });
+          }
+
+
   return (
     <div className="content-wrapper justify-content-center mt-5" >
       
@@ -230,10 +312,16 @@ function OpenReqList(param) {
 <div className="row" style={{clear: 'both', marginBottom: 10,marginRight: 10}}>
   <div className="col-md-12 " align="right" style={{clear: 'both'}}>
     {/*<Link type="button" className="btn btn-inline btn-danger mr-1" to="../createrequest"><i className="fa fa-edit" />New Fishing Request</Link>*/}
+    <button className="btn btn-danger" type="button" data-toggle="collapse" data-target="#multiCollapseAddReq" aria-expanded="false" aria-controls="multiCollapseAddReq">
+      <i className="fa fa-plus" />  
+       Create Request
+      </button> 
+    
     <button className="btn btn-warning" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
       <i className="fa fa-search" />  
-      Search
-      </button>    
+       Search
+      </button>  
+        
   </div>
 </div>
 
@@ -291,14 +379,22 @@ function OpenReqList(param) {
               </div>
               </>:null}
             </div>
+            
             <div className="modal-footer justify-content-between">
               <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
       </div>
-
-<section className="content collapse multi-collapse" id="multiCollapseExample2">
+      {/*
+      <button onClick={notify}>Notify!</button>
+        <ToastContainer />
+     
+      <button type="button" class="btn btn-success toastrDefaultSuccess">
+                  Launch Success Toast
+                </button>
+              */}
+                <section className="content collapse multi-collapse" id="multiCollapseExample2">
    <div className="container-fluid">
      <div className="row">
        <div className="col-md-12 mx-auto">
@@ -309,7 +405,7 @@ function OpenReqList(param) {
            </div>
            {/* /.card-header */}
            {/* form start */}
-           <form onSubmit={(e)=>submit(e)}>
+           <form onSubmit={(e)=>submit1(e)}>
              <div className="card-body">
                
                
@@ -340,7 +436,160 @@ function OpenReqList(param) {
      </div>
      </div>
      </section>
+<section className="content collapse multi-collapse" id="multiCollapseAddReq">
+   <div className="container-fluid">
+     <div className="row">
+       <div className="col-md-12 mx-auto">
+         {/* general form elements */}
+         <div className="card card-warning">
+           <div className="card-header">
+             <h3 className="card-title">Create Fishing Request</h3>
+           </div>
+           {/* /.card-header */}
+           {/* form start */}
+           <form onSubmit={(e)=>submit(e)}>
+                 <div className="card-body">
+                 <div className="row">
+                 <div className="form-group col-md-12">
+                 <label >Price Card</label>
+                 <select className="form-control" style={{color:"rgb(143, 143, 143)"}} onChange={(e) => handle(e)} id="price_id" >
+                  {lst}
+                </select>
+                 </div>
+                 </div>
 
+                {/*
+
+                
+                 <div className="form-group col-md-6">
+                     <label >Price Id</label>
+                     <input  className="form-control" 
+                      type="text"
+                      id="price_id"
+                      onChange={(e) => handle(e)}
+                      value={JSON.stringify(JSON.parse(data.price_id).id)}
+                      placeholder="Disabled" />
+                   </div>
+  */
+  }
+
+                   <div className="row">
+                  
+                 <div className="form-group col-md-6">
+                     <label >Name</label>
+                     <input  className="form-control" 
+                      type="text"
+                      id="name"
+                      onChange={(e) => handle(e)}
+                      value={data.name}
+                      placeholder="Disabled" />
+                   </div>
+                   <div className="form-group col-md-6">
+                 <label >Email</label>
+                 <input  className="form-control" 
+                  type="text"
+                  id="email"
+                  onChange={(e) => handle(e)}
+                  value={data.email}
+                  placeholder="Disabled" />
+               </div>
+               <div className="form-group col-md-6">
+                 <label >Mobile</label>
+                 <input  className="form-control" 
+                  type="text"
+                  id="mobile"
+                  onChange={(e) => handle(e)}
+                  value={data.mobile}
+                  placeholder="Disabled" />
+               </div>
+               <div className="form-group col-md-6">
+                 <label >House Name</label>
+                 <input  className="form-control" 
+                  type="text"
+                  id="house_name"
+                  onChange={(e) => handle(e)}
+                  value={data.house_name}
+                  placeholder="House Name" />
+               </div>
+               <div className="form-group col-md-6">
+                 <label>Street</label>
+                 <input  className="form-control" 
+                  type="text"
+                  id="street"
+                  onChange={(e) => handle(e)}
+                  value={data.street}
+                  placeholder="Street" />
+               </div>
+               <div className="form-group col-md-6">
+                 <label >City</label>
+                 <input  className="form-control" 
+                  type="text"
+                  id="city"
+                  onChange={(e) => handle(e)}
+                  value={data.city}
+                  placeholder="City" />
+               </div>
+               <div className="form-group col-md-6">
+                 <label>State</label>
+                 <input  className="form-control" 
+                  type="text"
+                  id="state"
+                  onChange={(e) => handle(e)}
+                  value={data.state}
+                  placeholder="State" />
+               </div>
+               <div className="form-group col-md-6">
+                 <label >Country</label>
+                 <input  className="form-control" 
+                  type="text"
+                  id="country"
+                  onChange={(e) => handle(e)}
+                  value={data.country}
+                  placeholder="Country" />
+               </div>
+               <div className="form-group col-md-6">
+                 <label >Pincode</label>
+                 <input  className="form-control" 
+                  type="text"
+                  id="pincode"
+                  onChange={(e) => handle(e)}
+                  value={data.pincode}
+                  placeholder="Pincode" />
+               </div>
+               
+               <div className="form-group col-md-6">
+                 <label >Start Date</label>
+                 <input  className="form-control" 
+                  type="date"
+                  id="start_date"
+                  onChange={(e) => handle(e)}
+                  value={data.start_date}
+                  placeholder="Start Date" />
+               </div>
+                   </div>
+                   
+                {/* /.col */}
+                  
+                  <div className="card-footer">
+                  <button type="submit" className="btn btn-primary btn-block"  style={{width:"130px"}}>Send</button>
+                </div>
+                {/* /.col */}
+                
+            
+    
+                   
+                 </div>
+    
+                
+    
+               </form>
+           
+         </div>
+         {/* /.card */}</div>
+     </div>
+     </div>
+     </section>
+    
     <section className="content">
     <div className="container-fluid" >
       <div className="row" >

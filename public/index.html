@@ -35,7 +35,8 @@
   <link rel="stylesheet" href="%PUBLIC_URL%/plugins/summernote/summernote-bs4.min.css">
   <!-- Ekko Lightbox -->
   <link rel="stylesheet" href="%PUBLIC_URL%/plugins/ekko-lightbox/ekko-lightbox.css">
-
+ <!-- Toastr -->
+ <link rel="stylesheet" href="%PUBLIC_URL%/plugins/toastr/toastr.min.css">
 
   <link rel="stylesheet" href="%PUBLIC_URL%/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="%PUBLIC_URL%/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -114,7 +115,17 @@
 <script src="%PUBLIC_URL%/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="%PUBLIC_URL%/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="%PUBLIC_URL%/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Toastr -->
+<script src="%PUBLIC_URL%/plugins/toastr/toastr.min.js"></script>
 <script>
+  
+  
+  
+    $('.toastrDefaultSuccess').on('click', function() {
+      toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });  
+    
+
   $(function () {
     $(document).on('click', '[data-toggle="lightbox"]', function(event) {
       event.preventDefault();
@@ -128,6 +139,9 @@
       $('.btn[data-filter]').removeClass('active');
       $(this).addClass('active');
     });
+
+    //Toaster Script Below
+    
   })
 
   

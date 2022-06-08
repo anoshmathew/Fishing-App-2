@@ -97,8 +97,12 @@ function LoginForm(param) {
           }
             
           
-          
-          navigate("admin/home");
+          if(res.data.idstatus != "Confirm"){
+            
+          }
+          else{
+            navigate("admin/openreqlist");
+          }
         }
         console.log(res);
       });
