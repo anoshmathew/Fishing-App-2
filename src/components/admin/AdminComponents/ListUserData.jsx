@@ -396,21 +396,9 @@ if(sucess){
                 <div className="col-md-12">
                   <div className="col-md-6">
                   <img src={details.photo}/>
-                  <br/>
-                Name:{details.data.name}
-                <br/>
-                Username:{details.data.username}
-                </div>
+                 </div>
 
-                <div className="col-md-6" >
-                  ID:{details.data.id}
-                  <br/>
-                Name:{details.data.name}
-                <br/>
-                Username:{details.data.username}
-                <br/>
-                Mobile:{details.data.mobile}
-              </div>
+                
             
               </div>
               </div>

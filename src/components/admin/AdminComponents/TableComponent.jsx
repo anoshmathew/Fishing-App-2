@@ -33,9 +33,9 @@ function TableComponent(param) {
                                 <a role="button" className="btn btn-primary mr-1" onClick={() => param.toggleStatus(item)}>{item.status=='active'?<i className="fas fa-lock-open"></i>:<i className="fas fa-lock"></i> }</a>
                                 <a role="button" className="btn btn-danger mr-1" onClick={() => param.delFun(item)} ><i className="fas fa-trash-alt"></i></a>
                               </td>
-                              <td>
+                              {/*<td>
                                 <button className="btn btn-warning" type="button" onClick={() => param.toggleShown(item.username)}>{param.detailsShown.includes(item.username) ? <i className="fa fa-angle-double-up" />:<i className="fa fa-angle-double-down" />}</button>
-                              </td>
+                          </td>*/}
 
 
                              <td>
@@ -62,9 +62,12 @@ function TableComponent(param) {
                               <td>{item.username}</td>
                               <td>{item.mobile}</td>
                               <td>{item.user_type}</td> 
-                              <td>
+                             {/*<td>
                                 <button className="btn btn-warning" type="button" onClick={() => param.toggleShown(item.username)}>{param.detailsShown.includes(item.username) ? <i className="fa fa-angle-double-up" />:<i className="fa fa-angle-double-down" />}</button>
-                              </td>
+                          </td>*/}
+                          <button type="button" onClick={() => param.detailsClicked(item)} className="btn btn-default" data-toggle="modal" data-target="#modal-xl">
+                                   Details
+                            </button>
                             </tr>
                             {param.detailsShown.includes(item.username) && (
                               <tr key={item.id} className="additional-info">
