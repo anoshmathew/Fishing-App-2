@@ -31,7 +31,7 @@ function OpenReqTable(param) {
 </tr>
 </thead>
 <tbody>
-        {param.fishingRequestList.filter((item)=>((item.user_id == loggedUser.id)//&&(new Date(item.end_date).getTime() > new Date().getTime() )&&(new Date(item.start_date).getTime() >= new Date().getTime() )
+        {param.fishingRequestList.filter((item)=>((item.user_id == loggedUser.id) ||(item.open_edit == "yes")//&&(new Date(item.end_date).getTime() > new Date().getTime() )&&(new Date(item.start_date).getTime() >= new Date().getTime() )
         )).map((item) => (
           
         <tr key={item.id}>
