@@ -98,7 +98,7 @@ function LoginForm(param) {
             
           
           if(res.data.idstatus != "Confirm"){
-            
+            navigate("admin/home");
           }
           else{
             navigate("admin/openreqlist");
