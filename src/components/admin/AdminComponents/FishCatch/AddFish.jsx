@@ -9,7 +9,7 @@ function AddFish(param) {
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const [formErrors, setformErrors] = useState({});
   var msg;
-  var arr = [{card_name: "--Select a Card--",id:"67867"}];
+  var arr = [{card_name: "--Select a Card--"}];
  
   const location = useLocation()
   var itm = location.state;
@@ -55,6 +55,7 @@ useEffect(() => {
 }, [])
 
 function getfishlist(){
+  
   Axios.post(Url.catchfishlisturl, {
     user_id: loggedUser.id ,
     limit:1,
@@ -73,6 +74,8 @@ if(fishlist!=null){
 
   function submit(e) {
     e.preventDefault();
+    var fish_data_obj =JSON.parse(data.fish_data);
+    console.log(fish_data_obj)
     setformErrors(validate(data));
     
    // if((Object.entries(formErrors).length !== 0)&&(formErrors.flag1=="checked")&&(formErrors.flag2=="checked")&&(formErrors.flag3=="checked")&&(formErrors.flag4=="checked")){
@@ -81,7 +84,7 @@ if(fishlist!=null){
     console.log(itm.id);
     Axios.post(Url.addfishcaught, {
       user_id: loggedUser.id ,
-      fish_id: data.fish_data.fish_name, 
+      fish_id: fish_data_obj.fish_id, 
       fish_count: data.fish_count,   
       fish_weight: data.fish_weight, 
       req_id: itm.id,
@@ -146,17 +149,7 @@ if(fishlist!=null){
                   {lst}
                 </select>
                  </div>
-             <div className="form-group col-md-6">
-                 <label >Fish ID</label>
-                 <input  className="form-control" 
-                  type="text"
-                  id="fish_id"
-                  onChange={(e) => handle(e)}
-                  value={data.fish_id}
-                  placeholder="Fish ID" />
-                  <br/>
-                  <p style={{color:"red"}}>{formErrors.fish_id}</p> 
-               </div>
+             
                <div className="form-group col-md-6">
                  <label >Fish Count</label>
                  <input  className="form-control" 
@@ -165,7 +158,7 @@ if(fishlist!=null){
                   onChange={(e) => handle(e)}
                   value={data.fish_count}
                   placeholder="Fish Count" />
-                  <br/>
+                  
                   <p style={{color:"red"}}>{formErrors.fish_count}</p> 
                </div>
                
@@ -180,10 +173,10 @@ if(fishlist!=null){
                   onChange={(e) => handle(e)}
                   value={data.fish_weight}
                   placeholder="Fish Weight" />
-                  <br/>
+                  
                   <p style={{color:"red"}}>{formErrors.name}</p> 
                </div>
-               <div className="form-group col-md-6">
+              {/*} <div className="form-group col-md-6">
                  <label >Req ID</label>
                  <input  className="form-control" 
                   type="text"
@@ -194,7 +187,7 @@ if(fishlist!=null){
                   <br/>
                   <p style={{color:"red"}}>{formErrors.name}</p> 
                </div>
-               
+  */}
                </div>
                
             {/* /.col */}
