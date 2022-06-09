@@ -293,7 +293,7 @@ if(sucess){
 
 <div className="row" style={{clear: 'both', marginBottom: 10,marginRight: 10}}>
   <div className="col-md-12 " align="right" style={{clear: 'both'}}>
-  {loggedUser.user_type == "admin" ?<Link type="button" className="btn btn-inline btn-danger mr-1" to="../createuser"><i className="fa fa-edit" /> New User</Link>:null}
+  {loggedUser.user_type == "admin" ?<Link type="button" className="btn btn-inline btn-danger mr-1" to="../createuser"><i className="fa fa-plus" /> New User</Link>:null}
     <button className="btn btn-warning" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
       <i className="fa fa-search" />  
       Search

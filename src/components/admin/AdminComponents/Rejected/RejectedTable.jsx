@@ -22,7 +22,8 @@ function RejectedTable(param) {
       </tr>
     </thead>
     <tbody>
-              {param.pricelist.filter((item)=>((item.status=="Rejected")&&(new Date(item.end_date).getTime() <= new Date().getTime() ))).map((item) => (
+              {param.pricelist.filter((item)=>((item.status=="Rejected")//&&(new Date(item.end_date).getTime() <= new Date().getTime() )
+              )).map((item) => (
                 
               <tr key={item.id}>
                   <td >{item.id}</td>
