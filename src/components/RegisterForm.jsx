@@ -57,12 +57,13 @@ function submit(e) {
         user_type: data.type,
       }).then((res) => {
         console.log(res);
-         //navigate("/");
+         
          if(res.data.status=="Username Already Exist"){
           setpopup({color:"danger",mesg:"Username Already Exist"})
          }
          else{
           setpopup({color:"success",mesg:"Registered"})
+          navigate("/");
          }
          
       });

@@ -381,14 +381,14 @@ function OpenReqList(param) {
           </div>
         </div>
       </div>
-      {/*
+      
       <button onClick={notify}>Notify!</button>
         <ToastContainer />
      
-      <button type="button" class="btn btn-success toastrDefaultSuccess">
+      <button type="button" className="btn btn-success toastrDefaultSuccess" id="toastrDefaultSuccess">
                   Launch Success Toast
                 </button>
-              */}
+              
                 <section className="content collapse multi-collapse" id="multiCollapseExample2">
    <div className="container-fluid">
      <div className="row">
