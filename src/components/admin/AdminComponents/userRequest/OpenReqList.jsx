@@ -35,7 +35,7 @@ function OpenReqList(param) {
       start_date:loggedUser.start_date,
      
     });
-  
+  const [reqcreate, setreqcreate] = useState(true)
  
     const [activetogfishreq, setactivetogfishreq] = useState(false)
     const [EditFishingReq, setEditFishingReq] = useState(false)
@@ -44,7 +44,7 @@ function OpenReqList(param) {
     const isMounted2 = useRef(false);
     const isMounted3 = useRef(false);
     const isMounted4 = useRef(false);
-
+    const isMounted5 = useRef(false);
     
     const token = loggedUser.api_token;
     useEffect(() => {
@@ -85,6 +85,14 @@ function OpenReqList(param) {
           isMounted4.current = true;
         }
       },[page]);
+      useEffect(()=>{
+        if (isMounted5.current){
+            getData();
+        }
+        else {
+          isMounted5.current = true;
+        }
+      },[reqcreate]);
 
       const [details, setdetails] = useState(null)
    
@@ -277,6 +285,7 @@ function OpenReqList(param) {
             },{ headers: { Token: loggedUser.api_token } }
             ).then((res) => {
               console.log(res);
+              setreqcreate(!reqcreate)
               //navigate("../listfish");
               if(res.data.status == "yes"){
                // param.setsucess({...param.sucess,color:"success",statusmsg:"Fish Created", createuser:true})
@@ -287,6 +296,7 @@ function OpenReqList(param) {
               else{
                // param.setsucess({...param.sucess,color:"danger",statusmsg:"Error!!", createuser:false})
               }
+              
             });
           }
 

@@ -3,14 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 
 function OpenReqTable(param) {
   const today = new Date()
+  const dateVar = new Date('07-06-2022')
 //console.log(new Date().format('DD-MM-YYYY'));  
 //&&(today.format('DD-MM-YYYY').isAfter('2019-01-01'))
 //console.log(moment().format('DD-MM-YYYY')+' sdac');
 //console.log(moment(moment().format('YYYY-MM-DD')).isAfter('2022-06-01')); 
-    //if(new Date().getTime()>new Date('01-01-2010').getTime())
-    //{
-      //console.log(new Date('02-01-2010') + 'is the Smallest')
-    //}
+    if(today.getTime() > dateVar.getTime())
+    {
+      console.log('Today is not the Smallest')
+    }
+    else{
+      console.log('Today is the samllest')
+    }
     var loggedUser = JSON.parse(localStorage.getItem("data"));
   return (
     <>
@@ -32,7 +36,7 @@ function OpenReqTable(param) {
 </tr>
 </thead>
 <tbody>
-        {param.fishingRequestList.filter((item)=>((item.user_id == loggedUser.id) ||(item.open_edit == "yes")//&&(new Date(item.end_date).getTime() > new Date().getTime() )&&(new Date(item.start_date).getTime() >= new Date().getTime() )
+        {param.fishingRequestList.filter((item)=>((item.user_id == loggedUser.id) ||(item.open_edit == "yes")&&(new Date(item.end_date).getTime() >= new Date().getTime() )&&(new Date(item.start_date).getTime() >= new Date().getTime() )
         )).map((item) => (
           
         <tr key={item.id}>
