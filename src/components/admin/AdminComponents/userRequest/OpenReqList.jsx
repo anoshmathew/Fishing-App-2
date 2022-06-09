@@ -312,7 +312,7 @@ function OpenReqList(param) {
 <div className="row" style={{clear: 'both', marginBottom: 10,marginRight: 10}}>
   <div className="col-md-12 " align="right" style={{clear: 'both'}}>
     {/*<Link type="button" className="btn btn-inline btn-danger mr-1" to="../createrequest"><i className="fa fa-edit" />New Fishing Request</Link>*/}
-    <button className="btn btn-danger" type="button" data-toggle="collapse" data-target="#multiCollapseAddReq" aria-expanded="false" aria-controls="multiCollapseAddReq">
+    <button className="btn btn-danger" style={{marginRight:"10px"}} type="button" data-toggle="collapse" data-target="#multiCollapseAddReq" aria-expanded="false" aria-controls="multiCollapseAddReq">
       <i className="fa fa-plus" />  
        Create Request
       </button> 
@@ -329,7 +329,7 @@ function OpenReqList(param) {
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-header">
-              <h4 className="modal-title">Default Modal</h4>
+              <h4 className="modal-title">Details</h4>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -340,23 +340,8 @@ function OpenReqList(param) {
               <div className="row">
                 <div className="col-md-12">
                   <div className="col-md-6">
-                  <img src={details.photo}/>
-                  <br/>
-                Name:{details.data.name}
-                <br/>
-                Username:{details.data.username}
-                </div>
-
-                <div className="col-md-6" >
-                  ID:{details.data.id}
-                  <br/>
-                Name:{details.data.name}
-                <br/>
-                Username:{details.data.username}
-                <br/>
-                Mobile:{details.data.mobile}
-              </div>
-            
+                    <img src={details.photo}/>
+                  </div>
               </div>
               </div>
 

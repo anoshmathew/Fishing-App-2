@@ -2,8 +2,9 @@ import React from 'react'
 import { Link, useNavigate } from "react-router-dom";
 
 function OpenReqTable(param) {
-  //const today = new Date()
-//console.log(today.format('DD-MM-YYYY'));  &&(today.format('DD-MM-YYYY').isAfter('2019-01-01'))
+  const today = new Date()
+console.log(new Date().format('DD-MM-YYYY'));  
+//&&(today.format('DD-MM-YYYY').isAfter('2019-01-01'))
 //console.log(moment().format('DD-MM-YYYY')+' sdac');
 //console.log(moment(moment().format('YYYY-MM-DD')).isAfter('2022-06-01')); 
     //if(new Date().getTime()>new Date('01-01-2010').getTime())
