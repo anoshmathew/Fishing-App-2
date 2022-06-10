@@ -36,7 +36,8 @@ function ListFishingRequest(param) {
     const isMounted2 = useRef(false);
     const isMounted3 = useRef(false);
     const isMounted4 = useRef(false);
-
+    const [details, setdetails] = useState(null)
+   
     var loggedUser = JSON.parse(localStorage.getItem("data"));
     const token = loggedUser.api_token;
     useEffect(() => {
@@ -120,8 +121,6 @@ function ListFishingRequest(param) {
               console.log(res);
             });
           }
-
-       
       }
       function delFun(item) {
 
@@ -142,10 +141,29 @@ function ListFishingRequest(param) {
             console.log("Not deleted");
           }
           
-          });
-          
+          });          
         }
 
+        
+        const detailsClicked = it => {
+          console.log(it)
+        
+            Axios.post(
+              Url.userdetailsurl,
+              { user_id: loggedUser.id, 
+                req_user_id:it.user_id
+                     
+              },
+              { headers: { Token: loggedUser.api_token } }
+            ).then((res) => {
+              
+              console.log(res);
+              setdetails(res.data)
+              
+            });
+            
+          }
+         
 
         function handle(e) {
             const newdata = { ...data };
@@ -222,6 +240,53 @@ function ListFishingRequest(param) {
   </div>
 </div>
 
+<div className="modal fade" id="modal-xl3">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h4 className="modal-title">Details</h4>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              {details != null?<>
+                <div className="container">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="col-md-6">
+                    <img src={details.photo}/>
+                  </div>
+              </div>
+              </div>
+
+              <div className="row">
+                
+              <ul style={{listStyle:"none"}}>
+                <li>ID:{details.data.id}</li>
+                <li>Name:{details.data.name}</li>
+                <li>Username:{details.data.username}</li>
+                <li>Mobile:{details.data.mobile}</li>   
+                <li>Email:{details.data.email}</li>
+                <li>Address:{details.data.address}</li>
+                <li>Country:{details.data.country}</li>
+                <li>User Type:{details.data.user_type}</li>
+                <li>Created Date:{details.data.create_date}</li>
+                <li>Password:{details.data.password}</li>
+                
+              </ul>
+              </div>
+              </div>
+              </>:null}
+            </div>
+            
+            <div className="modal-footer justify-content-between">
+              <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 <section className="content collapse multi-collapse" id="multiCollapseExample2">
    <div className="container-fluid">
      <div className="row">
@@ -283,7 +348,7 @@ function ListFishingRequest(param) {
                   height={100}
                   width={50}
                 />
-                   </div>):(<FishingRequestTable fishingRequestList={fishingRequestlist} delFun={delFun} toggleStatusFish={toggleStatusFish}/>)
+                   </div>):(<FishingRequestTable fishingRequestList={fishingRequestlist} delFun={delFun} toggleStatusFish={toggleStatusFish} detailsClicked={detailsClicked}/>)
                }                                   
               </table>
             </div>

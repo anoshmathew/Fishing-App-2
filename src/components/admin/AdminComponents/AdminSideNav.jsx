@@ -2,7 +2,7 @@ import Axios from "axios";
 import React, { useEffect, useState,useRef } from "react";
 import companyLogo from '../../../img/AdminLTELogo.png'
 import { useNavigate, Link } from "react-router-dom";
-import man from '../../../img/avatar5.png';
+import man from '../../../img/nouser.jpg';
 //import '../../css/AdminSideNav.css';
 import { Url} from '../../../constants/global'
 
@@ -198,13 +198,13 @@ useEffect(()=>{
               <li className="nav-item">
               <Link to="listidcard" className={"nav-link " + (sideNavSel == "listidcard" ? "active":"") } >
                 <i className="ion ion-star nav-icon" />
-                <p>Approve Users</p>
+                <p>Approve User ID</p>
               </Link>
             </li>
             <li className="nav-item">
             <Link to="rejecteduser" className={"nav-link " + (sideNavSel == "rejectedusers" ? "active":"") } >
               <i className="ion ion-star nav-icon" />
-              <p>Rejected Users</p>
+              <p>Rejected User ID</p>
             </Link>
           </li>
           </>

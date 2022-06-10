@@ -1,7 +1,7 @@
 import React,{ useEffect} from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import man from '../img/avatar5.png';
+import man from '../img/nouser.jpg';
 import{Url} from "../constants/global"
 
 function Header(param) {

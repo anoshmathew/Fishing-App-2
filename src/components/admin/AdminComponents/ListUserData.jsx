@@ -8,7 +8,7 @@ import Modal from '@material-ui/core/Modal';
 import "./ListUserData.css"
 function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSearch,search,setSideNavSel,sucess,setsucess}) {
   useEffect(()=>{
-    setSideNavSel("manageusers");
+    
     listUser();
   
 },[]);
@@ -16,6 +16,7 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
   const [loading2, setLoading2] = useState(true)
   var list = JSON.parse(localStorage.getItem("userlist"));
   var obj = JSON.parse(localStorage.getItem("listform"));
+  const [idcard, setidcard] = useState(null)
   const isMounted1 = useRef(false);
   const isMounted2 = useRef(false);
   const isMounted3 = useRef(false);
@@ -29,26 +30,41 @@ console.log(sucess);
 
 
 const detailsClicked = it => {
-  console.log(it)
+          console.log(it)
+        
+            Axios.post(
+              Url.userdetailsurl,
+              { user_id: loggedUser.id, 
+                req_user_id:it.id
+                     
+              },
+              { headers: { Token: loggedUser.api_token } }
+            ).then((res) => {
+              
+              console.log(res);
+              setdetails(res.data)
+              
+            });
+            Axios.post(
+              Url.listidcardurl,
+              { user_id: loggedUser.id,req_user_id:it.id, limit:1},
+              { headers: { Token: loggedUser.api_token } }
+            ).then((res) => {
+              console.log(res)
+              console.log(res.data.data[0].large)
+             if(res.data.data[0].large != null){
+              setidcard(res.data.data[0].large)
+             }
+              
+                
+              
+            }
+            )
+            
+          }
 
-    Axios.post(
-      Url.userdetailsurl,
-      { user_id: loggedUser.id, 
-        req_user_id:it.id
-             
-      },
-      { headers: { Token: loggedUser.api_token } }
-    ).then((res) => {
-      
-      console.log(res);
-      setdetails(res.data)
-      
-    });
-  
-  
-};
 if(details != null){
-  console.log(details.photo)
+  console.log(details)
 
 }
 
@@ -111,6 +127,7 @@ useEffect(()=>{
   //const [list2, setlist2] = useState([list])
   const [list2, setlist2] = useState([])
   function listUser(){
+    setSideNavSel("manageusers");
     Axios.post(
       Url.userlisturl,
       { user_id: loggedUser.id, 
@@ -260,6 +277,7 @@ if(sucess){
    }
 
 
+   
   return (
     <div>
 <div className="content-wrapper justify-content-center mt-5" >
@@ -380,7 +398,7 @@ if(sucess){
      </section>
 
     
-                <div className="modal fade" id="modal-xl">
+                <div className="modal fade" id="modal-xl1">
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-header">
@@ -390,16 +408,13 @@ if(sucess){
               </button>
             </div>
             <div className="modal-body">
-              {details != null?<>
-                <div class="container">
+            {details != null?<>
+                <div className="container">
               <div className="row">
                 <div className="col-md-12">
                   <div className="col-md-6">
-                  <img src={details.photo}/>
-                 </div>
-
-                
-            
+                    <img src={details.photo}/>
+                  </div>
               </div>
               </div>
 
@@ -421,6 +436,35 @@ if(sucess){
               </div>
               </div>
               </>:null}
+            </div>
+            <div className="modal-footer justify-content-between">
+              <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="modal fade" id="modal-xl2">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h4 className="modal-title">Details</h4>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              {idcard != null? <>
+                <div class="container">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="col-md-6 mx-auto">
+                  <img src={idcard} style={{maxWidth:"100%",maxHeight:"100%"}}/>
+                 </div>
+              </div>
+              </div>             
+              </div>
+            </>:null}
             </div>
             <div className="modal-footer justify-content-between">
               <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>

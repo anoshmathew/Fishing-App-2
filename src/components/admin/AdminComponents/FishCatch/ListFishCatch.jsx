@@ -36,6 +36,10 @@ function ListFishCatch(param) {
     const isMounted4 = useRef(false);
     var loggedUser = JSON.parse(localStorage.getItem("data"));
     const token = loggedUser.api_token;
+    var lst;
+var arr = [{card_name: "--Select a Card--"}];
+const [fishlist, setfishlist] = useState(arr)
+ 
     useEffect(() => {
         getData();
         // loadData();
@@ -71,7 +75,7 @@ function ListFishCatch(param) {
       },[page]);
 
     async function getData() {
-      param.setSideNavSel("listcaughtfish")
+      param.setSideNavSel("listfishreq")
       console.log(loggedUser)
         Axios.post(
             Url.catchfishlisturl,
@@ -85,15 +89,37 @@ function ListFishCatch(param) {
             setfishingCatchList(getResult);
           });
       }
-
+console.log(loggedUser)
         function handle(e) {
             const newdata = { ...data };
             newdata[e.target.id] = e.target.value;
             setData(newdata);
           }
 
+          useEffect(() => {
+            getfishlist()
+          }, [])
+          function getfishlist(){
+  
+            Axios.post(Url.catchfishlisturl, {
+              user_id: loggedUser.id ,
+              limit:page,
+            },{ headers: { Token: loggedUser.api_token } }
+            ).then((res) => {
+             console.log(res)
+             setfishlist([...arr, ...res.data.data])
+            });
+          }
+          if(fishlist!=null){
+            console.log(fishlist)
+            lst = fishlist.filter((item)=>(item.fish_name != null)).map((item) =>
+            <option key={item.id} value={JSON.stringify(item)}>{item.fish_name}</option>
+            )
+          }
         function submit(e) {
             e.preventDefault();
+            var fish_data_obj =JSON.parse(data.fish_data);
+            console.log(itm)
             Axios.post(
               Url.catchfishlisturl,
               { user_id: loggedUser.id, 
@@ -101,8 +127,8 @@ function ListFishCatch(param) {
                 limit:page,
                 //^ To do--------------------------------------------------------------------------
                 //-----------------------
-                req_id:data.Req_id,
-                fish_id:data.Fish_id,
+                req_id:itm.id,
+                fish_id: fish_data_obj.fish_id, 
                 id:data.id,
               },
               { headers: { Token: loggedUser.api_token } }
@@ -145,7 +171,7 @@ function ListFishCatch(param) {
         </div>
         <div className="row" style={{clear: 'both', marginBottom: 10,marginRight: 10}}>
           <div className="col-md-12 " align="right" style={{clear: 'both'}}>
-          {itm != null ? <Link type="button" className="btn btn-inline btn-danger mr-1" to="../addfishcaught" state={itm} ><i className="fa fa-plus" /> Add Fish</Link>
+          {loggedUser.user_type == "user" ? <Link type="button" className="btn btn-inline btn-danger mr-1" to="../addfishcaught" state={itm} ><i className="fa fa-plus" /> Add Fish</Link>
 :null
 }
             <button className="btn btn-warning" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
@@ -172,23 +198,12 @@ function ListFishCatch(param) {
                        
                      <div className="row">
                      <div className="form-group col-md-6">
-                         <label >Req ID</label>
-                         <input  className="form-control" 
-                          type="text"
-                          id="Req_id"
-                          onChange={(e) => handle(e)}
-                          value={data.Req_id}
-                          placeholder="Req id" />
-                       </div>  
-                       <div className="form-group col-md-6">
-                         <label >Fish ID</label>
-                         <input  className="form-control" 
-                          type="text"
-                          id="Fish_id"
-                          onChange={(e) => handle(e)}
-                          value={data.Fish_id}
-                          placeholder="Fish id" />
-                       </div> 
+                 <label >Fish Name</label>
+                  <select className="form-control" style={{color:"rgb(143, 143, 143)"}} onChange={(e) => handle(e)} id="fish_data" >
+                  {lst}
+                </select>
+                 </div>
+                       
                        <div className="form-group col-md-6">
                          <label >ID</label>
                          <input  className="form-control" 
@@ -221,7 +236,7 @@ function ListFishCatch(param) {
                 <div className="col-md-12" >
                   <div className="card">
                     <div className="card-header">
-                      <h3 className="card-title">Fish List</h3>
+                      <h3 className="card-title">Caught Fish List</h3>
                     </div>
                     <div className="card-body table-responsive p-0">
                       <table className="table table-bordered table-hover table-sm">

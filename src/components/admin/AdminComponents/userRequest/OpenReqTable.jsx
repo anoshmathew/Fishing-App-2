@@ -50,9 +50,9 @@ function OpenReqTable(param) {
             <td >${item.amount}</td>
             <td>{item.days}</td>
             <td><button type="button" className="btn btn-inline btn-warning mr-1" onClick={() => param.detailsClicked(item)} data-toggle="modal" data-target="#modal-xl">
-                                   Details
+            <b>Details</b>
                             </button></td>
-            <td><Link type="button" className="btn btn-inline btn-warning mr-1"  to="../listfishcatch" state={item}><b>View</b></Link></td>
+            <td><Link type="button" className="btn btn-inline btn-warning mr-1"  to="../listfishcatch" state={item}><b>Enter Catch</b></Link></td>
                       
         </tr>                     
         ))}

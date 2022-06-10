@@ -4,11 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 function RejectedTable(param) {
     return (
       <>
-      
-                  
-
-                 
- 
           <thead>
       <tr>
                 <th>ID</th>

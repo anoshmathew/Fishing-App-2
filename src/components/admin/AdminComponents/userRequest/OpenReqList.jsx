@@ -14,6 +14,7 @@ function OpenReqList(param) {
   const navigate = useNavigate();
   const notify = () => toast("Wow so easy!");
     const url2 = "http://work.phpwebsites.in/fishing/api/fishreqopenedit";
+    const fileRef = useRef();
 
     const [fishingRequestlist, setfishingRequestlist] = useState([]);
     var getResult ;
@@ -102,7 +103,7 @@ function OpenReqList(param) {
           Axios.post(
             Url.userdetailsurl,
             { user_id: loggedUser.id, 
-              req_user_id:it.id
+              req_user_id:it.user_id
                    
             },
             { headers: { Token: loggedUser.api_token } }
@@ -216,8 +217,7 @@ function OpenReqList(param) {
             console.log("Not deleted");
           }
           
-          });
-          
+          });          
         }
 
 
@@ -261,14 +261,27 @@ function OpenReqList(param) {
             console.log(page);
            }
 
-
            function submit(e) {
             e.preventDefault()
             var priceObj =JSON.parse(data.price_id);
             console.log(priceObj)
             console.log(loggedUser)
-            
-            
+            setData({  ...data,
+              //user_id:"",
+              name:loggedUser.name,   
+              email:loggedUser.email,
+              mobile:loggedUser.mobile,
+              house_name:loggedUser.house_name,
+              street:loggedUser.street,
+              city:loggedUser.city,
+              state:loggedUser.state,
+              country:loggedUser.country,
+              pincode:loggedUser.pincode,
+              price_id:loggedUser.price_id,
+              start_date:loggedUser.start_date,
+             
+            })
+            {/*
               Axios.post(Url.createfishrequrl, {
                 user_id: loggedUser.id ,
                 name: loggedUser.name,   
@@ -289,8 +302,10 @@ function OpenReqList(param) {
               //navigate("../listfish");
               if(res.data.status == "yes"){
                // param.setsucess({...param.sucess,color:"success",statusmsg:"Fish Created", createuser:true})
-               navigate("../openreqlist");
+               //navigate("../openreqlist");
                 //Alert.success('Success Alert')
+                fileRef.current.click()
+                
                 console.log("Confirm")
               }
               else{
@@ -298,6 +313,7 @@ function OpenReqList(param) {
               }
               
             });
+          */}
           }
 
 
@@ -322,15 +338,11 @@ function OpenReqList(param) {
 <div className="row" style={{clear: 'both', marginBottom: 10,marginRight: 10}}>
   <div className="col-md-12 " align="right" style={{clear: 'both'}}>
     {/*<Link type="button" className="btn btn-inline btn-danger mr-1" to="../createrequest"><i className="fa fa-edit" />New Fishing Request</Link>*/}
-    <button className="btn btn-danger" style={{marginRight:"10px"}} type="button" data-toggle="collapse" data-target="#multiCollapseAddReq" aria-expanded="false" aria-controls="multiCollapseAddReq">
-      <i className="fa fa-plus" />  
-       Create Request
-      </button> 
+    <button className="btn btn-danger" style={{marginRight:"10px"}} type="button" data-toggle="collapse" data-target="#multiCollapseAddReq" aria-expanded="false" aria-controls="multiCollapseAddReq" ref={fileRef}>
+      <i className="fa fa-plus" /> Create Request</button> 
     
     <button className="btn btn-warning" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
-      <i className="fa fa-search" />  
-       Search
-      </button>  
+      <i className="fa fa-search" /> Search</button>  
         
   </div>
 </div>
@@ -516,7 +528,7 @@ function OpenReqList(param) {
                   placeholder="Street" />
                </div>
                <div className="form-group col-md-6">
-                 <label >City</label>
+                 <label>City</label>
                  <input  className="form-control" 
                   type="text"
                   id="city"
@@ -566,13 +578,10 @@ function OpenReqList(param) {
                 {/* /.col */}
                   
                   <div className="card-footer">
-                  <button type="submit" className="btn btn-primary btn-block"  style={{width:"130px"}}>Send</button>
+                  <button type="submit" className="btn btn-primary btn-block" style={{width:"130px"}}>Send</button>
                 </div>
                 {/* /.col */}
-                
-            
-    
-                   
+                  
                  </div>
     
                 

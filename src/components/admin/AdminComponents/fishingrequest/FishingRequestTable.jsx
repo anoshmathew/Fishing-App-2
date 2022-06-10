@@ -9,8 +9,7 @@ function FishingRequestTable(param) {
 <tr>
           <th>ID</th>            
           <th>Name</th>
-          <th>City</th>   
-          <th>Email</th>            
+         
           <th>Start Date</th>
           <th>End Date</th>   
           <th>Purchase Date</th> 
@@ -26,14 +25,14 @@ function FishingRequestTable(param) {
         {param.fishingRequestList.map((item) => (
           
         <tr key={item.id}>
-            <td >{item.id}</td>
-            <td>{item.name}</td>
-            <td>{item.city}</td>
-            <td>{item.email}</td>
+            <td >{item.id}</td>     
+            <td style={{cursor:"pointer",color:"blue"}} onClick={() => param.detailsClicked(item)} data-toggle="modal" data-target="#modal-xl3"><a>
+              <b>{item.name}</b>
+            </a></td>
             <td>{item.formatted_stdate}</td>
             <td>{item.formatted_closdate}</td>
             <td>{item.formatted_edate}</td>
-            <td >{item.amount}$</td>
+            <td >${item.amount}</td>
             <td>{item.days}</td>
                        
             <td><Link type="button" className="btn btn-inline btn-warning mr-1"  to="../listfishcatch" state={item}><b>View</b></Link></td>

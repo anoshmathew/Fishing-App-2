@@ -43,8 +43,10 @@ function loadImage(){
     { headers: { Token: loggedUser.api_token } }
   ).then((res) => {
     console.log(res.data.data[0].small)
-   
-      setimagelink(res.data.data[0])
+      if(res.data.data[0].small != null){
+        setimagelink(res.data.data[0])
+      }
+      
       
     
   }

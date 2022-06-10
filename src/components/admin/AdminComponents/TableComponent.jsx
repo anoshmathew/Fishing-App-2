@@ -1,8 +1,10 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { Link, useNavigate } from "react-router-dom";
-
+import { Url } from '../../../constants/global';
 function TableComponent(param) {
     var loggedUser = JSON.parse(localStorage.getItem("data"));
+    const [idcard, setidcard] = useState(null)
+    
     console.log(param.list2);
   return (
     <>
@@ -15,7 +17,8 @@ function TableComponent(param) {
                             <th>User Type</th>
                             {loggedUser.user_type == "admin" ?<th>Action</th>:null}
                             
-                            <th>Details</th>                           
+                            <th>User Details</th>      
+                            <th>User ID Card</th>                     
                   </tr>
                 </thead>
                 <tbody>
@@ -26,8 +29,7 @@ function TableComponent(param) {
                               <td>{item.name}</td>
                               <td>{item.username}</td>
                               <td>{item.mobile}</td>
-                              <td>{item.user_type}</td> 
-                                                           
+                              <td>{item.user_type}</td>                   
                               <td>
                                 <Link type="button" className="btn btn-inline btn-warning mr-1"  to="../edituserform" state={item}><i className="fa fa-edit" /></Link>
                                 <a role="button" className="btn btn-primary mr-1" onClick={() => param.toggleStatus(item)}>{item.status=='active'?<i className="fas fa-lock-open"></i>:<i className="fas fa-lock"></i> }</a>
@@ -36,14 +38,14 @@ function TableComponent(param) {
                               {/*<td>
                                 <button className="btn btn-warning" type="button" onClick={() => param.toggleShown(item.username)}>{param.detailsShown.includes(item.username) ? <i className="fa fa-angle-double-up" />:<i className="fa fa-angle-double-down" />}</button>
                           </td>*/}
-
-
                              <td>
-                             <button type="button" onClick={() => param.detailsClicked(item)} className="btn btn-default" data-toggle="modal" data-target="#modal-xl">
-                                   Details
+                             <button type="button" onClick={() => param.detailsClicked(item)} className="btn btn-success" data-toggle="modal" data-target="#modal-xl1">
+                                   View
                             </button>
-                                
-                          </td>
+                            </td>
+                            <td><button type="button" onClick={() => param.detailsClicked(item)} className="btn btn-success" data-toggle="modal" data-target="#modal-xl2">
+                                   View</button>
+                            </td>
 
 
                             </tr>
@@ -65,10 +67,12 @@ function TableComponent(param) {
                              {/*<td>
                                 <button className="btn btn-warning" type="button" onClick={() => param.toggleShown(item.username)}>{param.detailsShown.includes(item.username) ? <i className="fa fa-angle-double-up" />:<i className="fa fa-angle-double-down" />}</button>
                           </td>*/}
-                          <button type="button" onClick={() => param.detailsClicked(item)} className="btn btn-default" data-toggle="modal" data-target="#modal-xl">
-                                   Details
-                            </button>
-                            </tr>
+                          <td>
+                            <button type="button" onClick={() => param.detailsClicked(item)} className="btn btn-success" data-toggle="modal" data-target="#modal-xl1">View</button>
+                          </td>
+                          <td><button type="button" onClick={() => param.detailsClicked(item)} className="btn btn-success" data-toggle="modal" data-target="#modal-xl2">View</button>
+                          </td>
+                          </tr>
                             {param.detailsShown.includes(item.username) && (
                               <tr key={item.id} className="additional-info">
                               <td colSpan="7">{"Password: " + item.password}</td>

@@ -1,7 +1,7 @@
 import React, { useState, useRef,useEffect } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import man from '../img/avatar5.png'
+import man from '../img/nouser.jpg'
 import{Url} from "../constants/global"
 
 //import './css/EditUserData.css'
@@ -21,6 +21,12 @@ function EditUserData(param) {
     email:"",
     mobile:"",
     status:"",
+    street:"",
+    city:"",
+    state:"",
+    country:"",
+    pincode:"",
+    house_name:"",
     photourl:""
   });
   const [data, setData] = useState({
@@ -79,7 +85,14 @@ function listUser(){
       email:li.email,
       mobile:li.mobile,
       status:li.status,
-      photourl:res.data.photo
+      photourl:res.data.photo,
+      street:li.street,
+      city:li.city,
+      state:li.state,
+      house_name:li.house_name,
+      country:li.country,
+      pincode:li.pincode
+
       
     });
     if(res.data.photo=="http://work.phpwebsites.in/fishing/public/uploads/medium"){
@@ -123,7 +136,7 @@ function listUser(){
           name: data.Name,
           house_name: data.House_Name,
           street:data.Street,
-          city:data.Street,
+          city:data.City,
           state:data.State,
           country:data.Country,
           pincode:data.Pincode,
@@ -158,8 +171,6 @@ function listUser(){
         setPicture(e.target.files[0])
         console.log(e.target.files[0]);
        // setpic(URL.createObjectURL(e.target.files[0]))
-       
- 
 };
 if(picture != null){
 
@@ -285,6 +296,15 @@ if(picture != null){
     <td>:</td>
     <td>{userdetails.status}</td>
   </tr>
+  <tr>
+    <td>Address</td>
+    <td>:</td>
+    <td>{userdetails.house_name +' '+ userdetails.street +' '+userdetails.city+' '+userdetails.state + ' '+userdetails.country + ' ' + userdetails.pincode }
+
+
+    </td>
+  </tr>
+
   </tbody>
 </table>
             </div>
