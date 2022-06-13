@@ -4,7 +4,8 @@ import Moment from 'moment';
 
 function CloseReqTable(param) {
     var loggedUser = JSON.parse(localStorage.getItem("data"));
-   /* 
+    const date = new Date()
+    /* 
     let today = new Date()
    // Moment.locale('en');   
     var enddate;
@@ -37,7 +38,14 @@ function CloseReqTable(param) {
 </tr>
 </thead>
 <tbody>
-        {param.fishingRequestList.filter((item)=>((item.user_id == loggedUser.id)&&(item.status == "close"))).map((item) => (
+        {param.fishingRequestList.filter((item)=>(
+            (item.user_id == loggedUser.id) && (
+          
+          (
+            (new Date(date).getTime() >= new Date(item.end_date).getTime()) 
+          )
+          
+        ))).map((item) => (
           
         <tr key={item.id}>
             
