@@ -117,10 +117,17 @@
 <script src="%PUBLIC_URL%/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- Toastr -->
 <script src="%PUBLIC_URL%/plugins/toastr/toastr.min.js"></script>
+
+
 <script>
+  $(document).ready(function(){
+    $("#myBtn").click(function(){
+      $('.toast').toast('show');
+    });
+  });
+  </script>
   
-  
-  
+<script>  
     $('#toastrDefaultSuccess').on('click', function() {
       toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
     });  

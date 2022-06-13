@@ -170,15 +170,14 @@ useEffect(()=>{
             >
               {/* Add icons to the links using the .nav-icon class
          with font-awesome or any other icon font library  ="listuserdataform" */}
-              {reqStatus != "Confirm"?
+              
               <li className="nav-item">
               <Link to="home" className={"nav-link " + (sideNavSel == "dashboard" ? "active":"") } data-toggle="pill">
                   <i className="nav-icon fas fa-th" />
                   <p>Dashboard</p>
                   </Link>
               </li>
-              :null
-              }
+             
    
 
               {loggedUser.user_type == "employee" ?

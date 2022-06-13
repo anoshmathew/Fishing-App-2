@@ -122,7 +122,7 @@ function submit(e) {
     newdata[e.target.id] = e.target.value;
     setData(newdata);
   }
-
+  
   return (
 <div>
 <div className={"alert alert-"+(popup.color) +" alert-dismissable " + (popup.mesg!=""?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
@@ -200,15 +200,11 @@ function submit(e) {
             </div>
           </div>
           <p style={{color:"red"}}>{formErrors.mobile}</p>
-     
-         
-          
 
           <div className="input-group mb-3">
           
     <select className="custom-select my-1" style={{color:"rgb(143, 143, 143)"}} onChange={(e) => handle(e)} id="type" name="usertype" >
       <option value="">-- Select the User Type --</option>
-      <option value="admin">Admin</option>
       <option value="user">User</option>
       <option value="employee">Employee</option>
     </select>

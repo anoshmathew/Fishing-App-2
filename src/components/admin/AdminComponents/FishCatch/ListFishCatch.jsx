@@ -8,7 +8,6 @@ import { Url} from '../../../../constants/global'
 function ListFishCatch(param) {
     
     const [fishingCatchList, setfishingCatchList] = useState([]);
-    
     var getResult ;
     const [page, setPage] = useState(1)
     const [search, setSearch] = useState(true);
@@ -75,7 +74,7 @@ const [fishlist, setfishlist] = useState(arr)
       },[page]);
 
     async function getData() {
-      param.setSideNavSel("listfishreq")
+      param.setSideNavSel("openfishingreq")
       console.log(loggedUser)
         Axios.post(
             Url.catchfishlisturl,
@@ -138,7 +137,8 @@ console.log(loggedUser)
               setfishingCatchList(res.data.data);
             });
           }
-        
+          
+          
           function cancelSearch(e){
             e.preventDefault();
             setSearch(!search);

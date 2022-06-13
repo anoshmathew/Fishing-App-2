@@ -94,6 +94,7 @@ function CreateUser(param) {
     return errors;
 
   };
+  
 
   function handle(e) {
     const newdata = { ...data };
@@ -176,6 +177,7 @@ function CreateUser(param) {
                  <input  className="form-control" 
                  type="text"
                  id="mail"
+
                  onChange={(e) => handle(e)}
                  value={data.mail}
                   placeholder="Email" />

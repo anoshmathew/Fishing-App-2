@@ -8,7 +8,7 @@ import { Url} from '../../../../constants/global'
 function ListFishingRequest(param) {
    
     const url2 = "http://work.phpwebsites.in/fishing/api/fishreqopenedit";
-
+    const [mes,setmes] = useState("")
     const [fishingRequestlist, setfishingRequestlist] = useState([]);
     var getResult ;
     const [page, setPage] = useState(1)
@@ -109,6 +109,7 @@ function ListFishingRequest(param) {
           ).then((res) => {
             setactivetogfishreq(!activetogfishreq);  
             console.log(res);
+            setmes(res.data.message)
           });
         }
         else {
@@ -119,6 +120,7 @@ function ListFishingRequest(param) {
             ).then((res) => {
               setactivetogfishreq(!activetogfishreq);  
               console.log(res);
+              setmes(res.data.message)
             });
           }
       }
@@ -131,6 +133,7 @@ function ListFishingRequest(param) {
         ).then((res) => {
          
           console.log(res);
+          setmes(res.data.message)
           if(res.data.status == "yes"){
             param.setsucess({...param.sucess,color:"success",statusmsg:"Deleted", createuser:true})
             console.log("deleted");
@@ -206,15 +209,7 @@ function ListFishingRequest(param) {
            }
   return (
     <div className="content-wrapper justify-content-center mt-5" >
-       <div className={"alert alert-success alert-dismissable " + (param.sucess.createuser?"":"hide")} style={{position: "absolute",zIndex:"2","width":"100%"}}>
-			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
-			<i className="ace-icon fa fa-times"></i>
-			</button>
-			<strong>
-			<i className="ace-icon fa fa-check"></i>
-			</strong>
-      {param.sucess.statusmsg}<br/>
-	</div>
+       
 <div className="content-header">
   <div className="container-fluid">
     <div className="row mb-2">
@@ -230,6 +225,20 @@ function ListFishingRequest(param) {
     </div>{/* /.row */}
   </div>{/* /.container-fluid */}
 </div>
+
+ {mes != ""?
+<div className="alert alert-success ">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+			<i className="ace-icon fa fa-times"></i>
+			</button>
+			<strong>
+			<i className="ace-icon fa fa-check"></i>
+			Alert! </strong>
+			{mes}
+			<br/>
+	</div>
+  :null}
+
 <div className="row" style={{clear: 'both', marginBottom: 10,marginRight: 10}}>
   <div className="col-md-12 " align="right" style={{clear: 'both'}}>
     {/*<Link type="button" className="btn btn-inline btn-danger mr-1" to="../createrequest"><i className="fa fa-edit" />New Fishing Request</Link>*/}
@@ -249,6 +258,7 @@ function ListFishingRequest(param) {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
+
             <div className="modal-body">
               {details != null?<>
                 <div className="container">
@@ -286,7 +296,7 @@ function ListFishingRequest(param) {
           </div>
         </div>
       </div>
-
+     
 <section className="content collapse multi-collapse" id="multiCollapseExample2">
    <div className="container-fluid">
      <div className="row">
@@ -338,6 +348,11 @@ function ListFishingRequest(param) {
             <div className="card-header">
               <h3 className="card-title">Fishing Request List</h3>
             </div>
+
+
+            
+
+
             <div className="card-body table-responsive p-0">
               <table className="table table-bordered table-hover table-sm">
               {

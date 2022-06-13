@@ -9,7 +9,7 @@ function FishingRequestTable(param) {
 <tr>
           <th>ID</th>            
           <th>Name</th>
-         
+         <th>Card Name</th>
           <th>Start Date</th>
           <th>End Date</th>   
           <th>Purchase Date</th> 
@@ -25,10 +25,12 @@ function FishingRequestTable(param) {
         {param.fishingRequestList.map((item) => (
           
         <tr key={item.id}>
-            <td >{item.id}</td>     
-            <td style={{cursor:"pointer",color:"blue"}} onClick={() => param.detailsClicked(item)} data-toggle="modal" data-target="#modal-xl3"><a>
+            <td >{item.id}</td>
+            
+            <td style={{cursor:"pointer",color:"blue",textDecoration:"underline"}} onClick={() => param.detailsClicked(item)} data-toggle="modal" data-target="#modal-xl3"><a>
               <b>{item.name}</b>
             </a></td>
+            <td>{item.card_name}</td>     
             <td>{item.formatted_stdate}</td>
             <td>{item.formatted_closdate}</td>
             <td>{item.formatted_edate}</td>

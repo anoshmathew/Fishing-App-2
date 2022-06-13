@@ -15,7 +15,7 @@ function OpenReqList(param) {
   const notify = () => toast("Wow so easy!");
     const url2 = "http://work.phpwebsites.in/fishing/api/fishreqopenedit";
     const fileRef = useRef();
-
+  const [mes,setmes] = useState("")
     const [fishingRequestlist, setfishingRequestlist] = useState([]);
     var getResult ;
     const [page, setPage] = useState(1)
@@ -281,7 +281,7 @@ function OpenReqList(param) {
               start_date:loggedUser.start_date,
              
             })
-            {/*
+            
               Axios.post(Url.createfishrequrl, {
                 user_id: loggedUser.id ,
                 name: loggedUser.name,   
@@ -298,6 +298,7 @@ function OpenReqList(param) {
             },{ headers: { Token: loggedUser.api_token } }
             ).then((res) => {
               console.log(res);
+              setmes(res.data.message)
               setreqcreate(!reqcreate)
               //navigate("../listfish");
               if(res.data.status == "yes"){
@@ -313,7 +314,7 @@ function OpenReqList(param) {
               }
               
             });
-          */}
+          
           }
 
 
@@ -326,6 +327,7 @@ function OpenReqList(param) {
       <div className="col-sm-6">
         <h1 className="m-0 text-dark">Open Fishing Requests</h1>
       </div>{/* /.col */}
+      
       <div className="col-sm-6">
         <ol className="breadcrumb float-sm-right">
           <li className="breadcrumb-item"><a href="">User</a></li>
@@ -335,20 +337,35 @@ function OpenReqList(param) {
     </div>{/* /.row */}
   </div>{/* /.container-fluid */}
 </div>
+
+
+{mes != ""?
+<div className="alert alert-success ">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+			<i className="ace-icon fa fa-times"></i>
+			</button>
+			<strong>
+			<i className="ace-icon fa fa-check"></i>
+			Success!
+			</strong>
+			{mes}
+			<br/>
+	</div>
+  :null}
+
+
 <div className="row" style={{clear: 'both', marginBottom: 10,marginRight: 10}}>
   <div className="col-md-12 " align="right" style={{clear: 'both'}}>
     {/*<Link type="button" className="btn btn-inline btn-danger mr-1" to="../createrequest"><i className="fa fa-edit" />New Fishing Request</Link>*/}
     <button className="btn btn-danger" style={{marginRight:"10px"}} type="button" data-toggle="collapse" data-target="#multiCollapseAddReq" aria-expanded="false" aria-controls="multiCollapseAddReq" ref={fileRef}>
-      <i className="fa fa-plus" /> Create Request</button> 
-    
+      <i className="fa fa-plus" /> Create Request</button>     
     <button className="btn btn-warning" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
-      <i className="fa fa-search" /> Search</button>  
-        
+      <i className="fa fa-search" /> Search</button>       
   </div>
 </div>
 
 <div className="modal fade" id="modal-xl">
-        <div className="modal-dialog modal-xl">
+        <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
               <h4 className="modal-title">Details</h4>
@@ -379,8 +396,7 @@ function OpenReqList(param) {
                 <li>Country:{details.data.country}</li>
                 <li>User Type:{details.data.user_type}</li>
                 <li>Created Date:{details.data.create_date}</li>
-                <li>Password:{details.data.password}</li>
-                
+ 
               </ul>
               </div>
               </div>
@@ -393,13 +409,25 @@ function OpenReqList(param) {
           </div>
         </div>
       </div>
-      
+      {/*
       <button onClick={notify}>Notify!</button>
         <ToastContainer />
      
       <button type="button" className="btn btn-success toastrDefaultSuccess" id="toastrDefaultSuccess">
-                  Launch Success Toast
-                </button>
+        Launch Success Toast
+      </button>
+      <button type="button" class="btn btn-primary" id="myBtn">Show Toast</button>
+
+  <div className="toast">
+    <div className="toast-header">
+      Toast Header
+    </div>
+    <div className="toast-body" style={{color:"white"}}>
+      Some text inside the toast body
+    </div>
+  </div>
+              */}
+  
               
                 <section className="content collapse multi-collapse" id="multiCollapseExample2">
    <div className="container-fluid">

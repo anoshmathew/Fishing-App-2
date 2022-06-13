@@ -22,7 +22,7 @@ function ListUserData({lim,page,setPage,activetog,setactivetog,del,setdel,setSea
   const isMounted3 = useRef(false);
   const isMounted4 = useRef(false)
   const [open, setOpen] = useState(false)
-
+  const [mes,setmes] = useState("")
   const [details, setdetails] = useState(null)
     
     
@@ -156,15 +156,8 @@ useEffect(()=>{
       { user_id: loggedUser.id, del_id: item.id },
       { headers: { Token: token } }
     ).then((res) => {
+      setmes(res.data.message)
       
-      if(res.data.status == "yes"){
-        setsucess({...sucess,color:"success",statusmsg:"Deleted", createuser:true})
-        console.log("deleted");
-        setdel(del+1);
-      }
-      else{
-        setsucess({...sucess,color:"danger",statusmsg:"Error", createuser:false})
-      }
       console.log("deleted");
       });
   }
@@ -188,7 +181,7 @@ useEffect(()=>{
         { headers: { Token: token } }
       ).then((res) => {
         setactivetog(!activetog);
-        
+        setmes(res.data.message)
         console.log(res);
       });
     }
@@ -284,15 +277,21 @@ if(sucess){
 
 
 
-<div className={"alert alert-success alert-dismissable " + (sucess.createuser?"":"hide")} style={{position: "absolute",zIndex:"2","width":"100%"}}>
-			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
+
+ 
+{mes != ""?
+<div className="alert alert-success ">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
 			<i className="ace-icon fa fa-times"></i>
 			</button>
 			<strong>
 			<i className="ace-icon fa fa-check"></i>
-			</strong>
-      {sucess.statusmsg}<br/>
+			Alert! </strong>
+			{mes}
+			<br/>
 	</div>
+  :null}
+
 <div className="content-header" >
   <div className="container-fluid">
     <div className="row mb-2">
@@ -377,9 +376,6 @@ if(sucess){
                   placeholder="Email" />
                </div>
                </div>
-
-
-
                
              </div>
 

@@ -5,6 +5,7 @@ import { Url} from '../constants/global'
 
 function ResetPassword(param) {
   param.setSideNavSel("resetpass");
+  const [mes,setmes] = useState("")
   const [alert, setalert] = useState({color:"",status:false,msg:""})
   const [errPass, seterrPass] = useState("")
   const navigate = useNavigate();
@@ -40,18 +41,7 @@ function ResetPassword(param) {
         { headers: { Token: token } }
       ).then((res) => {
         console.log(res);
-        if(res.data.status == "yes")
-        {
-          console.log("Password Changed")
-          seterrPass("");
-          setalert({color:"success",status:true,msg:"Password Changed!"});
-          console.log(alert)
-        }
-       else{
-        seterrPass("Invalid Password");
-        setalert( {color:"danger",status:true,msg:res.data.message});
-        console.log(alert) 
-      }
+        setmes(res.data.message)
         //navigate("../listuserdata")
       });
     }
@@ -71,15 +61,7 @@ function ResetPassword(param) {
 
   return ( 
     <div className="content-wrapper justify-content-left mt-5" style={{background:"white"}}>
-<div className={"alert alert-"+(alert.color)+" alert-dismissable " + (alert.status?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
-			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
-			<i className="ace-icon fa fa-times"></i>
-			</button>
-			<strong>
-			<i className="ace-icon fa fa-check"></i>
-			</strong>
-      {alert.msg}<br/>
-	</div>
+
 <div className="content-header">
   <div className="container-fluid">
     <div className="row mb-2">
@@ -97,6 +79,18 @@ function ResetPassword(param) {
   </div>{/* /.container-fluid */}
 </div>
 
+{mes != ""?
+<div className="alert alert-success ">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+			<i className="ace-icon fa fa-times"></i>
+			</button>
+			<strong>
+			<i className="ace-icon fa fa-check"></i>
+			Alert! </strong>
+			{mes}
+			<br/>
+	</div>
+  :null}
 
     <section className="content">
    <div className="container-fluid">

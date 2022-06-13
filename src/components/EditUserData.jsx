@@ -9,7 +9,7 @@ import{Url} from "../constants/global"
 function EditUserData(param) {
   console.log(param.details.photo)
   const isMounted1 = useRef(false);
-  
+  const [mes,setmess] = useState("")
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   const navigate = useNavigate();
   console.log("loggedUser id: ", loggedUser.email);
@@ -43,11 +43,7 @@ function EditUserData(param) {
     Pincode:loggedUser.pincode,
     file:"",
   });
-  if(param.sucess.createuser===true){
-    setTimeout(() => {
-      param.setsucess({...param.sucess, createuser:false,statusmsg:""})
-    }, 3000)
-  }
+  
   const [file, setfile] = useState();
  // const [pic, setpic] = useState();
  param.setSideNavSel("myprofile")
@@ -66,7 +62,7 @@ useEffect(()=>{
 
 
 function listUser(){
-  console.log(param.sucess)
+ 
   Axios.post(
     Url.userdetailsurl,
     { user_id: loggedUser.id,
@@ -145,11 +141,10 @@ function listUser(){
         { headers: { Token: token } }
       ).then((res) => {
         var info = res.data.data;
-        console.log(res);
-       
+        console.log(res); 
         setedit(!edit);
-        param.setsucess({statusmsg:"Edited", createuser:true})
 
+        setmess(res.data.message)
         
         //navigate("../listuserdata");
         //window.location.reload();  
@@ -210,15 +205,7 @@ if(picture != null){
 
   return (
     <div className="content-wrapper justify-content-left mt-5">
-<div className={"alert alert-success alert-dismissable " + (param.sucess.createuser?"":"hide")} style={{position: "absolute","z-index":"2","width":"100%"}}>
-			<button type="button" className="close" data-dismiss="alert" aria-hidden="true">
-			<i className="ace-icon fa fa-times"></i>
-			</button>
-			<strong>
-			<i className="ace-icon fa fa-check"></i>
-			</strong>
-      {param.sucess.statusmsg}<br/>
-	</div>
+
 
   <div className="content-header">
   <div className="container-fluid">
@@ -237,6 +224,19 @@ if(picture != null){
   </div>{/* /.container-fluid */}
   </div>
 
+{mes != ""?
+<div className="alert alert-success alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+			<i className="ace-icon fa fa-times"></i>
+			</button>
+			<strong>
+			<i className="ace-icon fa fa-check"></i>
+			Success!
+			</strong>
+			{mes}
+			<br/>
+	</div>
+  :null}
 
 <section className="content">
    <div className="container-fluid">

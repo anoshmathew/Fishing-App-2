@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useRef } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Url} from '../../../../constants/global'
@@ -7,6 +7,7 @@ function CreateRequest(param) {
     const navigate = useNavigate();
    // const [list, setlist] = useState()
     var lst;
+    const fileRef = useRef();
   var loggedUser = JSON.parse(localStorage.getItem("data"));
   var arr = [{card_name: "--Select a Card--",
   card_type: "",
@@ -88,7 +89,7 @@ function CreateRequest(param) {
       //navigate("../listfish");
       if(res.data.status == "yes"){
        // param.setsucess({...param.sucess,color:"success",statusmsg:"Fish Created", createuser:true})
-       navigate("../openreqlist");
+      //navigate("../openreqlist");
         //Alert.success('Success Alert')
         console.log("Confirm")
       }
@@ -104,24 +105,34 @@ function CreateRequest(param) {
   }
   return (
     
-     
-   
+    <>
       
-    
-    
-     <div className="card-body">
+      <div class="container"  >
+<div className="row" style={{marginLeft:"35%",}}>
+  <div className="col-md-12 mb-4" >
+    {/*<Link type="button" className="btn btn-inline btn-danger mr-1" to="../createrequest"><i className="fa fa-edit" />New Fishing Request</Link>*/}
+    <button className="btn btn-warning " style={{padding:"40px"}} type="button" data-toggle="collapse" data-target="#multiCollapseAddReq" aria-expanded="false" aria-controls="multiCollapseAddReq" ref={fileRef}>
+      <i className="fa fa-plus" /> Create Request</button> 
+        
+  </div>
+</div>
+
+</div>
+      
      
-       <div className="container-fluid">
-         <div className="row">
-           <div className="col-md-12">
-             {/* general form elements */}
-             <div className="card card-primary">
-               <div className="card-header">
-                 <h3 className="card-title">Create Fishing Request</h3>
-               </div>
-               {/* /.card-header */}
-               {/* form start */}
-               <form onSubmit={(e)=>submit(e)}>
+          
+<section className="content collapse multi-collapse" id="multiCollapseAddReq">
+   <div className="container-fluid">
+     <div className="row">
+       <div className="col-md-12 mx-auto">
+         {/* general form elements */}
+         <div className="card card-warning">
+           <div className="card-header">
+             <h3 className="card-title">Create Fishing Request</h3>
+           </div>
+           {/* /.card-header */}
+           {/* form start */}
+           <form onSubmit={(e)=>submit(e)}>
                  <div className="card-body">
                  <div className="row">
                  <div className="form-group col-md-12">
@@ -195,7 +206,7 @@ function CreateRequest(param) {
                   placeholder="Street" />
                </div>
                <div className="form-group col-md-6">
-                 <label >City</label>
+                 <label>City</label>
                  <input  className="form-control" 
                   type="text"
                   id="city"
@@ -245,24 +256,24 @@ function CreateRequest(param) {
                 {/* /.col */}
                   
                   <div className="card-footer">
-                  <button type="submit" className="btn btn-primary btn-block"  style={{width:"130px"}}>Add</button>
+                  <button type="submit" className="btn btn-primary btn-block" style={{width:"130px"}}>Send</button>
                 </div>
                 {/* /.col */}
-                
-            
-    
-                   
+                  
                  </div>
     
                 
     
                </form>
-               
-             </div>
-             {/* /.card */}</div>
+           
          </div>
-         </div>
-        </div>
+         {/* /.card */}</div>
+     </div>
+     </div>
+     </section>
+    
+   
+    </>
         
       )
     

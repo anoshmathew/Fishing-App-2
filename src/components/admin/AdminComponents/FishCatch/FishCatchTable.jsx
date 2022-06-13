@@ -7,12 +7,12 @@ function FishCatchTable(param) {
         
     <thead>
 <tr>
-          <th>ID</th>            
+          <th>ID</th>        
+          <th>Req ID</th>     
           <th>Fish Name</th>
-          <th>Fish Weight</th>   
-          <th>Req ID</th>            
+          <th>Fish Weight</th>      
           <th>Status</th>
-          <th>User ID</th>   
+            
           <th>Created Date</th>                             
 </tr>
 </thead>
@@ -21,11 +21,12 @@ function FishCatchTable(param) {
         
         <tr key={item.id}>
             <td>{item.id}</td>
+            <td>{item.req_id}</td>
             <td>{item.fish_name}</td>
             <td>{item.fish_weight} Kg</td>
-            <td>{item.req_id}</td>
+            
             <td>{item.status}</td>
-            <td>{item.user_id}</td>
+           
             <td >{item.created_date}</td>    
                         
         </tr>                     

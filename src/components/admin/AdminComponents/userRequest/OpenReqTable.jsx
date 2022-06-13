@@ -27,7 +27,7 @@ function OpenReqTable(param) {
               
           <th>Start Date</th>
           <th>End Date</th>   
-          <th>Purchase Date</th> 
+          <th>Close Date</th> 
           <th>Amount</th>            
           <th>Days</th>     
           <th>Details</th>       
@@ -44,11 +44,11 @@ function OpenReqTable(param) {
             <td>{item.name}</td>
             
            
-            <td>{item.formatted_stdate}</td>
-            <td>{item.formatted_closdate}</td>
+            <td>{item.formatted_stdate}</td>           
             <td>{item.formatted_edate}</td>
+            <td>{item.formatted_closdate}</td>
             <td >${item.amount}</td>
-            <td>{item.days}</td>
+            <td>{item.days} days</td>
             <td><button type="button" className="btn btn-inline btn-warning mr-1" onClick={() => param.detailsClicked(item)} data-toggle="modal" data-target="#modal-xl">
             <b>Details</b>
                             </button></td>

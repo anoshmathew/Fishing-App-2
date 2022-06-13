@@ -40,11 +40,11 @@ function TableComponent(param) {
                           </td>*/}
                              <td>
                              <button type="button" onClick={() => param.detailsClicked(item)} className="btn btn-success" data-toggle="modal" data-target="#modal-xl1">
-                                   View
+                                   User Detail
                             </button>
                             </td>
                             <td><button type="button" onClick={() => param.detailsClicked(item)} className="btn btn-success" data-toggle="modal" data-target="#modal-xl2">
-                                   View</button>
+                                   ID Card</button>
                             </td>
 
 
