@@ -340,7 +340,7 @@ function OpenReqList(param) {
 
 
 {mes != ""?
-<div className="alert alert-success ">
+<div className="alert alert-success alert-dismissable">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
 			<i className="ace-icon fa fa-times"></i>
 			</button>

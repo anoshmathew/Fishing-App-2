@@ -148,8 +148,9 @@ function CreateUser(param) {
                   onChange={(e) => handle(e)}
                   value={data.name}
                   placeholder="Name" />
+                  <p style={{color:"red"}}>{formErrors.name}</p>
                </div>
-               <p style={{color:"red"}}>{formErrors.name}</p>
+               
                <div className="form-group col-md-6">
                  <label >Username</label>
                  <input  className="form-control" 
@@ -158,8 +159,9 @@ function CreateUser(param) {
                  onChange={(e) => handle(e)}
                  value={data.username}
                   placeholder="User Name" />
+                  <p style={{color:"red"}}>{formErrors.username}</p>
                </div>
-               <p style={{color:"red"}}>{formErrors.username}</p>
+               
                </div>
                <div className="row">
                <div className="form-group col-md-6">
@@ -170,8 +172,9 @@ function CreateUser(param) {
                   onChange={(e) => handle(e)}
                   value={data.mobile}
                   placeholder="Mobile" />
+                  <p style={{color:"red"}}>{formErrors.mobile}</p>
                </div>
-               <p style={{color:"red"}}>{formErrors.mobile}</p>
+               
                <div className="form-group col-md-6">
                  <label >Email</label>
                  <input  className="form-control" 
@@ -181,8 +184,9 @@ function CreateUser(param) {
                  onChange={(e) => handle(e)}
                  value={data.mail}
                   placeholder="Email" />
+                   <p style={{color:"red"}}>{formErrors.mail}</p>
                </div>
-               <p style={{color:"red"}}>{formErrors.mail}</p>
+              
               </div>
                 
                
@@ -196,26 +200,25 @@ function CreateUser(param) {
                
                 className="form-control" 
                 placeholder="Password" />
+                <p style={{color:"red"}}>{formErrors.password}</p>
             <div className="input-group-append">
             </div>
+            
             </div>
-            <p style={{color:"red"}}>{formErrors.password}</p>
+            
               
             
           <div className="form-group col-md-6">
                <label >User Type</label>
           <select className="form-control" style={{color:"rgb(143, 143, 143)"}} onChange={(e) => handle(e)} id="type" name="usertype" >
             <option value="">-- Select the User Type --</option>
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
+            
             <option value="employee">Employee</option>
           </select>
-          
-                </div>
-                
-                
-          </div>
           <p style={{color:"red"}}>{formErrors.type}</p>
+                </div>
+                </div>
+          
          
               
             
