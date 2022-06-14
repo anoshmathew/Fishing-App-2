@@ -108,6 +108,9 @@ if(fishlist!=null){
     newdata[e.target.id] = e.target.value;
     setData(newdata);
   }
+  function back() {
+    navigate("../listfishcatch")
+  }
   return (
     <div className="content-wrapper justify-content-left mt-5">
 
@@ -194,6 +197,7 @@ if(fishlist!=null){
               
               <div className="card-footer">
               <button type="submit" className="btn btn-primary btn-block"  style={{width:"130px"}}>Add</button>
+              <button className="btn btn-warning btn-block" style={{width:"130px"}} onClick={back}>Back</button>
             </div>
             {/* /.col */}
          

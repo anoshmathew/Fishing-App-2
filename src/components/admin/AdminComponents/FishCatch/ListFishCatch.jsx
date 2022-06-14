@@ -19,14 +19,8 @@ function ListFishCatch(param) {
         Fish_id: "",
         id:""
       });
-      if(itm.itm != null)
-      {
-        itm = itm.itm
-        console.log(itm)
-      }
-      else{
-        console.log(itm)
-      }
+  
+
     const [activetogfishreq, setactivetogfishreq] = useState(false)
     const [togdelfishreq, settogdelfishreq] = useState(false)
     const isMounted1 = useRef(false);
