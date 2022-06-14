@@ -49,7 +49,6 @@ function CloseReqTable(param) {
           
         <tr key={item.id}>
             
-            
             <td >{item.id}</td>
             <td>{item.name}</td>
             <td>{item.city}</td>
@@ -58,8 +57,7 @@ function CloseReqTable(param) {
             <td>{item.formatted_closdate}</td>
             <td>{item.formatted_edate}</td>
             <td >${item.amount}</td>
-            <td>{item.days}</td>
-                       
+            <td>{item.days}</td>                      
             <td><Link type="button" className="btn btn-inline btn-warning mr-1"  to="../listfishcatch" state={item}><b>View</b></Link></td>
                       
         </tr>                     
