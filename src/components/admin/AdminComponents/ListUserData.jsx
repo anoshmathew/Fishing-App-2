@@ -398,7 +398,8 @@ if(sucess){
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
-              <h4 className="modal-title">Details - {details.data.name}</h4>
+            {details != null?<>   <h4 className="modal-title">Details - {details.data.name}</h4>
+            </> :<h4 className="modal-title">Details></h4>}
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>

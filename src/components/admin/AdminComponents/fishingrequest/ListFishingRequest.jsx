@@ -208,7 +208,7 @@ function ListFishingRequest(param) {
             console.log(page);
            }
   return (
-    <div className="content-wrapper justify-content-center mt-5" >
+<div className="content-wrapper justify-content-center mt-5" >
        
 <div className="content-header">
   <div className="container-fluid">
@@ -253,7 +253,9 @@ function ListFishingRequest(param) {
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-header">
-              <h4 className="modal-title">Details - {details.data.name}</h4>
+            {details != null?<>  <h4 className="modal-title">Details - {details.data.name}</h4>
+            </>:<>  <h4 className="modal-title">Details</h4></>
+            }
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
