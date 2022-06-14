@@ -109,7 +109,7 @@ if(fishlist!=null){
     setData(newdata);
   }
   function back() {
-    navigate("../listfishcatch")
+    navigate("../listfishcatch", {state:{itm}})
   }
   return (
     <div className="content-wrapper justify-content-left mt-5">
