@@ -1,4 +1,4 @@
-const baseUrl = "http://work.phpwebsites.in/fishing/api/";
+const baseUrl = "https://work.phpwebsites.in/fishing/api/";
 const Url = {
   loginurl: baseUrl + "login",
   registerurl : baseUrl + "register",
