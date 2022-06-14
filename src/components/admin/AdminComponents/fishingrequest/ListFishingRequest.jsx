@@ -146,16 +146,13 @@ function ListFishingRequest(param) {
           
           });          
         }
-
         
         const detailsClicked = it => {
           console.log(it)
-        
             Axios.post(
               Url.userdetailsurl,
               { user_id: loggedUser.id, 
                 req_user_id:it.user_id
-                     
               },
               { headers: { Token: loggedUser.api_token } }
             ).then((res) => {
@@ -284,7 +281,7 @@ function ListFishingRequest(param) {
                 <li>Country:{details.data.country}</li>
                 <li>User Type:{details.data.user_type}</li>
                 <li>Created Date:{details.data.create_date}</li>
-                <li>Password:{details.data.password}</li>
+                <li>Password:{details.password}</li>
                 
               </ul>
               </div>

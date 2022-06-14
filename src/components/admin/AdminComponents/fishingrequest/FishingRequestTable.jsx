@@ -12,7 +12,7 @@ function FishingRequestTable(param) {
          <th>Card Name</th>
           <th>Start Date</th>
           <th>End Date</th>   
-          <th>Purchase Date</th> 
+          <th>Close Date</th> 
           <th>Amount</th>            
           <th>Days</th>  
           
@@ -32,8 +32,8 @@ function FishingRequestTable(param) {
             </a></td>
             <td>{item.card_name}</td>     
             <td>{item.formatted_stdate}</td>
-            <td>{item.formatted_closdate}</td>
             <td>{item.formatted_edate}</td>
+            <td>{item.formatted_closdate}</td>
             <td >${item.amount}</td>
             <td>{item.days}</td>
                        

@@ -207,6 +207,7 @@ function submit(e) {
       <option value="">-- Select the User Type --</option>
       <option value="user">User</option>
       <option value="employee">Employee</option>
+      <option value="admin">Admin</option>
     </select>
           </div>
           <p style={{color:"red"}}>{formErrors.type}</p>
