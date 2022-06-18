@@ -230,7 +230,7 @@ useEffect(()=>{
               :null}
                {loggedUser.user_type == "admin" ?
               <li className="nav-item has-treeview">
-                <a href="" className="nav-link"  >
+                <a href="" className="nav-link "  >
                   <i className="nav-icon fas fa-chart-pie" />
                   <p>
                     Manage Master
@@ -288,7 +288,7 @@ useEffect(()=>{
             :null}
 
               <li className="nav-item has-treeview">
-                <a href="" className="nav-link"  >
+                <a href="" className="nav-link" >
                   <i className="nav-icon fas fa-cog" />
                   <p>
                     Settings

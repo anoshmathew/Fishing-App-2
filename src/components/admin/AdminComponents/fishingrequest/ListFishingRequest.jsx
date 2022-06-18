@@ -114,7 +114,7 @@ function ListFishingRequest(param) {
         }
         else {
             Axios.post(
-              url2,
+              Url.fishreqopenediturl,
               { user_id: loggedUser.id,req_id: item.id, status: "yes" },
               { headers: { Token: token } }
             ).then((res) => {
