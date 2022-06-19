@@ -149,7 +149,7 @@ useEffect(()=>{
           <div className="user-panel mt-3 pb-3 mb-3 d-flex">
           
           <div className="image">
-          <img src={details.photo==null?man:details.photo} className="img-circle elevation-2" alt="User Image" style={{ width: '1.5rem',height:'1.5rem'  }}/>
+          <img src={details.photo=="https://work.phpwebsites.in/fishing/public/uploads/medium"?man:details.photo} className="img-circle elevation-2"  style={{ width: '1.5rem',height:'1.5rem'  }}/>
           </div>
 
             <div className="info">
@@ -221,16 +221,31 @@ useEffect(()=>{
               :null}
               
               {loggedUser.user_type == "admin" ?
+              <>
               <li className="nav-item">
                     <Link to="listfishingrequest" className={"nav-link " + (sideNavSel == "listfishreq" ? "active":"") } >
-                      <i className="ion ion-star nav-icon" />
+                      <i className="ion ion-ios-refresh nav-icon" />
                       <p>Fishing Requests</p>
                     </Link>
                   </li>
+                   <li className="nav-item">
+                   <Link to="listprice" className={"nav-link " + (sideNavSel == "listprice" ? "active":"") } >
+                     <i className="ion ion-social-usd nav-icon" />
+                     <p>Manage Price</p>
+                   </Link>
+                 </li>
+                 <li className="nav-item">
+                   <Link to="listfish" className={"nav-link " + (sideNavSel == "listfish" ? "active":"") } >
+                     <i className="ion ion-star nav-icon" />
+                     <p>Manage Fish</p>
+                   </Link>
+                 </li>
+                 </>
               :null}
-               {loggedUser.user_type == "admin" ?
-              <li className="nav-item has-treeview">
-                <a href="" className="nav-link "  >
+               {/*
+                loggedUser.user_type == "admin" ?
+              <li className="nav-item has-treeview" style={{cursor:"pointer"}}>
+                <a href className="nav-link "  >
                   <i className="nav-icon fas fa-chart-pie" />
                   <p>
                     Manage Master
@@ -255,7 +270,8 @@ useEffect(()=>{
                   
                 </ul>
               </li>
-              :null}
+        :null
+        */}
                   
                  
             {loggedUser.user_type == "user" ?
@@ -287,8 +303,8 @@ useEffect(()=>{
             null
             :null}
 
-              <li className="nav-item has-treeview">
-                <a href="" className="nav-link" >
+            {/*  <li className="nav-item has-treeview">
+                <a href className="nav-link" >
                   <i className="nav-icon fas fa-cog" />
                   <p>
                     Settings
@@ -309,10 +325,23 @@ useEffect(()=>{
                       <p>Reset Password</p>
                     </Link>
                   </li>
-
                 </ul>
               </li>
-              
+            */}
+
+                  <li className="nav-item">
+                    <Link to="settings/edituserdata" className={"nav-link " + (sideNavSel == "myprofile" ? "active":"") }>
+                      <i className="ion ion-person nav-icon" />
+                      <p>My Profile</p>
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link to="settings/resetpassword"  className={"nav-link " + (sideNavSel == "resetpass" ? "active":"") }>
+                      <i className="nav-icon fa fa-key" />
+                      <p>Reset Password</p>
+                    </Link>
+                  </li>
               <li className="nav-item">
                 <a href="" onClick={(e) => submit(e)} className="nav-link">
                   <i className="nav-icon fas fa-power-off" />

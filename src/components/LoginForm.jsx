@@ -2,6 +2,7 @@ import React, { useState,useEffect } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Url} from '../constants/global'
+import { hover } from "@testing-library/user-event/dist/hover";
 //import "./css/LoginPage.css";
 function LoginForm(param) {
   const navigate = useNavigate();
@@ -123,9 +124,6 @@ function LoginForm(param) {
    
   }
   
-
- 
-
   const handleClick = () => navigate("register");
   function handle(e) {
     const newdata = { ...data };
@@ -204,7 +202,7 @@ function LoginForm(param) {
    
       <div className="row">
         <div className="col-md-12 mt-4 text-center">
-          Not a member?<a href="" onClick={handleClick}> Click here </a>to sign up.
+          Not a member?<a onClick={handleClick} style={{color:"blue", cursor:"pointer"}}> Click here </a>to sign up.
         </div>
       </div>
     </div>

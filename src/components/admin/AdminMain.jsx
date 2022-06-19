@@ -89,13 +89,14 @@ function listUser(){
             console.log("2")
           }
          
-            const reloadCount = sessionStorage.getItem('reloadCount');
+          /*  const reloadCount = sessionStorage.getItem('reloadCount');
             if(reloadCount < 2) {
               sessionStorage.setItem('reloadCount', String(reloadCount + 1));
               window.location.reload();
             } else {
               sessionStorage.removeItem('reloadCount');
             }
+          */
           
   });
 }

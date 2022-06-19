@@ -157,7 +157,7 @@ useEffect(()=>{
       { headers: { Token: token } }
     ).then((res) => {
       setmes(res.data.message)
-      
+      setactivetog(!activetog);
       console.log("deleted");
       });
   }
@@ -399,7 +399,7 @@ if(sucess){
           <div className="modal-content">
             <div className="modal-header">
             {details != null?<>   <h4 className="modal-title">Details - {details.data.name}</h4>
-            </> :<h4 className="modal-title">Details></h4>}
+            </> :<h4 className="modal-title">Details</h4>}
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>

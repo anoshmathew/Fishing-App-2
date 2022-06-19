@@ -46,7 +46,7 @@ function Header(param) {
             >
           
           
-          <img src={param.details.photo!=null?param.details.photo:man} className="img-circle mr-1"  style={{ width: '1.5rem',height:'1.5rem'  }}/>
+          <img src={param.details.photo!="https://work.phpwebsites.in/fishing/public/uploads/medium"?param.details.photo:man} className="img-circle mr-1"  style={{ width: '1.5rem',height:'1.5rem'  }}/>
      
              
             {param.details.name}
